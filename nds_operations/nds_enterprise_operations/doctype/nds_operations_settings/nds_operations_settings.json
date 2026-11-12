@@ -1,0 +1,126 @@
+{
+ "actions": [],
+ "creation": "2026-11-09 12:00:00.000000",
+ "description": "Policy switches for the NDS handover & acceptance workflow.",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "sb_policy",
+  "acceptance_sla_hours",
+  "repeated_rejection_threshold",
+  "allow_cross_department_handover",
+  "cb_policy",
+  "require_attachment_on_submit",
+  "require_technical_diagnosis",
+  "require_solution_details",
+  "require_results",
+  "sb_notifications",
+  "enable_handover_notifications",
+  "cb_notifications",
+  "notify_managers_on_rejection"
+ ],
+ "fields": [
+  {
+   "fieldname": "sb_policy",
+   "fieldtype": "Section Break",
+   "label": "Handover Policy"
+  },
+  {
+   "default": "48",
+   "description": "Hours the receiver has to decide on a submitted handover before it is flagged as overdue.",
+   "fieldname": "acceptance_sla_hours",
+   "fieldtype": "Int",
+   "label": "Receiver Response SLA (hours)"
+  },
+  {
+   "default": "2",
+   "description": "Raise a management alert when one task is rejected this many times.",
+   "fieldname": "repeated_rejection_threshold",
+   "fieldtype": "Int",
+   "label": "Repeated Rejection Alert Threshold"
+  },
+  {
+   "default": "1",
+   "fieldname": "allow_cross_department_handover",
+   "fieldtype": "Check",
+   "label": "Allow Cross-Department Handover"
+  },
+  {
+   "fieldname": "cb_policy",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "require_attachment_on_submit",
+   "fieldtype": "Check",
+   "label": "Require At Least One Attachment"
+  },
+  {
+   "fieldname": "require_technical_diagnosis",
+   "fieldtype": "Check",
+   "label": "Require Technical Diagnosis"
+  },
+  {
+   "fieldname": "require_solution_details",
+   "fieldtype": "Check",
+   "label": "Require Solution Details"
+  },
+  {
+   "fieldname": "require_results",
+   "fieldtype": "Check",
+   "label": "Require Results"
+  },
+  {
+   "fieldname": "sb_notifications",
+   "fieldtype": "Section Break",
+   "label": "Notifications"
+  },
+  {
+   "default": "1",
+   "fieldname": "enable_handover_notifications",
+   "fieldtype": "Check",
+   "label": "Enable Handover Notifications"
+  },
+  {
+   "fieldname": "cb_notifications",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "notify_managers_on_rejection",
+   "fieldtype": "Check",
+   "label": "Notify Managers On Rejection"
+  }
+ ],
+ "icon": "settings",
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-11-09 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "NDS Enterprise Operations",
+ "name": "NDS Operations Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "NDS Operations Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "NDS Executive Management"
+  },
+  {
+   "read": 1,
+   "role": "NDS Read Only Auditor"
+  }
+ ],
+ "row_format": "Dynamic",
+ "states": []
+}

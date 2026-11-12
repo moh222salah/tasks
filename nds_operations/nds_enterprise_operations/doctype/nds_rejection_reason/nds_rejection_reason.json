@@ -1,0 +1,104 @@
+{
+ "actions": [],
+ "autoname": "field:reason_name",
+ "creation": "2026-11-09 12:00:00.000000",
+ "description": "Controlled list of reasons a receiver can pick when rejecting a handover.",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "reason_name",
+  "enabled",
+  "description"
+ ],
+ "fields": [
+  {
+   "fieldname": "reason_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Reason",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Enabled"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
+  }
+ ],
+ "icon": "octagon-x",
+ "links": [],
+ "modified": "2026-11-09 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "NDS Enterprise Operations",
+ "name": "NDS Rejection Reason",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "export": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "export": 1,
+   "read": 1,
+   "report": 1,
+   "role": "NDS Operations Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Employee"
+  },
+  {
+   "read": 1,
+   "role": "NDS Task Sender"
+  },
+  {
+   "read": 1,
+   "role": "NDS Task Receiver"
+  },
+  {
+   "read": 1,
+   "role": "NDS Task Reviewer"
+  },
+  {
+   "read": 1,
+   "role": "NDS Team Leader"
+  },
+  {
+   "read": 1,
+   "role": "NDS Department Manager"
+  },
+  {
+   "read": 1,
+   "role": "NDS Project Manager"
+  },
+  {
+   "read": 1,
+   "role": "NDS Executive Management"
+  },
+  {
+   "read": 1,
+   "role": "NDS Read Only Auditor"
+  }
+ ],
+ "quick_entry": 1,
+ "row_format": "Dynamic",
+ "sort_field": "reason_name",
+ "sort_order": "ASC",
+ "states": []
+}

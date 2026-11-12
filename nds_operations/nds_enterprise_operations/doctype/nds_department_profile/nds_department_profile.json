@@ -1,0 +1,175 @@
+{
+ "actions": [],
+ "autoname": "field:department",
+ "creation": "2026-11-09 12:00:00.000000",
+ "description": "Management profile for an ERPNext Department (manager, deputy, mission).",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "department",
+  "company",
+  "is_active",
+  "cb_dp",
+  "department_manager",
+  "manager_user",
+  "deputy_manager",
+  "deputy_user",
+  "sb_mission",
+  "mission"
+ ],
+ "fields": [
+  {
+   "fieldname": "department",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Department",
+   "options": "Department",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fetch_from": "department.company",
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Company",
+   "options": "Company",
+   "read_only": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "is_active",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Active"
+  },
+  {
+   "fieldname": "cb_dp",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "department_manager",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Department Manager",
+   "options": "Employee"
+  },
+  {
+   "fetch_from": "department_manager.user_id",
+   "fieldname": "manager_user",
+   "fieldtype": "Link",
+   "label": "Manager User",
+   "options": "User",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "deputy_manager",
+   "fieldtype": "Link",
+   "label": "Deputy Manager",
+   "options": "Employee"
+  },
+  {
+   "fetch_from": "deputy_manager.user_id",
+   "fieldname": "deputy_user",
+   "fieldtype": "Link",
+   "label": "Deputy User",
+   "options": "User",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "sb_mission",
+   "fieldtype": "Section Break",
+   "label": "Mission"
+  },
+  {
+   "fieldname": "mission",
+   "fieldtype": "Small Text",
+   "label": "Mission / Responsibilities"
+  }
+ ],
+ "icon": "building-2",
+ "links": [],
+ "modified": "2026-11-09 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "NDS Enterprise Operations",
+ "name": "NDS Department Profile",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "export": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "export": 1,
+   "read": 1,
+   "report": 1,
+   "role": "NDS Operations Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Employee"
+  },
+  {
+   "read": 1,
+   "role": "NDS Task Sender"
+  },
+  {
+   "read": 1,
+   "role": "NDS Task Receiver"
+  },
+  {
+   "read": 1,
+   "role": "NDS Task Reviewer"
+  },
+  {
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "NDS Team Leader"
+  },
+  {
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "NDS Department Manager"
+  },
+  {
+   "read": 1,
+   "role": "NDS Project Manager"
+  },
+  {
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "NDS Executive Management"
+  },
+  {
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "NDS Read Only Auditor"
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "department",
+ "track_changes": 1
+}

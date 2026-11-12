@@ -1,0 +1,197 @@
+{
+ "actions": [],
+ "autoname": "format:NDS-TM-{#####}",
+ "creation": "2026-11-09 12:00:00.000000",
+ "description": "A working team inside a Department with a lead and members.",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "team_name",
+  "department",
+  "company",
+  "is_active",
+  "cb_team",
+  "team_lead",
+  "team_lead_name",
+  "team_lead_user",
+  "deputy_lead",
+  "sb_team_about",
+  "description",
+  "specialties"
+ ],
+ "fields": [
+  {
+   "fieldname": "team_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Team Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "department",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Department",
+   "options": "Department",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fetch_from": "department.company",
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Company",
+   "options": "Company",
+   "read_only": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "is_active",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Active"
+  },
+  {
+   "fieldname": "cb_team",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "team_lead",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Team Lead",
+   "options": "Employee"
+  },
+  {
+   "fetch_from": "team_lead.employee_name",
+   "fieldname": "team_lead_name",
+   "fieldtype": "Data",
+   "label": "Team Lead Name",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "team_lead.user_id",
+   "fieldname": "team_lead_user",
+   "fieldtype": "Link",
+   "label": "Team Lead User",
+   "options": "User",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "deputy_lead",
+   "fieldtype": "Link",
+   "label": "Deputy Lead",
+   "options": "Employee"
+  },
+  {
+   "fieldname": "sb_team_about",
+   "fieldtype": "Section Break",
+   "label": "About"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
+  },
+  {
+   "fieldname": "specialties",
+   "fieldtype": "Small Text",
+   "label": "Specialties"
+  }
+ ],
+ "icon": "users",
+ "links": [
+  {
+   "link_doctype": "NDS Team Membership",
+   "link_fieldname": "team"
+  }
+ ],
+ "modified": "2026-11-09 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "NDS Enterprise Operations",
+ "name": "NDS Team",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "export": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "export": 1,
+   "read": 1,
+   "report": 1,
+   "role": "NDS Operations Manager",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "export": 1,
+   "read": 1,
+   "report": 1,
+   "role": "NDS Department Manager",
+   "write": 1
+  },
+  {
+   "export": 1,
+   "read": 1,
+   "report": 1,
+   "role": "NDS Team Leader",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Employee"
+  },
+  {
+   "read": 1,
+   "role": "NDS Task Sender"
+  },
+  {
+   "read": 1,
+   "role": "NDS Task Receiver"
+  },
+  {
+   "read": 1,
+   "role": "NDS Task Reviewer"
+  },
+  {
+   "read": 1,
+   "role": "NDS Project Manager"
+  },
+  {
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "NDS Executive Management"
+  },
+  {
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "NDS Read Only Auditor"
+  }
+ ],
+ "row_format": "Dynamic",
+ "search_fields": "team_name,department,team_lead_name",
+ "show_title_field_in_link": 1,
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "team_name",
+ "track_changes": 1
+}
