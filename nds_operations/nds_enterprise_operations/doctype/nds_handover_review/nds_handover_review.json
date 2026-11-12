@@ -1,0 +1,243 @@
+{
+ "actions": [],
+ "autoname": "format:HRV-{#####}",
+ "creation": "2026-11-09 12:00:00.000000",
+ "description": "Immutable record of a receiver decision (accept, reject or request clarification).",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "handover",
+  "task",
+  "version_no",
+  "decision",
+  "cb_rv_1",
+  "reviewer_user",
+  "reviewer_employee",
+  "reviewer_name",
+  "reviewed_at",
+  "request_id",
+  "sb_rv_detail",
+  "rejection_reason",
+  "details",
+  "next_step",
+  "expected_start",
+  "sb_rv_confirm",
+  "confirmed_details_reviewed",
+  "confirmed_attachments_received",
+  "confirmed_responsibilities_understood",
+  "sb_rv_evidence",
+  "evidence"
+ ],
+ "fields": [
+  {
+   "fieldname": "handover",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Handover",
+   "options": "NDS Task Handover",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fetch_from": "handover.task",
+   "fieldname": "task",
+   "fieldtype": "Link",
+   "label": "Task",
+   "options": "Task",
+   "search_index": 1
+  },
+  {
+   "fieldname": "version_no",
+   "fieldtype": "Int",
+   "label": "Handover Version",
+   "read_only": 1
+  },
+  {
+   "fieldname": "decision",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Decision",
+   "options": "Accepted\nRejected\nClarification Requested",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "cb_rv_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "reviewer_user",
+   "fieldtype": "Link",
+   "label": "Reviewer",
+   "options": "User",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "reviewer_employee",
+   "fieldtype": "Link",
+   "label": "Reviewer Employee",
+   "options": "Employee"
+  },
+  {
+   "fieldname": "reviewer_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Reviewer Name"
+  },
+  {
+   "fieldname": "reviewed_at",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Reviewed At",
+   "reqd": 1
+  },
+  {
+   "fieldname": "request_id",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Request ID",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "sb_rv_detail",
+   "fieldtype": "Section Break",
+   "label": "Decision Details"
+  },
+  {
+   "depends_on": "eval:doc.decision=='Rejected'",
+   "fieldname": "rejection_reason",
+   "fieldtype": "Link",
+   "label": "Rejection Reason",
+   "options": "NDS Rejection Reason"
+  },
+  {
+   "fieldname": "details",
+   "fieldtype": "Text Editor",
+   "label": "Details / Notes"
+  },
+  {
+   "depends_on": "eval:doc.decision=='Accepted'",
+   "fieldname": "next_step",
+   "fieldtype": "Small Text",
+   "label": "Next Step"
+  },
+  {
+   "depends_on": "eval:doc.decision=='Accepted'",
+   "fieldname": "expected_start",
+   "fieldtype": "Date",
+   "label": "Expected Execution Start"
+  },
+  {
+   "depends_on": "eval:doc.decision=='Accepted'",
+   "fieldname": "sb_rv_confirm",
+   "fieldtype": "Section Break",
+   "label": "Acceptance Confirmations"
+  },
+  {
+   "fieldname": "confirmed_details_reviewed",
+   "fieldtype": "Check",
+   "label": "Reviewed the task details"
+  },
+  {
+   "fieldname": "confirmed_attachments_received",
+   "fieldtype": "Check",
+   "label": "Received the files and attachments"
+  },
+  {
+   "fieldname": "confirmed_responsibilities_understood",
+   "fieldtype": "Check",
+   "label": "Understood the responsibilities"
+  },
+  {
+   "fieldname": "sb_rv_evidence",
+   "fieldtype": "Section Break",
+   "label": "Evidence"
+  },
+  {
+   "fieldname": "evidence",
+   "fieldtype": "Table",
+   "label": "Evidence",
+   "options": "NDS Handover Attachment"
+  }
+ ],
+ "icon": "clipboard-check",
+ "links": [],
+ "modified": "2026-11-09 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "NDS Enterprise Operations",
+ "name": "NDS Handover Review",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager"
+  },
+  {
+   "read": 1,
+   "role": "Employee"
+  },
+  {
+   "read": 1,
+   "role": "NDS Task Sender"
+  },
+  {
+   "read": 1,
+   "role": "NDS Task Receiver"
+  },
+  {
+   "read": 1,
+   "role": "NDS Task Reviewer"
+  },
+  {
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "NDS Team Leader"
+  },
+  {
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "NDS Department Manager"
+  },
+  {
+   "read": 1,
+   "role": "NDS Project Manager"
+  },
+  {
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "NDS Operations Manager"
+  },
+  {
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "NDS Executive Management"
+  },
+  {
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "NDS Read Only Auditor"
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}

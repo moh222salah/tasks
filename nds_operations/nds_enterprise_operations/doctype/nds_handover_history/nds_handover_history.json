@@ -1,0 +1,198 @@
+{
+ "actions": [],
+ "autoname": "hash",
+ "creation": "2026-11-09 12:00:00.000000",
+ "description": "Append-only audit trail of every state change of a handover.",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "handover",
+  "task",
+  "version_no",
+  "event_type",
+  "cb_hh_1",
+  "from_status",
+  "to_status",
+  "actor",
+  "actor_name",
+  "event_time",
+  "sb_hh_detail",
+  "remarks",
+  "review",
+  "request_id",
+  "ip_address"
+ ],
+ "fields": [
+  {
+   "fieldname": "handover",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Handover",
+   "options": "NDS Task Handover",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "task",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Task",
+   "options": "Task",
+   "search_index": 1
+  },
+  {
+   "fieldname": "version_no",
+   "fieldtype": "Int",
+   "label": "Version"
+  },
+  {
+   "fieldname": "event_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Event",
+   "options": "Created\nMarked Ready\nReopened As Draft\nSubmitted\nReceived\nClarification Requested\nRejected\nAccepted\nResponsibility Transferred\nRevision Created\nSuperseded\nWithdrawn",
+   "reqd": 1
+  },
+  {
+   "fieldname": "cb_hh_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "from_status",
+   "fieldtype": "Data",
+   "label": "From Status"
+  },
+  {
+   "fieldname": "to_status",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "To Status"
+  },
+  {
+   "fieldname": "actor",
+   "fieldtype": "Link",
+   "label": "Actor",
+   "options": "User",
+   "search_index": 1
+  },
+  {
+   "fieldname": "actor_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Actor Name"
+  },
+  {
+   "fieldname": "event_time",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Event Time",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "sb_hh_detail",
+   "fieldtype": "Section Break",
+   "label": "Details"
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Small Text",
+   "label": "Remarks"
+  },
+  {
+   "fieldname": "review",
+   "fieldtype": "Link",
+   "label": "Review",
+   "options": "NDS Handover Review"
+  },
+  {
+   "fieldname": "request_id",
+   "fieldtype": "Data",
+   "label": "Request ID",
+   "search_index": 1
+  },
+  {
+   "fieldname": "ip_address",
+   "fieldtype": "Data",
+   "label": "IP Address"
+  }
+ ],
+ "icon": "history",
+ "links": [],
+ "modified": "2026-11-09 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "NDS Enterprise Operations",
+ "name": "NDS Handover History",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager"
+  },
+  {
+   "read": 1,
+   "role": "Employee"
+  },
+  {
+   "read": 1,
+   "role": "NDS Task Sender"
+  },
+  {
+   "read": 1,
+   "role": "NDS Task Receiver"
+  },
+  {
+   "read": 1,
+   "role": "NDS Task Reviewer"
+  },
+  {
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "NDS Team Leader"
+  },
+  {
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "NDS Department Manager"
+  },
+  {
+   "read": 1,
+   "role": "NDS Project Manager"
+  },
+  {
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "NDS Operations Manager"
+  },
+  {
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "NDS Executive Management"
+  },
+  {
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "NDS Read Only Auditor"
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}

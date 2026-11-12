@@ -1,0 +1,1071 @@
+{
+ "actions": [],
+ "allow_import": 0,
+ "allow_rename": 0,
+ "autoname": "format:HND-{YYYY}-{#####}",
+ "creation": "2026-11-09 12:00:00.000000",
+ "description": "Formal, documented transfer of responsibility for a Task between employees.",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "tab_handover",
+  "sb_task",
+  "task",
+  "task_title",
+  "task_url",
+  "cb_task_1",
+  "project",
+  "department",
+  "team",
+  "cb_task_2",
+  "task_category",
+  "priority",
+  "task_status",
+  "task_due_date",
+  "sb_task_description",
+  "task_description",
+  "sb_info",
+  "handover_type",
+  "version_no",
+  "previous_handover",
+  "root_handover",
+  "cb_info_1",
+  "handover_reason",
+  "handover_reason_details",
+  "requested_action",
+  "cb_info_2",
+  "response_due",
+  "submitted_at",
+  "sb_sender",
+  "sender_user",
+  "sender_employee",
+  "sender_name",
+  "cb_sender_1",
+  "sender_department",
+  "sender_team",
+  "sender_designation",
+  "sender_email",
+  "sb_receiver",
+  "receiver_employee",
+  "receiver_name",
+  "receiver_user",
+  "cb_receiver_1",
+  "receiver_department",
+  "receiver_team",
+  "receiver_designation",
+  "receiver_email",
+  "sb_sender_notes",
+  "work_done",
+  "work_remaining",
+  "open_issues",
+  "receiver_requirements",
+  "risks_warnings",
+  "sender_instructions",
+  "sender_notes",
+  "clarification_response",
+  "sb_attachments",
+  "attachments",
+  "tab_technical",
+  "sb_executor",
+  "executor_employee",
+  "executor_name",
+  "assigned_date",
+  "cb_executor_1",
+  "executor_department",
+  "executor_team",
+  "expected_completion_date",
+  "sb_diagnosis",
+  "technical_diagnosis",
+  "problem_description",
+  "root_cause",
+  "error_details",
+  "current_system_condition",
+  "dependencies_notes",
+  "pending_issues",
+  "risks_limitations",
+  "sb_solution",
+  "solution_approach",
+  "implementation_steps",
+  "tools_technologies",
+  "files_modified",
+  "urls_references",
+  "configuration_changes",
+  "technical_decisions",
+  "outstanding_actions",
+  "sb_results",
+  "final_outcome",
+  "completed_results",
+  "expected_vs_actual",
+  "verification_evidence",
+  "testing_results",
+  "outstanding_issues",
+  "known_limitations",
+  "sb_executor_notes",
+  "executor_notes",
+  "operating_instructions",
+  "followup_instructions",
+  "warnings",
+  "recommendations",
+  "future_tasks",
+  "tab_review",
+  "sb_status",
+  "handover_status",
+  "superseded_by",
+  "client_request_id",
+  "submit_request_id",
+  "cb_status_1",
+  "received_at",
+  "received_by",
+  "decided_at",
+  "decided_by",
+  "cb_status_2",
+  "latest_review",
+  "rejection_reason",
+  "withdrawn_at",
+  "withdraw_reason",
+  "sb_transfer",
+  "previous_owner",
+  "new_owner",
+  "responsibility_transferred_at",
+  "cb_transfer_1",
+  "previous_department",
+  "new_department",
+  "cb_transfer_2",
+  "previous_team",
+  "new_team",
+  "ownership_seq_at_submit",
+  "sb_integrity",
+  "snapshot_hash",
+  "submission_snapshot"
+ ],
+ "fields": [
+  {
+   "fieldname": "tab_handover",
+   "fieldtype": "Tab Break",
+   "label": "Handover"
+  },
+  {
+   "fieldname": "sb_task",
+   "fieldtype": "Section Break",
+   "label": "Task"
+  },
+  {
+   "fieldname": "task",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Task",
+   "options": "Task",
+   "reqd": 1,
+   "search_index": 1,
+   "set_only_once": 1
+  },
+  {
+   "bold": 1,
+   "fetch_from": "task.subject",
+   "fieldname": "task_title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Task Title",
+   "read_only": 1
+  },
+  {
+   "fieldname": "task_url",
+   "fieldtype": "Data",
+   "label": "Task / System / File URL",
+   "options": "URL"
+  },
+  {
+   "fieldname": "cb_task_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "task.project",
+   "fetch_if_empty": 1,
+   "fieldname": "project",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Related Project",
+   "options": "Project",
+   "search_index": 1
+  },
+  {
+   "fetch_from": "task.department",
+   "fetch_if_empty": 1,
+   "fieldname": "department",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Related Department",
+   "options": "Department",
+   "search_index": 1
+  },
+  {
+   "fieldname": "team",
+   "fieldtype": "Link",
+   "label": "Related Team",
+   "options": "NDS Team",
+   "search_index": 1
+  },
+  {
+   "fieldname": "cb_task_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "task.type",
+   "fieldname": "task_category",
+   "fieldtype": "Link",
+   "label": "Task Category",
+   "options": "Task Type"
+  },
+  {
+   "fetch_from": "task.priority",
+   "fieldname": "priority",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Priority",
+   "options": "\nLow\nMedium\nHigh\nUrgent"
+  },
+  {
+   "fieldname": "task_status",
+   "fieldtype": "Data",
+   "label": "Task Status At Handover",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "task.exp_end_date",
+   "fieldname": "task_due_date",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Due Date"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "sb_task_description",
+   "fieldtype": "Section Break",
+   "label": "Task Description"
+  },
+  {
+   "fetch_from": "task.description",
+   "fetch_if_empty": 1,
+   "fieldname": "task_description",
+   "fieldtype": "Text Editor",
+   "label": "Task Description"
+  },
+  {
+   "fieldname": "sb_info",
+   "fieldtype": "Section Break",
+   "label": "Handover Details"
+  },
+  {
+   "default": "New",
+   "fieldname": "handover_type",
+   "fieldtype": "Select",
+   "label": "Handover Type",
+   "no_copy": 1,
+   "options": "New\nRevision\nRe-handover",
+   "read_only": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "version_no",
+   "fieldtype": "Int",
+   "label": "Version",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "previous_handover",
+   "fieldtype": "Link",
+   "label": "Previous Handover",
+   "no_copy": 1,
+   "options": "NDS Task Handover",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "root_handover",
+   "fieldtype": "Link",
+   "label": "Root Handover",
+   "no_copy": 1,
+   "options": "NDS Task Handover",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "cb_info_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "handover_reason",
+   "fieldtype": "Select",
+   "label": "Reason For Handover",
+   "options": "\nReassignment\nWorkload Balancing\nLeave or Absence\nDepartment Transfer\nSkill Match\nWork Completed\nEscalation\nOther",
+   "reqd": 1
+  },
+  {
+   "fieldname": "handover_reason_details",
+   "fieldtype": "Small Text",
+   "label": "Reason Details",
+   "mandatory_depends_on": "eval:doc.handover_reason=='Other'"
+  },
+  {
+   "fieldname": "requested_action",
+   "fieldtype": "Small Text",
+   "label": "What Is Required From The Receiver"
+  },
+  {
+   "fieldname": "cb_info_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "response_due",
+   "fieldtype": "Datetime",
+   "label": "Response Due By",
+   "no_copy": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "submitted_at",
+   "fieldtype": "Datetime",
+   "label": "Handover Date & Time",
+   "no_copy": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "sb_sender",
+   "fieldtype": "Section Break",
+   "label": "Sender"
+  },
+  {
+   "fieldname": "sender_user",
+   "fieldtype": "Link",
+   "label": "Sender User",
+   "no_copy": 1,
+   "options": "User",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "sender_employee",
+   "fieldtype": "Link",
+   "label": "Sender Employee",
+   "no_copy": 1,
+   "options": "Employee",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sender_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Sender Name",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "cb_sender_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "sender_department",
+   "fieldtype": "Link",
+   "label": "Sender Department",
+   "no_copy": 1,
+   "options": "Department",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "sender_team",
+   "fieldtype": "Link",
+   "label": "Sender Team",
+   "options": "NDS Team",
+   "search_index": 1
+  },
+  {
+   "fieldname": "sender_designation",
+   "fieldtype": "Link",
+   "label": "Sender Position",
+   "no_copy": 1,
+   "options": "Designation",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sender_email",
+   "fieldtype": "Data",
+   "label": "Sender Email",
+   "no_copy": 1,
+   "options": "Email",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sb_receiver",
+   "fieldtype": "Section Break",
+   "label": "Receiver"
+  },
+  {
+   "fieldname": "receiver_employee",
+   "fieldtype": "Link",
+   "label": "Receiver Employee",
+   "options": "Employee",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fetch_from": "receiver_employee.employee_name",
+   "fieldname": "receiver_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Receiver Name",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "receiver_employee.user_id",
+   "fieldname": "receiver_user",
+   "fieldtype": "Link",
+   "label": "Receiver User",
+   "options": "User",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "cb_receiver_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "receiver_employee.department",
+   "fieldname": "receiver_department",
+   "fieldtype": "Link",
+   "label": "Receiver Department",
+   "options": "Department",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "receiver_team",
+   "fieldtype": "Link",
+   "label": "Receiver Team",
+   "options": "NDS Team",
+   "search_index": 1
+  },
+  {
+   "fetch_from": "receiver_employee.designation",
+   "fieldname": "receiver_designation",
+   "fieldtype": "Link",
+   "label": "Receiver Position",
+   "options": "Designation",
+   "read_only": 1
+  },
+  {
+   "fieldname": "receiver_email",
+   "fieldtype": "Data",
+   "label": "Receiver Email",
+   "options": "Email",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sb_sender_notes",
+   "fieldtype": "Section Break",
+   "label": "Sender Notes"
+  },
+  {
+   "fieldname": "work_done",
+   "fieldtype": "Text Editor",
+   "label": "What Was Completed"
+  },
+  {
+   "fieldname": "work_remaining",
+   "fieldtype": "Text Editor",
+   "label": "What Is Not Completed"
+  },
+  {
+   "fieldname": "open_issues",
+   "fieldtype": "Text Editor",
+   "label": "Open Issues"
+  },
+  {
+   "fieldname": "receiver_requirements",
+   "fieldtype": "Text Editor",
+   "label": "Requirements From The Receiver"
+  },
+  {
+   "fieldname": "risks_warnings",
+   "fieldtype": "Text Editor",
+   "label": "Risks & Warnings"
+  },
+  {
+   "fieldname": "sender_instructions",
+   "fieldtype": "Text Editor",
+   "label": "Important Instructions"
+  },
+  {
+   "fieldname": "sender_notes",
+   "fieldtype": "Text Editor",
+   "label": "Additional Notes"
+  },
+  {
+   "depends_on": "eval:doc.handover_type=='Revision'",
+   "fieldname": "clarification_response",
+   "fieldtype": "Text Editor",
+   "label": "Response To Previous Review"
+  },
+  {
+   "fieldname": "sb_attachments",
+   "fieldtype": "Section Break",
+   "label": "Screenshots, Files & Links"
+  },
+  {
+   "fieldname": "attachments",
+   "fieldtype": "Table",
+   "label": "Attachments",
+   "options": "NDS Handover Attachment"
+  },
+  {
+   "fieldname": "tab_technical",
+   "fieldtype": "Tab Break",
+   "label": "Technical Record"
+  },
+  {
+   "fieldname": "sb_executor",
+   "fieldtype": "Section Break",
+   "label": "Executor"
+  },
+  {
+   "fieldname": "executor_employee",
+   "fieldtype": "Link",
+   "label": "Executor",
+   "options": "Employee"
+  },
+  {
+   "fetch_from": "executor_employee.employee_name",
+   "fieldname": "executor_name",
+   "fieldtype": "Data",
+   "label": "Executor Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "assigned_date",
+   "fieldtype": "Date",
+   "label": "Assigned Date"
+  },
+  {
+   "fieldname": "cb_executor_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "executor_employee.department",
+   "fieldname": "executor_department",
+   "fieldtype": "Link",
+   "label": "Executor Department",
+   "options": "Department",
+   "read_only": 1
+  },
+  {
+   "fieldname": "executor_team",
+   "fieldtype": "Link",
+   "label": "Executor Team",
+   "options": "NDS Team"
+  },
+  {
+   "fieldname": "expected_completion_date",
+   "fieldtype": "Date",
+   "label": "Expected Completion Date"
+  },
+  {
+   "fieldname": "sb_diagnosis",
+   "fieldtype": "Section Break",
+   "label": "Technical Diagnosis"
+  },
+  {
+   "fieldname": "technical_diagnosis",
+   "fieldtype": "Text Editor",
+   "label": "Technical Diagnosis"
+  },
+  {
+   "fieldname": "problem_description",
+   "fieldtype": "Text Editor",
+   "label": "Problem Description"
+  },
+  {
+   "fieldname": "root_cause",
+   "fieldtype": "Text Editor",
+   "label": "Root Cause"
+  },
+  {
+   "fieldname": "error_details",
+   "fieldtype": "Long Text",
+   "label": "Error Details"
+  },
+  {
+   "fieldname": "current_system_condition",
+   "fieldtype": "Text Editor",
+   "label": "Current System Condition"
+  },
+  {
+   "fieldname": "dependencies_notes",
+   "fieldtype": "Text Editor",
+   "label": "Dependencies"
+  },
+  {
+   "fieldname": "pending_issues",
+   "fieldtype": "Text Editor",
+   "label": "Pending Issues"
+  },
+  {
+   "fieldname": "risks_limitations",
+   "fieldtype": "Text Editor",
+   "label": "Risks & Limitations"
+  },
+  {
+   "fieldname": "sb_solution",
+   "fieldtype": "Section Break",
+   "label": "Solution & Implementation"
+  },
+  {
+   "fieldname": "solution_approach",
+   "fieldtype": "Text Editor",
+   "label": "Solution Approach"
+  },
+  {
+   "fieldname": "implementation_steps",
+   "fieldtype": "Text Editor",
+   "label": "Implementation Steps"
+  },
+  {
+   "fieldname": "tools_technologies",
+   "fieldtype": "Small Text",
+   "label": "Tools & Technologies Used"
+  },
+  {
+   "fieldname": "files_modified",
+   "fieldtype": "Long Text",
+   "label": "Files Modified"
+  },
+  {
+   "fieldname": "urls_references",
+   "fieldtype": "Long Text",
+   "label": "URLs & References"
+  },
+  {
+   "fieldname": "configuration_changes",
+   "fieldtype": "Text Editor",
+   "label": "Configuration Changes"
+  },
+  {
+   "fieldname": "technical_decisions",
+   "fieldtype": "Text Editor",
+   "label": "Technical Decisions"
+  },
+  {
+   "fieldname": "outstanding_actions",
+   "fieldtype": "Text Editor",
+   "label": "Outstanding Actions"
+  },
+  {
+   "fieldname": "sb_results",
+   "fieldtype": "Section Break",
+   "label": "Results"
+  },
+  {
+   "fieldname": "final_outcome",
+   "fieldtype": "Select",
+   "label": "Final Outcome",
+   "options": "\nFully Completed\nPartially Completed\nBlocked\nNot Started\nNeeds Review"
+  },
+  {
+   "fieldname": "completed_results",
+   "fieldtype": "Text Editor",
+   "label": "Completed Results"
+  },
+  {
+   "fieldname": "expected_vs_actual",
+   "fieldtype": "Text Editor",
+   "label": "Expected vs Actual Results"
+  },
+  {
+   "fieldname": "verification_evidence",
+   "fieldtype": "Text Editor",
+   "label": "Verification Evidence"
+  },
+  {
+   "fieldname": "testing_results",
+   "fieldtype": "Text Editor",
+   "label": "Testing Results"
+  },
+  {
+   "fieldname": "outstanding_issues",
+   "fieldtype": "Text Editor",
+   "label": "Outstanding Issues"
+  },
+  {
+   "fieldname": "known_limitations",
+   "fieldtype": "Text Editor",
+   "label": "Known Limitations"
+  },
+  {
+   "fieldname": "sb_executor_notes",
+   "fieldtype": "Section Break",
+   "label": "Executor Notes"
+  },
+  {
+   "fieldname": "executor_notes",
+   "fieldtype": "Text Editor",
+   "label": "Additional Notes"
+  },
+  {
+   "fieldname": "operating_instructions",
+   "fieldtype": "Text Editor",
+   "label": "Operating Instructions"
+  },
+  {
+   "fieldname": "followup_instructions",
+   "fieldtype": "Text Editor",
+   "label": "Follow-up Instructions"
+  },
+  {
+   "fieldname": "warnings",
+   "fieldtype": "Text Editor",
+   "label": "Warnings"
+  },
+  {
+   "fieldname": "recommendations",
+   "fieldtype": "Text Editor",
+   "label": "Recommendations"
+  },
+  {
+   "fieldname": "future_tasks",
+   "fieldtype": "Text Editor",
+   "label": "Suggested Future Tasks"
+  },
+  {
+   "fieldname": "tab_review",
+   "fieldtype": "Tab Break",
+   "label": "Status & Responsibility"
+  },
+  {
+   "fieldname": "sb_status",
+   "fieldtype": "Section Break",
+   "label": "Status"
+  },
+  {
+   "bold": 1,
+   "default": "Draft",
+   "fieldname": "handover_status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Handover Status",
+   "no_copy": 1,
+   "options": "Draft\nReady for Handover\nPending Acceptance\nUnder Review\nClarification Requested\nAccepted\nRejected\nWithdrawn",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "superseded_by",
+   "fieldtype": "Link",
+   "label": "Superseded By",
+   "no_copy": 1,
+   "options": "NDS Task Handover",
+   "read_only": 1
+  },
+  {
+   "fieldname": "client_request_id",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Client Request ID",
+   "no_copy": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "submit_request_id",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Submit Request ID",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "cb_status_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "received_at",
+   "fieldtype": "Datetime",
+   "label": "Received At",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "received_by",
+   "fieldtype": "Link",
+   "label": "Received By",
+   "no_copy": 1,
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "decided_at",
+   "fieldtype": "Datetime",
+   "label": "Decision At",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "decided_by",
+   "fieldtype": "Link",
+   "label": "Decision By",
+   "no_copy": 1,
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "cb_status_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "latest_review",
+   "fieldtype": "Link",
+   "label": "Latest Review",
+   "no_copy": 1,
+   "options": "NDS Handover Review",
+   "read_only": 1
+  },
+  {
+   "fieldname": "rejection_reason",
+   "fieldtype": "Link",
+   "label": "Rejection Reason",
+   "no_copy": 1,
+   "options": "NDS Rejection Reason",
+   "read_only": 1
+  },
+  {
+   "fieldname": "withdrawn_at",
+   "fieldtype": "Datetime",
+   "label": "Withdrawn At",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "withdraw_reason",
+   "fieldtype": "Small Text",
+   "label": "Withdraw Reason",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "sb_transfer",
+   "fieldtype": "Section Break",
+   "label": "Responsibility Transfer"
+  },
+  {
+   "fieldname": "previous_owner",
+   "fieldtype": "Link",
+   "label": "Previous Owner",
+   "no_copy": 1,
+   "options": "User",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "new_owner",
+   "fieldtype": "Link",
+   "label": "New Owner",
+   "no_copy": 1,
+   "options": "User",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "responsibility_transferred_at",
+   "fieldtype": "Datetime",
+   "label": "Responsibility Transferred At",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "cb_transfer_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "previous_department",
+   "fieldtype": "Link",
+   "label": "Previous Department",
+   "no_copy": 1,
+   "options": "Department",
+   "read_only": 1
+  },
+  {
+   "fieldname": "new_department",
+   "fieldtype": "Link",
+   "label": "New Department",
+   "no_copy": 1,
+   "options": "Department",
+   "read_only": 1
+  },
+  {
+   "fieldname": "cb_transfer_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "previous_team",
+   "fieldtype": "Link",
+   "label": "Previous Team",
+   "no_copy": 1,
+   "options": "NDS Team",
+   "read_only": 1
+  },
+  {
+   "fieldname": "new_team",
+   "fieldtype": "Link",
+   "label": "New Team",
+   "no_copy": 1,
+   "options": "NDS Team",
+   "read_only": 1
+  },
+  {
+   "fieldname": "ownership_seq_at_submit",
+   "fieldtype": "Int",
+   "hidden": 1,
+   "label": "Ownership Sequence At Submission",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "sb_integrity",
+   "fieldtype": "Section Break",
+   "label": "Frozen Submission Record"
+  },
+  {
+   "fieldname": "snapshot_hash",
+   "fieldtype": "Data",
+   "label": "Snapshot SHA-256",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "submission_snapshot",
+   "fieldtype": "Long Text",
+   "hidden": 1,
+   "label": "Submitted Snapshot (JSON)",
+   "no_copy": 1,
+   "read_only": 1
+  }
+ ],
+ "icon": "arrow-right-left",
+ "is_submittable": 1,
+ "links": [
+  {
+   "link_doctype": "NDS Handover Review",
+   "link_fieldname": "handover"
+  },
+  {
+   "link_doctype": "NDS Handover History",
+   "link_fieldname": "handover"
+  }
+ ],
+ "modified": "2026-11-09 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "NDS Enterprise Operations",
+ "name": "NDS Task Handover",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "if_owner": 1,
+   "print": 1,
+   "read": 1,
+   "role": "NDS Task Sender",
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1
+  },
+  {
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "Employee"
+  },
+  {
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "NDS Task Receiver"
+  },
+  {
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "NDS Task Reviewer"
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "NDS Team Leader"
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "NDS Department Manager"
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "NDS Project Manager"
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "NDS Operations Manager"
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "NDS Executive Management"
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "NDS Read Only Auditor"
+  }
+ ],
+ "row_format": "Dynamic",
+ "search_fields": "task_title,task,sender_name,receiver_name",
+ "show_title_field_in_link": 0,
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "task_title",
+ "track_changes": 0
+}
