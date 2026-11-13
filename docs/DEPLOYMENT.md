@@ -39,7 +39,7 @@ bench --site SITE clear-cache
 sudo supervisorctl restart all                                         # or your process manager's equivalent
 ```
 
-What it adds: 10 DocTypes, 10 roles, a workspace, a sidebar, one page, one desktop icon, CSS/JS bundles.
+What it adds: 10 DocTypes, 10 roles, a workspace, a sidebar, two Desk pages (Handover Center and Operations Overview), one desktop icon, CSS/JS bundles.
 What it does **not** do: edit Frappe/ERPNext code, add Custom Fields to Task/Employee, change existing records.
 
 ## 3. Immediate rollback
