@@ -1,0 +1,171 @@
+{
+ "app": "nds_operations",
+ "charts": [],
+ "content": "[{\"id\": \"nds00hdr01\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>NDS Enterprise Operations</b></span>\", \"col\": 12}}, {\"id\": \"nds00para1\", \"type\": \"paragraph\", \"data\": {\"text\": \"One Organization. Connected Teams. Clear Ownership. Measurable Results.\", \"col\": 12}}, {\"id\": \"nds00sc001\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Handover Center\", \"col\": 3}}, {\"id\": \"nds00sc002\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Task Handovers\", \"col\": 3}}, {\"id\": \"nds00sc003\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Teams\", \"col\": 3}}, {\"id\": \"nds00sc004\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Tasks\", \"col\": 3}}, {\"id\": \"nds00card01\", \"type\": \"card\", \"data\": {\"card_name\": \"Organization\", \"col\": 4}}, {\"id\": \"nds00card02\", \"type\": \"card\", \"data\": {\"card_name\": \"Handover\", \"col\": 4}}, {\"id\": \"nds00card03\", \"type\": \"card\", \"data\": {\"card_name\": \"Settings\", \"col\": 4}}]",
+ "creation": "2026-11-14 00:00:00.000000",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "arrow-left-right",
+ "idx": 1,
+ "is_hidden": 0,
+ "label": "NDS Enterprise Operations",
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Organization",
+   "link_count": 3,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Departments",
+   "link_count": 0,
+   "link_to": "Department",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Department Profile",
+   "link_count": 0,
+   "link_to": "NDS Department Profile",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Teams",
+   "link_count": 0,
+   "link_to": "NDS Team",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Handover",
+   "link_count": 4,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Task Handovers",
+   "link_count": 0,
+   "link_to": "NDS Task Handover",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Reviews",
+   "link_count": 0,
+   "link_to": "NDS Handover Review",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Handover History",
+   "link_count": 0,
+   "link_to": "NDS Handover History",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Ownership History",
+   "link_count": 0,
+   "link_to": "NDS Ownership History",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Settings",
+   "link_count": 2,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Operations Settings",
+   "link_count": 0,
+   "link_to": "NDS Operations Settings",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Rejection Reasons",
+   "link_count": 0,
+   "link_to": "NDS Rejection Reason",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  }
+ ],
+ "modified": "2026-11-14 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "NDS Enterprise Operations",
+ "name": "NDS Enterprise Operations",
+ "number_cards": [],
+ "owner": "Administrator",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [],
+ "sequence_id": 1.0,
+ "shortcuts": [
+  {
+   "color": "Blue",
+   "label": "Handover Center",
+   "link_to": "nds-handover-center",
+   "type": "Page"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Task Handovers",
+   "link_to": "NDS Task Handover",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Teams",
+   "link_to": "NDS Team",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Tasks",
+   "link_to": "Task",
+   "type": "DocType"
+  }
+ ],
+ "title": "NDS Enterprise Operations"
+}

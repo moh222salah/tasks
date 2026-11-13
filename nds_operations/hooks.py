@@ -10,6 +10,9 @@ app_license = "mit"
 
 required_apps = ["erpnext"]
 
+app_include_css = "/assets/nds_operations/css/nds_operations.css"
+app_include_js = "/assets/nds_operations/js/nds_operations.js"
+
 add_to_apps_screen = [
 	{
 		"name": "nds_operations",

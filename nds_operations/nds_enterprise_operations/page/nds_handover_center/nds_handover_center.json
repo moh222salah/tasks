@@ -1,0 +1,19 @@
+{
+ "creation": "2026-11-14 00:00:00.000000",
+ "docstatus": 0,
+ "doctype": "Page",
+ "idx": 0,
+ "modified": "2026-11-14 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "NDS Enterprise Operations",
+ "name": "nds-handover-center",
+ "owner": "Administrator",
+ "page_name": "nds-handover-center",
+ "roles": [
+  {
+   "role": "Employee"
+  }
+ ],
+ "standard": "Yes",
+ "title": "Handover Center"
+}

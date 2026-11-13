@@ -229,14 +229,14 @@ def _page(filters, status, search, page, page_size):
 			["receiver_name", "like", like],
 		]
 	total = frappe.get_list(
-		HANDOVER, filters=filters, or_filters=or_filters, fields=["count(name) as total"]
+		HANDOVER, filters=filters, or_filters=or_filters, fields=[{"COUNT": "name", "as": "total"}]
 	)[0].total
 	rows = frappe.get_list(
 		HANDOVER,
 		filters=filters,
 		or_filters=or_filters,
 		fields=LIST_FIELDS,
-		order_by="coalesce(submitted_at, modified) desc",
+		order_by="modified desc",
 		start=(page - 1) * page_size,
 		page_length=page_size,
 	)
@@ -252,9 +252,20 @@ def get_inbox(status=None, search=None, page=1, page_size=20):
 
 
 @frappe.whitelist(methods=["GET"])
-def get_outbox(status=None, search=None, page=1, page_size=20):
-	"""Handovers I sent, drafts included."""
-	return _page({"sender_user": frappe.session.user}, status, search, page, page_size)
+def get_outbox(view=None, status=None, search=None, page=1, page_size=20):
+	"""Handovers I sent. view: drafts, attention (rejected / needs clarification), sent; default all."""
+	filters = {"sender_user": frappe.session.user}
+	if view == "drafts":
+		filters["docstatus"] = 0
+	elif view == "attention":
+		filters.update(
+			docstatus=1,
+			handover_status=("in", (REJECTED, CLARIFICATION)),
+			superseded_by=("is", "not set"),
+		)
+	elif view == "sent":
+		filters["docstatus"] = 1
+	return _page(filters, status, search, page, page_size)
 
 
 @frappe.whitelist(methods=["GET"])
