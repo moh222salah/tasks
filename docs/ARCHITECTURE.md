@@ -122,7 +122,8 @@ Delegated acceptance and "approved exceptional self-acceptance" are **NOT IMPLEM
 | Handover form workspace: stage bar, timeline, responsibility history, decisions, versions, integrity flag, action buttons and dialogs | PASS (browser-verified) |
 | New Handover dialog | implemented; PASS in browser for Accept dialog only |
 | Workspace + sidebar + desktop icon | implemented; sidebar entry order not yet verified |
-| Operations Overview dashboard (permission-scoped handover KPIs, status distribution, receiving-department breakdown, recent activity) | IMPLEMENTED — verification pending on isolated bench/browser |\n| Org chart, full task KPIs, 14 reports, kanban/gantt, notification settings, delegation | NOT IMPLEMENTED |
+| Operations Overview dashboard (permission-scoped handover KPIs, status distribution, receiving-department breakdown, recent activity) | IMPLEMENTED — verification pending on isolated bench/browser |
+| Org chart, full task KPIs, 14 reports, kanban/gantt, notification settings, delegation | NOT IMPLEMENTED |
 | RTL / mobile layout | CSS uses logical properties; not yet verified in a browser |
 
 ## 8. Risk assessment
@@ -144,7 +145,8 @@ Delegated acceptance and "approved exceptional self-acceptance" are **NOT IMPLEM
 | Handover engine, API, snapshot, ledger, idempotency | PASS (24 tests) |
 | Concurrency (3 real multi-connection races) | PASS |
 | Desk UI (center, form, dialogs, CSS) | PASS (browser) |
-| Handover Operations Overview / initial KPIs | IMPLEMENTED — test file added; execution pending |\n| Full task KPIs / 14 reports | NOT IMPLEMENTED |
+| Handover Operations Overview / initial KPIs | IMPLEMENTED — test file added; execution pending |
+| Full task KPIs / 14 reports | NOT IMPLEMENTED |
 | Task Update / Checklist / Review, Department KPI, Team Assignment | NOT IMPLEMENTED |
 | Arabic translations (`translations/ar.csv`), local fonts | NOT IMPLEMENTED |
 | Production audit and deployment | BLOCKED (needs explicit approval) |
