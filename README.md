@@ -2,8 +2,6 @@
 
 **One Organization. Connected Teams. Clear Ownership. Measurable Results.**
 
-إدارة الفرق والأقسام والعمليات المؤسسية — تطبيق Frappe/ERPNext v16 لشركة NDS.
-
 This is **not** a task list. It is an operations layer on top of ERPNext whose centre of gravity is a formal
 **Task Handover & Acceptance** process:
 
