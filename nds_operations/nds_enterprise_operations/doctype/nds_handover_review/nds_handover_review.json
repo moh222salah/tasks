@@ -32,6 +32,7 @@
   {
    "fieldname": "handover",
    "fieldtype": "Link",
+   "ignore_user_permissions": 1,
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Handover",
@@ -43,6 +44,7 @@
    "fetch_from": "handover.task",
    "fieldname": "task",
    "fieldtype": "Link",
+   "ignore_user_permissions": 1,
    "label": "Task",
    "options": "Task",
    "search_index": 1
@@ -78,6 +80,7 @@
   {
    "fieldname": "reviewer_employee",
    "fieldtype": "Link",
+   "ignore_user_permissions": 1,
    "label": "Reviewer Employee",
    "options": "Employee"
   },
@@ -111,6 +114,7 @@
    "depends_on": "eval:doc.decision=='Rejected'",
    "fieldname": "rejection_reason",
    "fieldtype": "Link",
+   "ignore_user_permissions": 1,
    "label": "Rejection Reason",
    "options": "NDS Rejection Reason"
   },

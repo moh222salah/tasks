@@ -188,8 +188,9 @@ def handover_has_permission(doc, ptype=None, user=None, debug=False):
 		return True
 
 	if ptype in WRITE_PTYPES:
-		# a submitted handover is immutable; only the sender touches his own drafts
-		return doc.docstatus == 0 and doc.sender_user == user
+		# a submitted handover is immutable; only the sender touches his own drafts. The stored docstatus
+		# decides: while the form submits, the in-memory docstatus is already 1 but the row is still a draft.
+		return doc.sender_user == user and frappe.db.get_value(doc.doctype, doc.name, "docstatus") == 0
 
 	scope = get_scope(user)
 	if scope.full or doc.sender_user == user:

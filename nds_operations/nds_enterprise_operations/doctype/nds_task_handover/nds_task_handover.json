@@ -152,6 +152,7 @@
   {
    "fieldname": "task",
    "fieldtype": "Link",
+   "ignore_user_permissions": 1,
    "in_standard_filter": 1,
    "label": "Task",
    "options": "Task",
@@ -183,6 +184,7 @@
    "fetch_if_empty": 1,
    "fieldname": "project",
    "fieldtype": "Link",
+   "ignore_user_permissions": 1,
    "in_standard_filter": 1,
    "label": "Related Project",
    "options": "Project",
@@ -193,6 +195,7 @@
    "fetch_if_empty": 1,
    "fieldname": "department",
    "fieldtype": "Link",
+   "ignore_user_permissions": 1,
    "in_standard_filter": 1,
    "label": "Related Department",
    "options": "Department",
@@ -201,6 +204,7 @@
   {
    "fieldname": "team",
    "fieldtype": "Link",
+   "ignore_user_permissions": 1,
    "label": "Related Team",
    "options": "NDS Team",
    "search_index": 1
@@ -213,6 +217,7 @@
    "fetch_from": "task.type",
    "fieldname": "task_category",
    "fieldtype": "Link",
+   "ignore_user_permissions": 1,
    "label": "Task Category",
    "options": "Task Type"
   },
@@ -276,6 +281,7 @@
   {
    "fieldname": "previous_handover",
    "fieldtype": "Link",
+   "ignore_user_permissions": 1,
    "label": "Previous Handover",
    "no_copy": 1,
    "options": "NDS Task Handover",
@@ -285,6 +291,7 @@
   {
    "fieldname": "root_handover",
    "fieldtype": "Link",
+   "ignore_user_permissions": 1,
    "label": "Root Handover",
    "no_copy": 1,
    "options": "NDS Task Handover",
@@ -350,6 +357,7 @@
   {
    "fieldname": "sender_employee",
    "fieldtype": "Link",
+   "ignore_user_permissions": 1,
    "label": "Sender Employee",
    "no_copy": 1,
    "options": "Employee",
@@ -370,6 +378,7 @@
   {
    "fieldname": "sender_department",
    "fieldtype": "Link",
+   "ignore_user_permissions": 1,
    "label": "Sender Department",
    "no_copy": 1,
    "options": "Department",
@@ -379,6 +388,7 @@
   {
    "fieldname": "sender_team",
    "fieldtype": "Link",
+   "ignore_user_permissions": 1,
    "label": "Sender Team",
    "options": "NDS Team",
    "search_index": 1
@@ -386,6 +396,7 @@
   {
    "fieldname": "sender_designation",
    "fieldtype": "Link",
+   "ignore_user_permissions": 1,
    "label": "Sender Position",
    "no_copy": 1,
    "options": "Designation",
@@ -407,6 +418,7 @@
   {
    "fieldname": "receiver_employee",
    "fieldtype": "Link",
+   "ignore_user_permissions": 1,
    "label": "Receiver Employee",
    "options": "Employee",
    "reqd": 1,
@@ -437,6 +449,7 @@
    "fetch_from": "receiver_employee.department",
    "fieldname": "receiver_department",
    "fieldtype": "Link",
+   "ignore_user_permissions": 1,
    "label": "Receiver Department",
    "options": "Department",
    "read_only": 1,
@@ -445,6 +458,7 @@
   {
    "fieldname": "receiver_team",
    "fieldtype": "Link",
+   "ignore_user_permissions": 1,
    "label": "Receiver Team",
    "options": "NDS Team",
    "search_index": 1
@@ -453,6 +467,7 @@
    "fetch_from": "receiver_employee.designation",
    "fieldname": "receiver_designation",
    "fieldtype": "Link",
+   "ignore_user_permissions": 1,
    "label": "Receiver Position",
    "options": "Designation",
    "read_only": 1
@@ -534,6 +549,7 @@
   {
    "fieldname": "executor_employee",
    "fieldtype": "Link",
+   "ignore_user_permissions": 1,
    "label": "Executor",
    "options": "Employee"
   },
@@ -557,6 +573,7 @@
    "fetch_from": "executor_employee.department",
    "fieldname": "executor_department",
    "fieldtype": "Link",
+   "ignore_user_permissions": 1,
    "label": "Executor Department",
    "options": "Department",
    "read_only": 1
@@ -564,6 +581,7 @@
   {
    "fieldname": "executor_team",
    "fieldtype": "Link",
+   "ignore_user_permissions": 1,
    "label": "Executor Team",
    "options": "NDS Team"
   },
@@ -764,6 +782,7 @@
   {
    "fieldname": "superseded_by",
    "fieldtype": "Link",
+   "ignore_user_permissions": 1,
    "label": "Superseded By",
    "no_copy": 1,
    "options": "NDS Task Handover",
@@ -827,6 +846,7 @@
   {
    "fieldname": "latest_review",
    "fieldtype": "Link",
+   "ignore_user_permissions": 1,
    "label": "Latest Review",
    "no_copy": 1,
    "options": "NDS Handover Review",
@@ -835,6 +855,7 @@
   {
    "fieldname": "rejection_reason",
    "fieldtype": "Link",
+   "ignore_user_permissions": 1,
    "label": "Rejection Reason",
    "no_copy": 1,
    "options": "NDS Rejection Reason",
@@ -891,6 +912,7 @@
   {
    "fieldname": "previous_department",
    "fieldtype": "Link",
+   "ignore_user_permissions": 1,
    "label": "Previous Department",
    "no_copy": 1,
    "options": "Department",
@@ -899,6 +921,7 @@
   {
    "fieldname": "new_department",
    "fieldtype": "Link",
+   "ignore_user_permissions": 1,
    "label": "New Department",
    "no_copy": 1,
    "options": "Department",
@@ -911,6 +934,7 @@
   {
    "fieldname": "previous_team",
    "fieldtype": "Link",
+   "ignore_user_permissions": 1,
    "label": "Previous Team",
    "no_copy": 1,
    "options": "NDS Team",
@@ -919,6 +943,7 @@
   {
    "fieldname": "new_team",
    "fieldtype": "Link",
+   "ignore_user_permissions": 1,
    "label": "New Team",
    "no_copy": 1,
    "options": "NDS Team",
@@ -975,9 +1000,7 @@
  "permissions": [
   {
    "create": 1,
-   "delete": 1,
    "email": 1,
-   "if_owner": 1,
    "print": 1,
    "read": 1,
    "role": "NDS Task Sender",

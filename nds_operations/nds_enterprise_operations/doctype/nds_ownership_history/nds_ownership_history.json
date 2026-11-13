@@ -29,6 +29,7 @@
   {
    "fieldname": "task",
    "fieldtype": "Link",
+   "ignore_user_permissions": 1,
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Task",
@@ -54,6 +55,7 @@
   {
    "fieldname": "handover",
    "fieldtype": "Link",
+   "ignore_user_permissions": 1,
    "label": "Handover",
    "options": "NDS Task Handover",
    "search_index": 1
@@ -72,18 +74,21 @@
   {
    "fieldname": "from_employee",
    "fieldtype": "Link",
+   "ignore_user_permissions": 1,
    "label": "From Employee",
    "options": "Employee"
   },
   {
    "fieldname": "from_department",
    "fieldtype": "Link",
+   "ignore_user_permissions": 1,
    "label": "From Department",
    "options": "Department"
   },
   {
    "fieldname": "from_team",
    "fieldtype": "Link",
+   "ignore_user_permissions": 1,
    "label": "From Team",
    "options": "NDS Team"
   },
@@ -103,18 +108,21 @@
   {
    "fieldname": "to_employee",
    "fieldtype": "Link",
+   "ignore_user_permissions": 1,
    "label": "To Employee",
    "options": "Employee"
   },
   {
    "fieldname": "to_department",
    "fieldtype": "Link",
+   "ignore_user_permissions": 1,
    "label": "To Department",
    "options": "Department"
   },
   {
    "fieldname": "to_team",
    "fieldtype": "Link",
+   "ignore_user_permissions": 1,
    "label": "To Team",
    "options": "NDS Team"
   },
