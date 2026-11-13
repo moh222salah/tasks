@@ -16,9 +16,10 @@ CONFIRM = {
 }
 
 
-def visible_to(user):
+def visible_to(user, task):
+	"""Handovers of this test's task the user can list (other data on the site is irrelevant)."""
 	act_as(user)
-	return set(frappe.get_list(HANDOVER, pluck="name", limit_page_length=0))
+	return set(frappe.get_list(HANDOVER, filters={"task": task}, pluck="name", limit_page_length=0))
 
 
 class TestHandoverSecurity(NDSTestCase):
@@ -92,18 +93,18 @@ class TestHandoverSecurity(NDSTestCase):
 	def test_row_scoping_in_lists_and_single_documents(self):
 		task = self.new_task()
 		draft = self.draft(task)
-		self.assertEqual(visible_to(self.sender), {draft.name})
-		self.assertEqual(visible_to(self.receiver), set())  # drafts are private to the sender
-		self.assertEqual(visible_to(self.auditor), set())
+		self.assertEqual(visible_to(self.sender, task.name), {draft.name})
+		self.assertEqual(visible_to(self.receiver, task.name), set())  # drafts are private to the sender
+		self.assertEqual(visible_to(self.auditor, task.name), set())
 
 		act_as(self.sender)
 		engine.submit_handover(draft.name)
-		self.assertEqual(visible_to(self.sender), {draft.name})
-		self.assertEqual(visible_to(self.receiver), {draft.name})
-		self.assertEqual(visible_to(self.auditor), {draft.name})  # read-only auditor: every submitted one
-		self.assertEqual(visible_to(self.ops), {draft.name})
-		self.assertEqual(visible_to(self.stranger), set())
-		self.assertEqual(visible_to(self.tech), set())
+		self.assertEqual(visible_to(self.sender, task.name), {draft.name})
+		self.assertEqual(visible_to(self.receiver, task.name), {draft.name})
+		self.assertEqual(visible_to(self.auditor, task.name), {draft.name})  # read-only auditor: every submitted one
+		self.assertEqual(visible_to(self.ops, task.name), {draft.name})
+		self.assertEqual(visible_to(self.stranger, task.name), set())
+		self.assertEqual(visible_to(self.tech, task.name), set())
 
 		act_as(self.stranger)
 		self.assertFalse(frappe.has_permission(HANDOVER, "read", doc=draft.name))
