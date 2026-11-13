@@ -1,7 +1,7 @@
 {
  "app": "nds_operations",
  "charts": [],
- "content": "[{\"id\": \"nds00hdr01\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>NDS Enterprise Operations</b></span>\", \"col\": 12}}, {\"id\": \"nds00para1\", \"type\": \"paragraph\", \"data\": {\"text\": \"One Organization. Connected Teams. Clear Ownership. Measurable Results.\", \"col\": 12}}, {\"id\": \"nds00sc001\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Handover Center\", \"col\": 3}}, {\"id\": \"nds00sc002\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Task Handovers\", \"col\": 3}}, {\"id\": \"nds00sc003\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Teams\", \"col\": 3}}, {\"id\": \"nds00sc004\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Tasks\", \"col\": 3}}, {\"id\": \"nds00card01\", \"type\": \"card\", \"data\": {\"card_name\": \"Organization\", \"col\": 4}}, {\"id\": \"nds00card02\", \"type\": \"card\", \"data\": {\"card_name\": \"Handover\", \"col\": 4}}, {\"id\": \"nds00card03\", \"type\": \"card\", \"data\": {\"card_name\": \"Settings\", \"col\": 4}}]",
+ "content": "[{\"id\":\"nds00hdr01\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>NDS Enterprise Operations</b></span>\",\"col\":12}},{\"id\":\"nds00para1\",\"type\":\"paragraph\",\"data\":{\"text\":\"One Organization. Connected Teams. Clear Ownership. Measurable Results.\",\"col\":12}},{\"id\":\"nds00sc000\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Operations Overview\",\"col\":3}},{\"id\":\"nds00sc001\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Handover Center\",\"col\":3}},{\"id\":\"nds00sc002\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Task Handovers\",\"col\":3}},{\"id\":\"nds00sc003\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Teams\",\"col\":3}},{\"id\":\"nds00sc004\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Tasks\",\"col\":3}},{\"id\":\"nds00card01\",\"type\":\"card\",\"data\":{\"card_name\":\"Organization\",\"col\":4}},{\"id\":\"nds00card02\",\"type\":\"card\",\"data\":{\"card_name\":\"Handover\",\"col\":4}},{\"id\":\"nds00card03\",\"type\":\"card\",\"data\":{\"card_name\":\"Settings\",\"col\":4}}]",
  "creation": "2026-11-14 00:00:00.000000",
  "custom_blocks": [],
  "docstatus": 0,
@@ -13,6 +13,23 @@
  "is_hidden": 0,
  "label": "NDS Enterprise Operations",
  "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Overview",
+   "link_count": 1,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Operations Overview",
+   "link_to": "nds-operations-dashboard",
+   "link_type": "Page",
+   "onboard": 0,
+   "type": "Link"
+  },
   {
    "hidden": 0,
    "is_query_report": 0,
@@ -137,8 +154,14 @@
  "public": 1,
  "quick_lists": [],
  "roles": [],
- "sequence_id": 1.0,
+ "sequence_id": 1,
  "shortcuts": [
+  {
+   "color": "Blue",
+   "label": "Operations Overview",
+   "link_to": "nds-operations-dashboard",
+   "type": "Page"
+  },
   {
    "color": "Blue",
    "label": "Handover Center",
