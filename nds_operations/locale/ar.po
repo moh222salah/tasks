@@ -1,0 +1,1233 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: nds_operations\n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
+
+msgid "A live view of handovers and responsibility flow visible to your account."
+msgstr "عرض مباشر لعمليات التسليم وتدفق المسؤوليات المتاحة لحسابك."
+
+msgid "A newer version already exists: {0}."
+msgstr "يوجد إصدار أحدث بالفعل: {0}."
+
+msgid "A rejection reason is mandatory."
+msgstr "سبب الرفض إلزامي."
+
+msgid "A submitted handover cannot be cancelled. Withdraw it, or reject it as the receiver."
+msgstr "لا يمكن إلغاء تسليم مُرسَل. يمكنك سحبه، أو رفضه إذا كنت المستلم."
+
+msgid "A submitted handover is an approved record and cannot be edited."
+msgstr "التسليم المُرسَل سجل معتمد ولا يمكن تعديله."
+
+msgid "A {0} handover cannot be opened for review."
+msgstr "لا يمكن فتح تسليم بحالة {0} للمراجعة."
+
+msgid "A {0} handover cannot be withdrawn."
+msgstr "لا يمكن سحب تسليم بحالة {0}."
+
+msgid "A {0} task cannot be handed over."
+msgstr "لا يمكن تسليم مهمة بحالة {0}."
+
+msgid "Accept Handover"
+msgstr "قبول التسليم"
+
+msgid "Accept and Take Responsibility"
+msgstr "قبول وتحمّل المسؤولية"
+
+msgid "Acceptance Confirmations"
+msgstr "تأكيدات الاستلام"
+
+msgid "Accepted By"
+msgstr "قُبل بواسطة"
+
+msgid "Accepted handover {0} from {1}"
+msgstr "تم قبول التسليم {0} من {1}"
+
+msgid "Accepted handovers"
+msgstr "التسليمات المقبولة"
+
+msgid "Accepted ÷ (accepted + rejected)"
+msgstr "المقبول ÷ (المقبول + المرفوض)"
+
+msgid "Actor"
+msgstr "المنفّذ"
+
+msgid "Actor Name"
+msgstr "اسم المنفّذ"
+
+msgid "After Screenshot"
+msgstr "لقطة بعد التنفيذ"
+
+msgid "Age (hours)"
+msgstr "العمر (ساعات)"
+
+msgid "Age Bucket"
+msgstr "شريحة العمر"
+
+msgid "All statuses"
+msgstr "كل الحالات"
+
+msgid "Allow Cross-Department Handover"
+msgstr "السماح بالتسليم بين الأقسام"
+
+msgid "Assigned Date"
+msgstr "تاريخ الإسناد"
+
+msgid "Attachment row #{0}: add a file or a link."
+msgstr "صف المرفق رقم {0}: أضف ملفًا أو رابطًا."
+
+msgid "Average hours to accept"
+msgstr "متوسط ساعات الاستلام"
+
+msgid "Back to Draft"
+msgstr "العودة إلى مسودة"
+
+msgid "Before Screenshot"
+msgstr "لقطة قبل التنفيذ"
+
+msgid "Blocked"
+msgstr "معطّلة"
+
+msgid "By receiving department"
+msgstr "حسب القسم المستلم"
+
+msgid "Choose the employee who will receive this handover."
+msgstr "اختر الموظف الذي سيستلم هذا التسليم."
+
+msgid "Clarification Requested"
+msgstr "مطلوب توضيح"
+
+msgid "Client Request ID"
+msgstr "معرّف طلب العميل"
+
+msgid "Completed Results"
+msgstr "النتائج المنجزة"
+
+msgid "Completed tasks"
+msgstr "المهام المكتملة"
+
+msgid "Configuration Changes"
+msgstr "تغييرات الإعدادات"
+
+msgid "Confirm that you reviewed the details and attachments and understand the responsibilities."
+msgstr "أكّد أنك راجعت التفاصيل والمرفقات وفهمت المسؤوليات."
+
+msgid "Create Draft"
+msgstr "إنشاء مسودة"
+
+msgid "Current Owner"
+msgstr "المسؤول الحالي"
+
+msgid "Current System Condition"
+msgstr "الحالة الحالية للنظام"
+
+msgid "Days Overdue"
+msgstr "أيام التأخير"
+
+msgid "Decided"
+msgstr "تاريخ القرار"
+
+msgid "Decision"
+msgstr "القرار"
+
+msgid "Decision At"
+msgstr "وقت القرار"
+
+msgid "Decision By"
+msgstr "صاحب القرار"
+
+msgid "Decision Details"
+msgstr "تفاصيل القرار"
+
+msgid "Decision acceptance rate"
+msgstr "معدل القبول من القرارات"
+
+msgid "Department Activity"
+msgstr "نشاط الأقسام"
+
+msgid "Department Manager"
+msgstr "مدير القسم"
+
+msgid "Department Manager and Deputy Manager must be different employees."
+msgstr "يجب أن يكون مدير القسم ونائبه موظفين مختلفين."
+
+msgid "Department Transfer"
+msgstr "نقل بين الأقسام"
+
+msgid "Department activity will appear here when handovers are recorded."
+msgstr "سيظهر نشاط الأقسام هنا عند تسجيل عمليات التسليم."
+
+msgid "Deputy Lead"
+msgstr "نائب القائد"
+
+msgid "Deputy Leader"
+msgstr "نائب القائد"
+
+msgid "Deputy Manager"
+msgstr "نائب المدير"
+
+msgid "Deputy User"
+msgstr "مستخدم النائب"
+
+msgid "Details / Notes"
+msgstr "التفاصيل / الملاحظات"
+
+msgid "Draft"
+msgstr "مسودة"
+
+msgid "Drafts"
+msgstr "المسودات"
+
+msgid "Due Date"
+msgstr "الموعد النهائي"
+
+msgid "Due From"
+msgstr "الاستحقاق من"
+
+msgid "Due To"
+msgstr "الاستحقاق إلى"
+
+msgid "Due in 7 Days"
+msgstr "مستحقة خلال 7 أيام"
+
+msgid "Employee (sender or receiver)"
+msgstr "الموظف (مرسل أو مستلم)"
+
+msgid "Enable Handover Notifications"
+msgstr "تفعيل إشعارات التسليم"
+
+msgid "Error Details"
+msgstr "تفاصيل الخطأ"
+
+msgid "Escalation"
+msgstr "تصعيد"
+
+msgid "Estimated Hours"
+msgstr "الساعات المقدّرة"
+
+msgid "Event"
+msgstr "الحدث"
+
+msgid "Event Time"
+msgstr "وقت الحدث"
+
+msgid "Evidence"
+msgstr "الأدلة"
+
+msgid "Executor"
+msgstr "المنفّذ"
+
+msgid "Executor Department"
+msgstr "قسم المنفّذ"
+
+msgid "Executor Name"
+msgstr "اسم المنفّذ"
+
+msgid "Executor Notes"
+msgstr "ملاحظات المنفّذ"
+
+msgid "Executor Team"
+msgstr "فريق المنفّذ"
+
+msgid "Expected Completion Date"
+msgstr "تاريخ الإنجاز المتوقع"
+
+msgid "Expected Execution Start"
+msgstr "بدء التنفيذ المتوقع"
+
+msgid "Expected Start"
+msgstr "البدء المتوقع"
+
+msgid "Expected vs Actual Results"
+msgstr "النتائج المتوقعة مقابل الفعلية"
+
+msgid "Explain what is wrong so the sender can fix it."
+msgstr "وضّح المشكلة ليتمكن المرسل من إصلاحها."
+
+msgid "Figures reflect records your account is allowed to read."
+msgstr "الأرقام تعكس السجلات المسموح لحسابك بقراءتها فقط."
+
+msgid "Files Modified"
+msgstr "الملفات المعدّلة"
+
+msgid "Fill in the handover. Identity, status and ownership are set by the system."
+msgstr "املأ بيانات التسليم. الهوية والحالة والمسؤولية يحددها النظام."
+
+msgid "Final Outcome"
+msgstr "النتيجة النهائية"
+
+msgid "First Pass"
+msgstr "من أول مرة"
+
+msgid "First-pass acceptance rate (%)"
+msgstr "نسبة القبول من أول مرة (%)"
+
+msgid "Follow-up Instructions"
+msgstr "تعليمات المتابعة"
+
+msgid "From"
+msgstr "من"
+
+msgid "From Date"
+msgstr "من تاريخ"
+
+msgid "From Department"
+msgstr "من قسم"
+
+msgid "From Employee"
+msgstr "من موظف"
+
+msgid "From Status"
+msgstr "من حالة"
+
+msgid "From Team"
+msgstr "من فريق"
+
+msgid "Frozen Submission Record"
+msgstr "سجل الإرسال المجمّد"
+
+msgid "Fully Completed"
+msgstr "مكتمل بالكامل"
+
+msgid "Hand Over Again"
+msgstr "إعادة التسليم"
+
+msgid "Handover"
+msgstr "التسليم"
+
+msgid "Handover Accepted"
+msgstr "تم قبول التسليم"
+
+msgid "Handover Center"
+msgstr "مركز التسليم"
+
+msgid "Handover Date & Time"
+msgstr "تاريخ ووقت التسليم"
+
+msgid "Handover Details"
+msgstr "تفاصيل التسليم"
+
+msgid "Handover Policy"
+msgstr "سياسة التسليم"
+
+msgid "Handover Reason"
+msgstr "سبب التسليم"
+
+msgid "Handover Status"
+msgstr "حالة التسليم"
+
+msgid "Handover Type"
+msgstr "نوع التسليم"
+
+msgid "Handover Version"
+msgstr "إصدار التسليم"
+
+msgid "Handover Workspace"
+msgstr "مساحة التسليم"
+
+msgid "Handover {0} is {1}; it can no longer be decided."
+msgstr "التسليم {0} بحالة {1}؛ ولم يعد ممكنًا اتخاذ قرار بشأنه."
+
+msgid "Handover {0} was accepted by {1}. Responsibility moved."
+msgstr "قبل {1} التسليم {0}. وانتقلت المسؤولية."
+
+msgid "Handover {0} was rejected: {1}"
+msgstr "تم رفض التسليم {0}: {1}"
+
+msgid "Handover {0} was withdrawn by the sender."
+msgstr "سحب المرسل التسليم {0}."
+
+msgid "Handovers Awaiting Decision"
+msgstr "تسليمات بانتظار القرار"
+
+msgid "Handovers between departments are disabled in NDS Operations Settings."
+msgstr "التسليم بين الأقسام معطّل في إعدادات عمليات NDS."
+
+msgid "High"
+msgstr "مرتفعة"
+
+msgid "High / Urgent"
+msgstr "مرتفعة / عاجلة"
+
+msgid "Hours the receiver has to decide on a submitted handover before it is flagged as overdue."
+msgstr "عدد الساعات المتاحة للمستلم لاتخاذ قرار قبل اعتبار التسليم متأخرًا."
+
+msgid "Hours to Accept"
+msgstr "ساعات الاستلام"
+
+msgid "I received the files, screenshots and links"
+msgstr "استلمت الملفات ولقطات الشاشة والروابط"
+
+msgid "I reviewed the task details and technical record"
+msgstr "راجعت تفاصيل المهمة والسجل الفني"
+
+msgid "I understand my responsibilities for this task"
+msgstr "أفهم مسؤولياتي تجاه هذه المهمة"
+
+msgid "IP Address"
+msgstr "عنوان IP"
+
+msgid "Implementation Steps"
+msgstr "خطوات التنفيذ"
+
+msgid "Important Instructions"
+msgstr "تعليمات مهمة"
+
+msgid "Inactive"
+msgstr "غير نشط"
+
+msgid "Inbox"
+msgstr "الوارد"
+
+msgid "Incomplete Handover"
+msgstr "تسليم غير مكتمل"
+
+msgid "Initial Assignment"
+msgstr "الإسناد الأولي"
+
+msgid "Known Limitations"
+msgstr "القيود المعروفة"
+
+msgid "Latest Review"
+msgstr "آخر مراجعة"
+
+msgid "Leader"
+msgstr "قائد"
+
+msgid "Leave or Absence"
+msgstr "إجازة أو غياب"
+
+msgid "Loading operational overview…"
+msgstr "جارٍ تحميل النظرة التشغيلية…"
+
+msgid "Log or Output"
+msgstr "سجل أو مخرجات"
+
+msgid "Low"
+msgstr "منخفضة"
+
+msgid "Manager User"
+msgstr "مستخدم المدير"
+
+msgid "Manual Reassignment"
+msgstr "إعادة إسناد يدوية"
+
+msgid "Mark Ready"
+msgstr "تحديد كجاهز"
+
+msgid "Marked Ready"
+msgstr "تم التحديد كجاهز"
+
+msgid "Medium"
+msgstr "متوسطة"
+
+msgid "Member"
+msgstr "عضو"
+
+msgid "Mission"
+msgstr "المهمة"
+
+msgid "Mission / Responsibilities"
+msgstr "المهام / المسؤوليات"
+
+msgid "NDS Department Profile"
+msgstr "ملف قسم NDS"
+
+msgid "NDS Handover Attachment"
+msgstr "مرفق تسليم NDS"
+
+msgid "NDS Handover History"
+msgstr "سجل تسليم NDS"
+
+msgid "NDS Handover Review"
+msgstr "مراجعة تسليم NDS"
+
+msgid "NDS Operations Settings"
+msgstr "إعدادات عمليات NDS"
+
+msgid "NDS Ownership History"
+msgstr "سجل مسؤوليات NDS"
+
+msgid "NDS Rejection Reason"
+msgstr "سبب رفض NDS"
+
+msgid "NDS Task Handover"
+msgstr "تسليم مهمة NDS"
+
+msgid "NDS Team"
+msgstr "فريق NDS"
+
+msgid "NDS Team Membership"
+msgstr "عضوية فريق NDS"
+
+msgid "Needs My Action"
+msgstr "يحتاج إجراءً مني"
+
+msgid "Needs Review"
+msgstr "يحتاج مراجعة"
+
+msgid "New"
+msgstr "جديد"
+
+msgid "New Department"
+msgstr "القسم الجديد"
+
+msgid "New Handover"
+msgstr "تسليم جديد"
+
+msgid "New Owner"
+msgstr "المسؤول الجديد"
+
+msgid "New Task Handover"
+msgstr "تسليم مهمة جديد"
+
+msgid "New Team"
+msgstr "الفريق الجديد"
+
+msgid "Next Step"
+msgstr "الخطوة التالية"
+
+msgid "Next step"
+msgstr "الخطوة التالية"
+
+msgid "No activity yet."
+msgstr "لا يوجد نشاط بعد."
+
+msgid "No recent handovers."
+msgstr "لا توجد عمليات تسليم حديثة."
+
+msgid "No submitted handovers are visible in your scope yet."
+msgstr "لا توجد عمليات تسليم مُرسَلة ضمن نطاقك بعد."
+
+msgid "Not Started"
+msgstr "لم تبدأ"
+
+msgid "Nothing here yet."
+msgstr "لا شيء هنا بعد."
+
+msgid "Notify Managers On Rejection"
+msgstr "إشعار المدراء عند الرفض"
+
+msgid "Observer"
+msgstr "مراقب"
+
+msgid "Only Active employees can be added to a team."
+msgstr "يمكن إضافة الموظفين النشطين فقط إلى الفريق."
+
+msgid "Only a draft can be edited. A submitted handover is a frozen record."
+msgstr "يمكن تعديل المسودة فقط. التسليم المُرسَل سجل مجمّد."
+
+msgid "Only a draft handover can be submitted."
+msgstr "يمكن إرسال التسليم وهو في حالة مسودة فقط."
+
+msgid "Only a rejected handover or one needing clarification can be revised."
+msgstr "يمكن تنقيح التسليم المرفوض أو المطلوب توضيحه فقط."
+
+msgid "Only a submitted handover can be withdrawn."
+msgstr "يمكن سحب التسليم المُرسَل فقط."
+
+msgid "Only the current owner of {0} (or a manager of its department) can hand it over."
+msgstr "المسؤول الحالي عن {0} (أو مدير قسمها) هو وحده من يستطيع تسليمها."
+
+msgid "Only the sender of this handover can do that."
+msgstr "مرسل هذا التسليم وحده يستطيع القيام بذلك."
+
+msgid "Only {0}, the receiver of this handover, can respond to it."
+msgstr "{0}، مستلم هذا التسليم، هو وحده من يستطيع الرد عليه."
+
+msgid "Open Handover"
+msgstr "تسليم مفتوح"
+
+msgid "Open Handover Center"
+msgstr "فتح مركز التسليم"
+
+msgid "Open Issues"
+msgstr "المشكلات المفتوحة"
+
+msgid "Open Tasks"
+msgstr "المهام المفتوحة"
+
+msgid "Open handovers"
+msgstr "التسليمات المفتوحة"
+
+msgid "Open tasks"
+msgstr "المهام المفتوحة"
+
+msgid "Operating Instructions"
+msgstr "تعليمات التشغيل"
+
+msgid "Operations Overview"
+msgstr "النظرة التشغيلية"
+
+msgid "Outstanding Actions"
+msgstr "الإجراءات المعلقة"
+
+msgid "Outstanding Issues"
+msgstr "المشكلات المعلقة"
+
+msgid "Overdue"
+msgstr "متأخر"
+
+msgid "Overdue responses"
+msgstr "ردود متأخرة"
+
+msgid "Overdue tasks"
+msgstr "المهام المتأخرة"
+
+msgid "Owner"
+msgstr "المسؤول"
+
+msgid "Owner before the first handover"
+msgstr "المسؤول قبل أول تسليم"
+
+msgid "Ownership Changed"
+msgstr "تغيّرت المسؤولية"
+
+msgid "Ownership Sequence At Submission"
+msgstr "تسلسل المسؤولية عند الإرسال"
+
+msgid "Partially Completed"
+msgstr "مكتمل جزئيًا"
+
+msgid "Pending Acceptance"
+msgstr "بانتظار الاستلام"
+
+msgid "Pending Issues"
+msgstr "المشكلات المعلقة"
+
+msgid "Pending acceptance"
+msgstr "بانتظار الاستلام"
+
+msgid "Permission-scoped data"
+msgstr "بيانات محددة بالصلاحيات"
+
+msgid "Please give a reason for withdrawing the handover."
+msgstr "يرجى ذكر سبب سحب التسليم."
+
+msgid "Previous Department"
+msgstr "القسم السابق"
+
+msgid "Previous Handover"
+msgstr "التسليم السابق"
+
+msgid "Previous Owner"
+msgstr "المسؤول السابق"
+
+msgid "Previous Team"
+msgstr "الفريق السابق"
+
+msgid "Primary Team For Employee"
+msgstr "الفريق الأساسي للموظف"
+
+msgid "Problem Description"
+msgstr "وصف المشكلة"
+
+msgid "Progress %"
+msgstr "نسبة الإنجاز %"
+
+msgid "Questions / missing information"
+msgstr "أسئلة / معلومات ناقصة"
+
+msgid "Raise a management alert when one task is rejected this many times."
+msgstr "إطلاق تنبيه للإدارة عند رفض المهمة الواحدة هذا العدد من المرات."
+
+msgid "Re-handover"
+msgstr "إعادة تسليم"
+
+msgid "Ready"
+msgstr "جاهز"
+
+msgid "Ready for Handover"
+msgstr "جاهز للتسليم"
+
+msgid "Reason Details"
+msgstr "تفاصيل السبب"
+
+msgid "Reason For Handover"
+msgstr "سبب التسليم"
+
+msgid "Reassignment"
+msgstr "إعادة إسناد"
+
+msgid "Received"
+msgstr "تم الاطلاع"
+
+msgid "Received At"
+msgstr "وقت الاستلام"
+
+msgid "Received By"
+msgstr "استلمه"
+
+msgid "Received the files and attachments"
+msgstr "استلمت الملفات والمرفقات"
+
+msgid "Receiver"
+msgstr "المستلم"
+
+msgid "Receiver Decisions"
+msgstr "قرارات المستلم"
+
+msgid "Receiver Department"
+msgstr "قسم المستلم"
+
+msgid "Receiver Email"
+msgstr "بريد المستلم"
+
+msgid "Receiver Employee"
+msgstr "الموظف المستلم"
+
+msgid "Receiver Name"
+msgstr "اسم المستلم"
+
+msgid "Receiver Position"
+msgstr "وظيفة المستلم"
+
+msgid "Receiver Response SLA (hours)"
+msgstr "مهلة رد المستلم (ساعات)"
+
+msgid "Receiver Team"
+msgstr "فريق المستلم"
+
+msgid "Receiver User"
+msgstr "مستخدم المستلم"
+
+msgid "Receiving Notes"
+msgstr "ملاحظات الاستلام"
+
+msgid "Recent Handover Activity"
+msgstr "نشاط التسليم الأخير"
+
+msgid "Recommendations"
+msgstr "التوصيات"
+
+msgid "Record does not match its submitted snapshot"
+msgstr "السجل لا يطابق النسخة المُرسَلة"
+
+msgid "Record integrity verified"
+msgstr "تم التحقق من سلامة السجل"
+
+msgid "Refresh"
+msgstr "تحديث"
+
+msgid "Refreshing operational data…"
+msgstr "جارٍ تحديث البيانات التشغيلية…"
+
+msgid "Reject"
+msgstr "رفض"
+
+msgid "Reject Handover"
+msgstr "رفض التسليم"
+
+msgid "Rejected"
+msgstr "مرفوض"
+
+msgid "Rejected At"
+msgstr "وقت الرفض"
+
+msgid "Rejected By"
+msgstr "رفضه"
+
+msgid "Rejected handovers"
+msgstr "التسليمات المرفوضة"
+
+msgid "Rejection Reason"
+msgstr "سبب الرفض"
+
+msgid "Related Department"
+msgstr "القسم المرتبط"
+
+msgid "Related Project"
+msgstr "المشروع المرتبط"
+
+msgid "Related Team"
+msgstr "الفريق المرتبط"
+
+msgid "Reopened As Draft"
+msgstr "أُعيد فتحه كمسودة"
+
+msgid "Repeated Rejection Alert Threshold"
+msgstr "حد تنبيه الرفض المتكرر"
+
+msgid "Reply By"
+msgstr "الرد قبل"
+
+msgid "Reply by"
+msgstr "الرد قبل"
+
+msgid "Request Clarification"
+msgstr "طلب توضيح"
+
+msgid "Request ID"
+msgstr "معرّف الطلب"
+
+msgid "Require At Least One Attachment"
+msgstr "اشتراط مرفق واحد على الأقل"
+
+msgid "Require Results"
+msgstr "اشتراط النتائج"
+
+msgid "Require Solution Details"
+msgstr "اشتراط تفاصيل الحل"
+
+msgid "Require Technical Diagnosis"
+msgstr "اشتراط التشخيص الفني"
+
+msgid "Requirements From The Receiver"
+msgstr "المطلوب من المستلم"
+
+msgid "Response Due By"
+msgstr "موعد الرد"
+
+msgid "Response To Previous Review"
+msgstr "الرد على المراجعة السابقة"
+
+msgid "Responsibility History"
+msgstr "سجل المسؤوليات"
+
+msgid "Responsibility Transfer"
+msgstr "نقل المسؤولية"
+
+msgid "Responsibility Transferred"
+msgstr "تم نقل المسؤولية"
+
+msgid "Responsibility Transferred At"
+msgstr "وقت نقل المسؤولية"
+
+msgid "Responsibility has not moved yet."
+msgstr "لم تنتقل المسؤولية بعد."
+
+msgid "Responsibility moved from {0} to {1} by accepted handover {2}."
+msgstr "انتقلت المسؤولية من {0} إلى {1} بموجب التسليم المقبول {2}."
+
+msgid "Results"
+msgstr "النتائج"
+
+msgid "Return for Completion"
+msgstr "إعادة للاستكمال"
+
+msgid "Review"
+msgstr "مراجعة"
+
+msgid "Reviewed At"
+msgstr "وقت المراجعة"
+
+msgid "Reviewed the task details"
+msgstr "اطلعت على تفاصيل المهمة"
+
+msgid "Reviewer"
+msgstr "المراجع"
+
+msgid "Reviewer Employee"
+msgstr "الموظف المراجع"
+
+msgid "Reviewer Name"
+msgstr "اسم المراجع"
+
+msgid "Revision"
+msgstr "تنقيح"
+
+msgid "Revision Created"
+msgstr "تم إنشاء تنقيح"
+
+msgid "Revision of {0}"
+msgstr "تنقيح للتسليم {0}"
+
+msgid "Risks & Limitations"
+msgstr "المخاطر والقيود"
+
+msgid "Risks & Warnings"
+msgstr "المخاطر والتحذيرات"
+
+msgid "Role In Team"
+msgstr "الدور في الفريق"
+
+msgid "Root Cause"
+msgstr "السبب الجذري"
+
+msgid "Root Handover"
+msgstr "التسليم الأصلي"
+
+msgid "Screenshot"
+msgstr "لقطة شاشة"
+
+msgid "Screenshots, Files & Links"
+msgstr "لقطات الشاشة والملفات والروابط"
+
+msgid "Search task, person or reference"
+msgstr "ابحث عن مهمة أو شخص أو مرجع"
+
+msgid "Send Request"
+msgstr "إرسال الطلب"
+
+msgid "Sender"
+msgstr "المرسل"
+
+msgid "Sender Department"
+msgstr "قسم المرسل"
+
+msgid "Sender Email"
+msgstr "بريد المرسل"
+
+msgid "Sender Employee"
+msgstr "الموظف المرسل"
+
+msgid "Sender Name"
+msgstr "اسم المرسل"
+
+msgid "Sender Notes"
+msgstr "ملاحظات المرسل"
+
+msgid "Sender Notes (what was done / what is left)"
+msgstr "ملاحظات المرسل (ما تم وما تبقى)"
+
+msgid "Sender Position"
+msgstr "وظيفة المرسل"
+
+msgid "Sender Team"
+msgstr "فريق المرسل"
+
+msgid "Sender User"
+msgstr "مستخدم المرسل"
+
+msgid "Sent"
+msgstr "المرسلة"
+
+msgid "Sequence"
+msgstr "التسلسل"
+
+msgid "Skill Match"
+msgstr "مطابقة المهارات"
+
+msgid "Snapshot SHA-256"
+msgstr "بصمة النسخة SHA-256"
+
+msgid "Solution & Implementation"
+msgstr "الحل والتنفيذ"
+
+msgid "Solution Approach"
+msgstr "أسلوب الحل"
+
+msgid "Specialist"
+msgstr "متخصص"
+
+msgid "Specialties"
+msgstr "التخصصات"
+
+msgid "Start Review"
+msgstr "بدء المراجعة"
+
+msgid "Status & Responsibility"
+msgstr "الحالة والمسؤولية"
+
+msgid "Submit Handover"
+msgstr "إرسال التسليم"
+
+msgid "Submit Request ID"
+msgstr "معرّف طلب الإرسال"
+
+msgid "Submitted"
+msgstr "مُرسَل"
+
+msgid "Submitted Snapshot (JSON)"
+msgstr "النسخة المُرسَلة (JSON)"
+
+msgid "Submitted handovers"
+msgstr "التسليمات المُرسَلة"
+
+msgid "Submitted handovers are part of the audit trail and cannot be deleted."
+msgstr "التسليمات المُرسَلة جزء من سجل التدقيق ولا يمكن حذفها."
+
+msgid "Submitted records"
+msgstr "السجلات المُرسَلة"
+
+msgid "Suggested Future Tasks"
+msgstr "مهام مستقبلية مقترحة"
+
+msgid "Superseded"
+msgstr "تم استبداله"
+
+msgid "Superseded By"
+msgstr "استُبدل بـ"
+
+msgid "Task"
+msgstr "المهمة"
+
+msgid "Task / System / File URL"
+msgstr "رابط المهمة / النظام / الملف"
+
+msgid "Task Category"
+msgstr "تصنيف المهمة"
+
+msgid "Task Description"
+msgstr "وصف المهمة"
+
+msgid "Task Status At Handover"
+msgstr "حالة المهمة عند التسليم"
+
+msgid "Task Title"
+msgstr "عنوان المهمة"
+
+msgid "Task handover {0} is waiting for your acceptance: {1}"
+msgstr "التسليم {0} بانتظار قبولك: {1}"
+
+msgid "Task {0} already has an open handover ({1})."
+msgstr "المهمة {0} لديها تسليم مفتوح بالفعل ({1})."
+
+msgid "Task {0} does not exist."
+msgstr "المهمة {0} غير موجودة."
+
+msgid "Task {0} no longer exists."
+msgstr "المهمة {0} لم تعد موجودة."
+
+msgid "Team Lead"
+msgstr "قائد الفريق"
+
+msgid "Team Lead Name"
+msgstr "اسم قائد الفريق"
+
+msgid "Team Lead User"
+msgstr "مستخدم قائد الفريق"
+
+msgid "Team Lead and Deputy Lead must be different employees."
+msgstr "يجب أن يكون قائد الفريق ونائبه موظفين مختلفين."
+
+msgid "Team Name"
+msgstr "اسم الفريق"
+
+msgid "Team {0} is not active."
+msgstr "الفريق {0} غير نشط."
+
+msgid "Technical Decisions"
+msgstr "القرارات الفنية"
+
+msgid "Technical Diagnosis"
+msgstr "التشخيص الفني"
+
+msgid "Technical Record"
+msgstr "السجل الفني"
+
+msgid "Test Evidence"
+msgstr "أدلة الاختبار"
+
+msgid "Testing Results"
+msgstr "نتائج الاختبار"
+
+msgid "The dashboard could not be loaded. Check your NDS Operations permissions and try again."
+msgstr "تعذّر تحميل اللوحة. تحقق من صلاحياتك في عمليات NDS وحاول مجددًا."
+
+msgid "The handover is not ready. Missing: {0}"
+msgstr "التسليم غير جاهز. الناقص: {0}"
+
+msgid "The ownership of task {0} changed after this handover was submitted. "
+msgstr "تغيّرت مسؤولية المهمة {0} بعد إرسال هذا التسليم. "
+
+msgid "This handover has not been submitted."
+msgstr "لم يتم إرسال هذا التسليم."
+
+msgid "This handover is cancelled."
+msgstr "هذا التسليم ملغى."
+
+msgid "This handover was already submitted ({0})."
+msgstr "تم إرسال هذا التسليم بالفعل ({0})."
+
+msgid "This handover was already submitted."
+msgstr "تم إرسال هذا التسليم بالفعل."
+
+msgid "Timeline"
+msgstr "الخط الزمني"
+
+msgid "To"
+msgstr "إلى"
+
+msgid "To Date"
+msgstr "إلى تاريخ"
+
+msgid "To Department"
+msgstr "إلى قسم"
+
+msgid "To Employee"
+msgstr "إلى موظف"
+
+msgid "To Status"
+msgstr "إلى حالة"
+
+msgid "To Team"
+msgstr "إلى فريق"
+
+msgid "To date cannot be before From date."
+msgstr "لا يمكن أن يسبق تاريخ النهاية تاريخ البداية."
+
+msgid "Tools & Technologies Used"
+msgstr "الأدوات والتقنيات المستخدمة"
+
+msgid "Transferred At"
+msgstr "وقت النقل"
+
+msgid "URLs & References"
+msgstr "الروابط والمراجع"
+
+msgid "Unassigned"
+msgstr "بدون مسؤول"
+
+msgid "Under Review"
+msgstr "قيد المراجعة"
+
+msgid "Under review"
+msgstr "قيد المراجعة"
+
+msgid "Understood the responsibilities"
+msgstr "فهمت المسؤوليات"
+
+msgid "Unknown rejection reason {0}."
+msgstr "سبب رفض غير معروف {0}."
+
+msgid "Updated"
+msgstr "آخر تحديث"
+
+msgid "Urgent"
+msgstr "عاجلة"
+
+msgid "Verification Evidence"
+msgstr "أدلة التحقق"
+
+msgid "Version"
+msgstr "الإصدار"
+
+msgid "Versions"
+msgstr "الإصدارات"
+
+msgid "View all"
+msgstr "عرض الكل"
+
+msgid "Visible Reason"
+msgstr "السبب الظاهر"
+
+msgid "Waiting On Receiver"
+msgstr "بانتظار المستلم"
+
+msgid "Warnings"
+msgstr "تحذيرات"
+
+msgid "What Is Not Completed"
+msgstr "ما لم يُنجز"
+
+msgid "What Is Required From The Receiver"
+msgstr "المطلوب من المستلم"
+
+msgid "What Was Completed"
+msgstr "ما تم إنجازه"
+
+msgid "What is wrong?"
+msgstr "ما المشكلة؟"
+
+msgid "When"
+msgstr "متى"
+
+msgid "With open handover"
+msgstr "بها تسليم مفتوح"
+
+msgid "Withdraw"
+msgstr "سحب"
+
+msgid "Withdraw Handover"
+msgstr "سحب التسليم"
+
+msgid "Withdraw Reason"
+msgstr "سبب السحب"
+
+msgid "Withdrawn"
+msgstr "مسحوب"
+
+msgid "Withdrawn At"
+msgstr "وقت السحب"
+
+msgid "Without owner"
+msgstr "بدون مسؤول"
+
+msgid "Work Completed"
+msgstr "العمل المنجز"
+
+msgid "Workload Balancing"
+msgstr "توازن عبء العمل"
+
+msgid "Write the questions or the missing information you need."
+msgstr "اكتب الأسئلة أو المعلومات الناقصة التي تحتاجها."
+
+msgid "You cannot hand a task over to yourself."
+msgstr "لا يمكنك تسليم مهمة لنفسك."
+
+msgid "You do not have access to the NDS Operations dashboard."
+msgstr "ليس لديك صلاحية الوصول إلى لوحة عمليات NDS."
+
+msgid "Your user account is not linked to an active Employee, so you cannot send handovers."
+msgstr "حسابك غير مرتبط بموظف نشط، لذلك لا يمكنك إرسال عمليات التسليم."
+
+msgid "handovers"
+msgstr "تسليمات"
+
+msgid "{0} already has a primary team ({1}). Clear it there first."
+msgstr "لدى {0} فريق أساسي بالفعل ({1}). أزِله من هناك أولًا."
+
+msgid "{0} already has an overlapping membership in this team ({1})."
+msgstr "لدى {0} عضوية متداخلة في هذا الفريق ({1})."
+
+msgid "{0} does not belong to the company of department {1}."
+msgstr "{0} لا ينتمي إلى شركة القسم {1}."
+
+msgid "{0} has no enabled user account and cannot receive handovers."
+msgstr "{0} ليس لديه حساب مستخدم مفعّل ولا يمكنه استلام التسليمات."
+
+msgid "{0} is not an active employee."
+msgstr "{0} ليس موظفًا نشطًا."
+
+msgid "{0} is not an active member of team {1}."
+msgstr "{0} ليس عضوًا نشطًا في الفريق {1}."
+
+msgid "{0} must be an Active employee."
+msgstr "يجب أن يكون {0} موظفًا نشطًا."
+
+msgid "{0} must be at least 1."
+msgstr "يجب ألا تقل قيمة {0} عن 1."
+
+msgid "{0} needs clarification on handover {1}."
+msgstr "{0} يحتاج توضيحًا بخصوص التسليم {1}."
+
+msgid "{0} records are append-only and cannot be modified."
+msgstr "سجلات {0} للإضافة فقط ولا يمكن تعديلها."
+
+msgid "{0} records are part of the audit trail and cannot be deleted."
+msgstr "سجلات {0} جزء من سجل التدقيق ولا يمكن حذفها."
+
+msgid "{0} started reviewing handover {1}."
+msgstr "بدأ {0} مراجعة التسليم {1}."
+
+msgid "Task Handover Register"
+msgstr "سجل تسليم المهام"
+
+msgid "Handover Acceptance Report"
+msgstr "تقرير قبول التسليم"
+
+msgid "Handover Rejection Report"
+msgstr "تقرير رفض التسليم"
+
+msgid "Handover Aging Report"
+msgstr "تقرير أعمار التسليم"
+
+msgid "Tasks Master Report"
+msgstr "التقرير الرئيسي للمهام"
+
+msgid "Overdue Tasks Report"
+msgstr "تقرير المهام المتأخرة"
+
+msgid "Employee Workload Report"
+msgstr "تقرير عبء عمل الموظفين"
+
+msgid "NDS Enterprise Operations"
+msgstr "عمليات NDS المؤسسية"
+
+msgid "Employee Workload"
+msgstr "عبء عمل الموظفين"
+

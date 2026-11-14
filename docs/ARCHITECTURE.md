@@ -153,3 +153,8 @@ Delegated acceptance and "approved exceptional self-acceptance" are **NOT IMPLEM
 | Task Update / Checklist / Review, Department KPI, Team Assignment | NOT IMPLEMENTED |
 | Arabic translations (`translations/ar.csv`), local fonts | NOT IMPLEMENTED |
 | Production audit and deployment | BLOCKED (needs explicit approval) |
+
+
+## Arabic and RTL
+
+`nds_operations/locale/ar.po` holds about 400 translated strings (labels, messages, report and dashboard text). Frappe v16 reads compiled `.mo` files, so run `bench compile-po-to-mo --app nds_operations --locale ar` (a normal `bench build`/update does it). Verified in a browser with an Arabic user: layout mirrors, no horizontal scroll on desktop or mobile. Not yet verified: the handover form and the reports in RTL.

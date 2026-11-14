@@ -15,8 +15,7 @@
 **[Screens](#-screens)** ·
 **[Architecture](#-architecture)** ·
 **[Verified status](#-verified-status)** ·
-**[Run it](#-run-it-on-an-isolated-bench)** ·
-**[العربية](#-بالعربية)**
+**[Run it](#-run-it-on-an-isolated-bench)**
 
 <img src="docs/assets/divider.svg" alt="" width="100%"/>
 
@@ -197,7 +196,8 @@ docs/          # architecture, deployment and rollback, screenshots, assets
 | Permissions and immutability, including Administrator | **PASS** | security tests, backend-enforced |
 | Team leader / department manager scope | **PASS** | org-scope tests |
 | Operations Overview and 7 reports | **PASS** | tests plus a real browser check |
-| RTL layout, Arabic translations, remaining 7 reports, delegation, org chart, kanban/gantt | **NOT IMPLEMENTED** | tracked in the architecture document |
+| Arabic translation (≈400 strings) and RTL layout | **PASS** (Handover Center, Operations Overview) | real browser, desktop and mobile, no horizontal scroll; the handover form itself is not yet checked in RTL |
+| Remaining 7 reports, delegation, org chart, kanban/gantt | **NOT IMPLEMENTED** | tracked in the architecture document |
 | Production installation | **BLOCKED** | needs explicit approval, a backup and the rollback plan |
 
 <img src="docs/assets/divider.svg" alt="" width="100%"/>
