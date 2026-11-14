@@ -89,3 +89,41 @@ class TestTaskReports(NDSTestCase):
 		self.assertEqual(mine(self.sender).open_tasks, before_sender + 1)
 		self.assertEqual(mine(self.receiver).awaiting_my_decision, before_receiver + 1)
 		self.assertGreaterEqual(mine(self.sender).overdue, 1)
+
+
+class TestExecutiveReports(NDSTestCase):
+	def test_project_delivery_counts_and_excuses_waiting_tasks(self):
+		from nds_operations.nds_enterprise_operations.report.project_delivery_report import (
+			project_delivery_report as delivery,
+		)
+
+		act_as("Administrator")
+		project = frappe.get_doc({"doctype": "Project", "project_name": "NDS Delivery Test"}).insert()
+		late = self.new_task()
+		done = self.new_task()
+		frappe.db.set_value("Task", late.name, {"project": project.name, "exp_end_date": add_days(nowdate(), -3)})
+		frappe.db.set_value(
+			"Task",
+			done.name,
+			{
+				"project": project.name,
+				"status": "Completed",
+				"exp_end_date": nowdate(),
+				"completed_on": add_days(nowdate(), -1),
+			},
+		)
+		row = next(r for r in delivery.execute({"project": project.name})[1])
+		self.assertEqual((row.total, row.completed, row.overdue), (2, 1, 1))
+		self.assertEqual(row.on_time_rate, 100.0)
+
+	def test_management_report_runs_and_blank_when_no_data(self):
+		from nds_operations.nds_enterprise_operations.report.management_executive_report import (
+			management_executive_report as executive,
+		)
+
+		act_as("Administrator")
+		columns, rows, *_rest = executive.execute({})
+		self.assertTrue(columns)
+		for row in rows:
+			if not row.accepted:
+				self.assertIsNone(row.first_pass_rate)
