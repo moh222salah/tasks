@@ -54,7 +54,7 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Event",
-   "options": "Created\nMarked Ready\nReopened As Draft\nSubmitted\nReceived\nClarification Requested\nRejected\nAccepted\nResponsibility Transferred\nRevision Created\nSuperseded\nWithdrawn",
+   "options": "Created\nMarked Ready\nReopened As Draft\nSubmitted\nReceived\nClarification Requested\nRejected\nAccepted\nResponsibility Transferred\nRevision Created\nSuperseded\nWithdrawn\nReminder Sent\nOverdue Alert\nEscalated",
    "reqd": 1
   },
   {

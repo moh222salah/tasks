@@ -62,3 +62,5 @@ DEFAULT_REJECTION_REASONS = (
 )
 
 DELEGATION = "NDS Delegation"
+
+NOTIFICATION_PREFERENCE = "NDS Notification Preference"

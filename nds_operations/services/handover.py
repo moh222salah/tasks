@@ -31,7 +31,7 @@ from nds_operations.constants import (
 )
 from nds_operations.services.delegation import get_active_delegation
 from nds_operations.services.history import log_event
-from nds_operations.services.notifications import manager_users, notify
+from nds_operations.services.notifications import PROGRESS, manager_users, notify
 from nds_operations.services.ownership import get_current_owner, last_sequence
 from nds_operations.utils.people import get_employee_for_user
 
@@ -272,7 +272,10 @@ def start_review(name):
 	)
 	log_event(doc, "Received", from_status=PENDING, to_status=UNDER_REVIEW)
 	notify(
-		[doc.sender_user], _("{0} started reviewing handover {1}.").format(doc.receiver_name, doc.name), doc
+		[doc.sender_user],
+		_("{0} started reviewing handover {1}.").format(doc.receiver_name, doc.name),
+		doc,
+		PROGRESS,
 	)
 	return _result(doc, replayed=False)
 

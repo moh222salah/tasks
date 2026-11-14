@@ -17,7 +17,10 @@
   "sb_notifications",
   "enable_handover_notifications",
   "cb_notifications",
-  "notify_managers_on_rejection"
+  "notify_managers_on_rejection",
+  "enable_reminders",
+  "reminder_lead_hours",
+  "escalate_overdue_after_hours"
  ],
  "fields": [
   {
@@ -89,6 +92,25 @@
    "fieldname": "notify_managers_on_rejection",
    "fieldtype": "Check",
    "label": "Notify Managers On Rejection"
+  },
+  {
+   "fieldname": "enable_reminders",
+   "fieldtype": "Check",
+   "label": "Enable Reminders",
+   "default": "1",
+   "description": "Hourly reminders to receivers whose response is due soon or overdue."
+  },
+  {
+   "fieldname": "reminder_lead_hours",
+   "fieldtype": "Int",
+   "label": "Remind Before Due (hours)",
+   "default": "4"
+  },
+  {
+   "fieldname": "escalate_overdue_after_hours",
+   "fieldtype": "Int",
+   "label": "Escalate To Managers After Overdue (hours)",
+   "default": "24"
   }
  ],
  "icon": "settings",

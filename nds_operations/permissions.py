@@ -250,3 +250,18 @@ def delegation_has_permission(doc, ptype=None, user=None, debug=False):
 	if ptype in WRITE_PTYPES:
 		return scope.full or doc.delegator == user
 	return scope.full or scope.submitted_all or user in (doc.delegator, doc.delegate)
+
+
+def preference_query_conditions(user=None, doctype=None):
+	user = user or frappe.session.user
+	if get_scope(user).full:
+		return ""
+	return f"`tabNDS Notification Preference`.`user` = {frappe.db.escape(user)}"
+
+
+def preference_has_permission(doc, ptype=None, user=None, debug=False):
+	"""Everyone edits only his own preferences."""
+	user = user or frappe.session.user
+	if doc.is_new():
+		return doc.get("user") in (None, user) or bool(get_scope(user).full)
+	return doc.user == user or bool(get_scope(user).full)

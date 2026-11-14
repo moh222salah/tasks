@@ -2,14 +2,37 @@ import frappe
 from frappe.desk.doctype.notification_log.notification_log import enqueue_create_notification
 from frappe.utils import cint
 
-from nds_operations.constants import DEPARTMENT_PROFILE, HANDOVER, SETTINGS, TEAM
+from nds_operations.constants import (
+	DEPARTMENT_PROFILE,
+	HANDOVER,
+	NOTIFICATION_PREFERENCE,
+	SETTINGS,
+	TEAM,
+)
+
+REQUIRED = "required"  # carries responsibility: always delivered
+PROGRESS = "progress"
+REMINDER = "reminder"
+PREFERENCE_FIELD = {PROGRESS: "receive_progress_updates", REMINDER: "receive_reminders"}
 
 
-def notify(users, subject, handover):
-	"""One in-app notification per user with a deep link to the handover; repeats are dropped."""
+def _wants(users, category):
+	"""Drop users who muted an optional category. Required notifications are never filtered."""
+	field = PREFERENCE_FIELD.get(category)
+	if not field or not users:
+		return users
+	muted = set(
+		frappe.get_all(NOTIFICATION_PREFERENCE, filters={"user": ("in", users), field: 0}, pluck="user")
+	)
+	return [user for user in users if user not in muted]
+
+
+def notify_document(users, subject, doctype, name, category=REQUIRED):
+	"""One in-app notification per user with a deep link; repeats of the same subject are dropped."""
 	if not cint(frappe.get_cached_doc(SETTINGS).enable_handover_notifications):
 		return
 	users = sorted({user for user in users if user and user != frappe.session.user})
+	users = _wants(users, category)
 	if not users:
 		return
 	enqueue_create_notification(
@@ -17,12 +40,16 @@ def notify(users, subject, handover):
 		{
 			"type": "Alert",
 			"subject": subject,
-			"document_type": HANDOVER,
-			"document_name": handover.name,
+			"document_type": doctype,
+			"document_name": name,
 			"from_user": frappe.session.user,
 		},
 		dedupe_on=["document_type", "document_name", "subject"],
 	)
+
+
+def notify(users, subject, handover, category=REQUIRED):
+	notify_document(users, subject, HANDOVER, handover.name, category)
 
 
 def manager_users(departments=(), teams=()):

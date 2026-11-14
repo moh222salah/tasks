@@ -1,0 +1,76 @@
+{
+ "actions": [],
+ "autoname": "field:user",
+ "creation": "2026-11-14 12:00:00.000000",
+ "description": "What optional notifications a user wants.",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "user",
+  "receive_reminders",
+  "receive_progress_updates",
+  "sb_note",
+  "note"
+ ],
+ "fields": [
+  {
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "label": "User",
+   "options": "User",
+   "reqd": 1,
+   "unique": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "receive_reminders",
+   "fieldtype": "Check",
+   "label": "Receive Reminders",
+   "default": "1",
+   "description": "Due-soon, overdue and task due-date reminders."
+  },
+  {
+   "fieldname": "receive_progress_updates",
+   "fieldtype": "Check",
+   "label": "Receive Progress Updates",
+   "default": "1",
+   "description": "For example: the receiver started reviewing your handover."
+  },
+  {
+   "fieldname": "sb_note",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "note",
+   "fieldtype": "HTML",
+   "label": "Always Delivered",
+   "options": "<p>A handover addressed to you, decisions (accepted, rejected, clarification), withdrawals, decisions made on your behalf and escalations are always delivered. They carry responsibility and cannot be muted.</p>"
+  }
+ ],
+ "icon": "bell",
+ "links": [],
+ "modified": "2026-11-14 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "NDS Enterprise Operations",
+ "name": "NDS Notification Preference",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1
+  },
+  {
+   "role": "Employee",
+   "read": 1,
+   "write": 1,
+   "create": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
