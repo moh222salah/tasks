@@ -6,7 +6,7 @@
 
 [![Frappe](https://img.shields.io/badge/Frappe-v16-0A2342?style=for-the-badge&logo=frappe&logoColor=D4AF37)](https://frappe.io)
 [![ERPNext](https://img.shields.io/badge/ERPNext-v16-164E8F?style=for-the-badge)](https://erpnext.com)
-[![Tests](https://img.shields.io/badge/tests-41%20passing-2e8b57?style=for-the-badge)](#-verified-status)
+[![Tests](https://img.shields.io/badge/tests-47%20passing-2e8b57?style=for-the-badge)](#-verified-status)
 [![Concurrency](https://img.shields.io/badge/concurrency-real%20races%20tested-D4AF37?style=for-the-badge&labelColor=0A2342)](#-verified-status)
 [![License](https://img.shields.io/badge/license-MIT-lightgrey?style=for-the-badge)](license.txt)
 
@@ -86,7 +86,7 @@ Permission-scoped KPIs for handovers and tasks. Every card opens the matching fi
 <td valign="top">
 
 ### 📑 Reports
-Task Handover Register, Acceptance (first-pass rate, hours), Rejection (reasons chart), Aging (buckets), Tasks Master, Overdue Tasks, Employee Workload. Export through the standard report tools.
+12 reports: handover Register, Acceptance, Rejection and Aging; Tasks Master, Overdue Tasks, Workload; and fair-KPI Productivity, Department, Team, Cycle Time and Rework. Every KPI report prints how it is calculated.
 
 </td>
 <td valign="top">
@@ -170,7 +170,7 @@ nds_operations/
   nds_enterprise_operations/
     doctype/   # NDS Task Handover, Team, Team Membership, Department Profile, Review, History, Ownership, ...
     page/      # Handover Center, Operations Overview
-    report/    # 7 script reports
+    report/    # 12 script reports
     workspace/ # workspace, sidebar, desktop icon
   services/    # handover engine, snapshot, ownership, notifications, history
   api/         # whitelisted, permission-checked endpoints
@@ -185,7 +185,7 @@ docs/          # architecture, deployment and rollback, screenshots, assets
 
 ## ✔ Verified status
 
-<div align="center"><img src="docs/assets/metrics.svg" alt="41 passing tests, 3 real concurrency races, 7 live reports, 0 core files edited" width="100%"/></div>
+<div align="center"><img src="docs/assets/metrics.svg" alt="47 passing tests, 3 real concurrency races, 12 live reports, 0 core files edited" width="100%"/></div>
 
 <br/>
 
@@ -195,9 +195,9 @@ docs/          # architecture, deployment and rollback, screenshots, assets
 | Concurrency (double accept, accept vs withdraw, two submits) | **PASS** | three tests with real separate database connections |
 | Permissions and immutability, including Administrator | **PASS** | security tests, backend-enforced |
 | Team leader / department manager scope | **PASS** | org-scope tests |
-| Operations Overview and 7 reports | **PASS** | tests plus a real browser check |
+| Operations Overview and 12 reports (KPI rules: cancelled excluded, waiting-on-receiver excused) | **PASS** | tests plus a real browser check |
 | Arabic translation (≈400 strings) and RTL layout | **PASS** (Handover Center, Operations Overview) | real browser, desktop and mobile, no horizontal scroll; the handover form itself is not yet checked in RTL |
-| Remaining 7 reports, delegation, org chart, kanban/gantt | **NOT IMPLEMENTED** | tracked in the architecture document |
+| Executive and Project Delivery reports, delegation, org chart, kanban/gantt | **NOT IMPLEMENTED** | tracked in the architecture document |
 | Production installation | **BLOCKED** | needs explicit approval, a backup and the rollback plan |
 
 <img src="docs/assets/divider.svg" alt="" width="100%"/>

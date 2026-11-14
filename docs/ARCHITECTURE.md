@@ -149,7 +149,8 @@ Delegated acceptance and "approved exceptional self-acceptance" are **NOT IMPLEM
 | Handover Operations Overview / initial KPIs | PASS (5 tests: scope, decisions, overdue, access, task counts) |
 | Reports: Task Handover Register, Acceptance (first-pass, hours), Rejection (reasons chart), Aging (buckets, receiver-only overdue) | PASS (5 tests; open in a browser; row-scoped; Excel/CSV/PDF via the standard report export) |
 | Reports: Tasks Master, Overdue Tasks (visible reason only), Employee Workload | PASS (4 tests; open in a browser as Administrator; owner = ledger, else open ToDo, else creator) |
-| Remaining 7 reports (Productivity, Department/Team Performance, Cycle Time, Rework, Project Delivery, Executive) | NOT IMPLEMENTED |
+| KPI reports: Employee Productivity, Department Performance, Team Performance, Task Cycle Time, Rework and Revision (formulas printed on each; cancelled excluded; waiting-on-receiver delays excused; owner from ledger) | PASS (6 tests; 5 open in a browser, data-less ones show empty states) |
+| Remaining reports: Project Delivery, Management Executive | NOT IMPLEMENTED |
 | Task Update / Checklist / Review, Department KPI, Team Assignment | NOT IMPLEMENTED |
 | Arabic translations (`translations/ar.csv`), local fonts | NOT IMPLEMENTED |
 | Production audit and deployment | BLOCKED (needs explicit approval) |

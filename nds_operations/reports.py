@@ -197,3 +197,15 @@ def open_handovers_of(tasks):
 		fields=["name", "task", "handover_status", "receiver_name"],
 	)
 	return {r.task: r for r in rows}
+
+
+def date_conditions(filters, fieldname):
+	"""Inclusive from/to date filter for a Date or Datetime field."""
+	filters = frappe._dict(filters or {})
+	if filters.from_date and filters.to_date:
+		return {fieldname: ("between", [filters.from_date, f"{filters.to_date} 23:59:59"])}
+	if filters.from_date:
+		return {fieldname: (">=", filters.from_date)}
+	if filters.to_date:
+		return {fieldname: ("<=", f"{filters.to_date} 23:59:59")}
+	return {}
