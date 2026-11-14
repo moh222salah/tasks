@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 600" width="1280" height="600" role="img" aria-label="Task handover lifecycle: Draft, Ready, Pending Acceptance, Under Review, Accepted. Rejection and clarification return to the sender; responsibility moves only on acceptance.">
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#06162b"/><stop offset="1" stop-color="#0c2a4f"/></linearGradient>
+<linearGradient id="gold" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8a6d1c"/><stop offset=".5" stop-color="#f3d36b"/><stop offset="1" stop-color="#D4AF37"/></linearGradient>
+<marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#5b8fcb"/></marker>
+<marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#d9645b"/></marker>
+<marker id="ac" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#e0a43f"/></marker>
+<filter id="glow" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+<clipPath id="clip"><rect width="1280" height="600" rx="22"/></clipPath>
+<path id="lane" d="M150 225 H1070"/>
+</defs>
+<style>
+text{font-family:'Segoe UI',Inter,'Helvetica Neue',Arial,sans-serif}
+.title{fill:#fff;font-size:26px;font-weight:800} .sub{fill:#9fb7d6;font-size:14px}
+.s1{fill:#eaf2ff;font-size:16px;font-weight:700} .s2{fill:#8fa9c9;font-size:12px}
+.ar{fill:none;stroke:#5b8fcb;stroke-width:2.2;stroke-dasharray:6 6;animation:dash 1.4s linear infinite}
+.arr{fill:none;stroke:#d9645b;stroke-width:2.2;stroke-dasharray:6 6;animation:dash 1.4s linear infinite}
+.arc{fill:none;stroke:#e0a43f;stroke-width:2.2;stroke-dasharray:6 6;animation:dash 1.4s linear infinite}
+.st{animation:lit 14s ease-in-out infinite}
+.lab{fill:#c9d8ec;font-size:13px;font-weight:600}
+.own{font-size:15px;font-weight:800;letter-spacing:2px}
+@keyframes dash{to{stroke-dashoffset:-24}}
+@keyframes lit{0%,100%{opacity:.78}6%,14%{opacity:1}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+<g clip-path="url(#clip)">
+<rect width="1280" height="600" fill="url(#bg)"/>
+<text x="60" y="64" class="title">Responsibility moves only on acceptance</text>
+<text x="60" y="92" class="sub">Every state is recorded. Rejection and clarification keep ownership with the sender.</text>
+<g class="st" style="animation-delay:0.00s"><rect x="60" y="190" width="180" height="70" rx="14" fill="#0d2a4d" stroke="#3f8de0" stroke-width="2"/>
+<text x="150" y="221" text-anchor="middle" class="s1">Draft</text><text x="150" y="243" text-anchor="middle" class="s2">Sender prepares</text></g>
+<g class="st" style="animation-delay:2.00s"><rect x="290" y="190" width="180" height="70" rx="14" fill="#0d2a4d" stroke="#3f8de0" stroke-width="2"/>
+<text x="380" y="221" text-anchor="middle" class="s1">Ready</text><text x="380" y="243" text-anchor="middle" class="s2">Checked complete</text></g>
+<g class="st" style="animation-delay:4.00s"><rect x="520" y="190" width="180" height="70" rx="14" fill="#0d2a4d" stroke="#3f8de0" stroke-width="2"/>
+<text x="610" y="221" text-anchor="middle" class="s1">Pending Acceptance</text><text x="610" y="243" text-anchor="middle" class="s2">Frozen + hashed snapshot</text></g>
+<g class="st" style="animation-delay:6.00s"><rect x="750" y="190" width="180" height="70" rx="14" fill="#0d2a4d" stroke="#3f8de0" stroke-width="2"/>
+<text x="840" y="221" text-anchor="middle" class="s1">Under Review</text><text x="840" y="243" text-anchor="middle" class="s2">Receiver reads</text></g>
+<g class="st" style="animation-delay:8.00s"><rect x="980" y="190" width="180" height="70" rx="14" fill="#2a2410" stroke="#D4AF37" stroke-width="2"/>
+<text x="1070" y="221" text-anchor="middle" class="s1">Accepted</text><text x="1070" y="243" text-anchor="middle" class="s2">Ownership moves</text></g>
+<path d="M243 225 H285" class="ar" marker-end="url(#ah)"/><path d="M473 225 H515" class="ar" marker-end="url(#ah)"/><path d="M703 225 H745" class="ar" marker-end="url(#ah)"/><path d="M933 225 H975" class="ar" marker-end="url(#ah)"/>
+<text x="60" y="140" class="own" fill="#7fb2ee">OWNER:
+ <tspan x="148" fill="#7fb2ee">SENDER<animate attributeName="opacity" values="1;1;0;0;1" keyTimes="0;.60;.61;.99;1" dur="14s" repeatCount="indefinite"/></tspan>
+ <tspan x="148" fill="#f3d36b" opacity="0">RECEIVER<animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.60;.61;.98;1" dur="14s" repeatCount="indefinite"/></tspan>
+</text>
+<path d="M840 260 V400 H700 V410" class="arr" marker-end="url(#ar)"/>
+<path d="M840 260 V400 H930 V410" class="arc" marker-end="url(#ac)"/>
+<g class="st" style="animation-delay:6.00s"><rect x="590" y="410" width="220" height="74" rx="14" fill="#2d1517" stroke="#d9645b" stroke-width="2"/>
+<text x="700" y="441" text-anchor="middle" class="s1">Rejected</text><text x="700" y="464" text-anchor="middle" class="s2">Reason mandatory, ownership stays</text></g>
+<g class="st" style="animation-delay:6.00s"><rect x="820" y="410" width="220" height="74" rx="14" fill="#2b2112" stroke="#e0a43f" stroke-width="2"/>
+<text x="930" y="441" text-anchor="middle" class="s1">Clarification Requested</text><text x="930" y="464" text-anchor="middle" class="s2">Questions, nothing decided</text></g>
+<path d="M590 447 H330 V447" class="arr"/>
+<path d="M930 484 V508 H250 V486" class="arc" marker-end="url(#ac)"/>
+<g><rect x="150" y="410" width="200" height="74" rx="14" fill="#0d2a4d" stroke="#3f8de0" stroke-width="2"/>
+<text x="250" y="441" text-anchor="middle" class="s1">Revise: version +1</text><text x="250" y="464" text-anchor="middle" class="s2">History and snapshots kept</text></g>
+<path d="M590 447 H352" class="arr" marker-end="url(#ar)"/>
+<path d="M250 410 V282 H150 V262" class="ar" marker-end="url(#ah)"/>
+<g filter="url(#glow)"><circle r="9" fill="url(#gold)"><animateMotion dur="14s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0.0;0.25;0.25;0.5;0.5;0.75;0.75;1;1" keyTimes="0;0.04;0.16;0.2;0.32;0.36;0.48;0.52;0.64;1"><mpath href="#lane"/></animateMotion></circle></g>
+<rect x="60" y="538" width="1160" height="1" fill="#D4AF37" opacity=".35"/>
+<text x="60" y="570" class="sub">A frozen SHA-256 snapshot is taken at submission. An append-only ledger records every owner. Two simultaneous accepts transfer once.</text>
+</g>
+<rect x=".5" y=".5" width="1279" height="599" rx="22" fill="none" stroke="#D4AF37" stroke-opacity=".35"/>
+</svg>

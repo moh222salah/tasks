@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 200" width="1280" height="200" role="img" aria-label="Verified status: 41 passing tests, 3 real concurrency races, 7 reports, 12 handover states and actions">
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#06162b"/><stop offset="1" stop-color="#0c2a4f"/></linearGradient>
+<linearGradient id="gold" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8a6d1c"/><stop offset=".5" stop-color="#f3d36b"/><stop offset="1" stop-color="#D4AF37"/></linearGradient>
+<clipPath id="c"><rect width="1280" height="200" rx="18"/></clipPath></defs>
+<style>
+text{font-family:'Segoe UI',Inter,'Helvetica Neue',Arial,sans-serif}
+.n{fill:#fff;font-size:54px;font-weight:800}.l{fill:#9fb7d6;font-size:14px;letter-spacing:.6px}
+.card{animation:in .9s both}.bar{transform-origin:left;animation:grow 1.4s .5s both cubic-bezier(.2,.8,.2,1)}
+@keyframes in{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+<g clip-path="url(#c)"><rect width="1280" height="200" fill="url(#bg)"/>
+<g class="card" style="animation-delay:.1s"><text x="80" y="95" class="n">41</text><text x="80" y="124" class="l">PASSING TESTS</text><rect x="80" y="142" width="180" height="5" rx="3" fill="#183a64"/><rect class="bar" x="80" y="142" width="180" height="5" rx="3" fill="url(#gold)"/></g>
+<g class="card" style="animation-delay:.25s"><text x="400" y="95" class="n">3</text><text x="400" y="124" class="l">REAL CONCURRENCY RACES</text><rect x="400" y="142" width="180" height="5" rx="3" fill="#183a64"/><rect class="bar" x="400" y="142" width="180" height="5" rx="3" fill="url(#gold)"/></g>
+<g class="card" style="animation-delay:.4s"><text x="720" y="95" class="n">7</text><text x="720" y="124" class="l">LIVE REPORTS</text><rect x="720" y="142" width="180" height="5" rx="3" fill="#183a64"/><rect class="bar" x="720" y="142" width="180" height="5" rx="3" fill="url(#gold)"/></g>
+<g class="card" style="animation-delay:.55s"><text x="1040" y="95" class="n">0</text><text x="1040" y="124" class="l">CORE FILES EDITED</text><rect x="1040" y="142" width="160" height="5" rx="3" fill="#183a64"/><rect class="bar" x="1040" y="142" width="160" height="5" rx="3" fill="url(#gold)"/></g>
+</g><rect x=".5" y=".5" width="1279" height="199" rx="18" fill="none" stroke="#D4AF37" stroke-opacity=".35"/></svg>
