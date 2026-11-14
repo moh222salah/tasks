@@ -122,7 +122,7 @@ Delegated acceptance and "approved exceptional self-acceptance" are **NOT IMPLEM
 | Handover form workspace: stage bar, timeline, responsibility history, decisions, versions, integrity flag, action buttons and dialogs | PASS (browser-verified) |
 | New Handover dialog | implemented; PASS in browser for Accept dialog only |
 | Workspace + sidebar + desktop icon | implemented; sidebar entry order not yet verified |
-| Operations Overview dashboard (permission-scoped handover KPIs, status distribution, receiving-department breakdown, recent activity) | PASS (4 tests; browser-verified desktop + mobile; reviewed and corrected after a first draft whose API failed on Frappe v16) |
+| Operations Overview dashboard (permission-scoped handover KPIs, status distribution, receiving-department breakdown, recent activity) | PASS (5 tests; task KPIs; cards click through to filtered lists; browser-verified desktop + mobile; reviewed and corrected after a first draft whose API failed on Frappe v16) |
 | Org chart, full task KPIs, 14 reports, kanban/gantt, notification settings, delegation | NOT IMPLEMENTED |
 | RTL / mobile layout | CSS uses logical properties; not yet verified in a browser |
 
@@ -146,7 +146,7 @@ Delegated acceptance and "approved exceptional self-acceptance" are **NOT IMPLEM
 | Team Leader / Department Manager row scope, membership rules | PASS (3 tests) |
 | Concurrency (3 real multi-connection races) | PASS |
 | Desk UI (center, form, dialogs, CSS) | PASS (browser) |
-| Handover Operations Overview / initial KPIs | PASS (4 tests: scope, decisions, overdue, access) |
+| Handover Operations Overview / initial KPIs | PASS (5 tests: scope, decisions, overdue, access, task counts) |
 | Full task KPIs / 14 reports | NOT IMPLEMENTED |
 | Task Update / Checklist / Review, Department KPI, Team Assignment | NOT IMPLEMENTED |
 | Arabic translations (`translations/ar.csv`), local fonts | NOT IMPLEMENTED |

@@ -2,7 +2,7 @@
 
 import frappe
 from frappe import _
-from frappe.utils import cint, now_datetime
+from frappe.utils import cint, getdate, now_datetime, nowdate
 
 from nds_operations.constants import (
 	ACCEPTED,
@@ -15,6 +15,7 @@ from nds_operations.constants import (
 
 # Only the receiver owes an answer in these states; a clarification request waits for the sender.
 AWAITING_RECEIVER = (PENDING, UNDER_REVIEW)
+CLOSED_TASKS = ("Completed", "Cancelled", "Template")
 TOTAL = {"COUNT": "name", "as": "total"}
 
 
@@ -26,8 +27,8 @@ def _assert_dashboard_access():
 		frappe.throw(_("You do not have access to the NDS Operations dashboard."), frappe.PermissionError)
 
 
-def _count(filters):
-	rows = frappe.get_list(HANDOVER, filters=filters, fields=[TOTAL])
+def _count(filters, doctype=HANDOVER):
+	rows = frappe.get_list(doctype, filters=filters, fields=[TOTAL])
 	return cint(rows[0].get("total")) if rows else 0
 
 
@@ -78,7 +79,15 @@ def get_dashboard():
 		order_by="total desc",
 		limit_page_length=8,
 	)
+	tasks = {
+		"open": _count({"status": ("not in", CLOSED_TASKS)}, "Task"),
+		"overdue": _count(
+			{"status": ("not in", CLOSED_TASKS), "exp_end_date": ("<", getdate(nowdate()))}, "Task"
+		),
+		"completed": _count({"status": "Completed"}, "Task"),
+	}
 	return {
+		"tasks": tasks,
 		"kpis": {
 			"total_submitted": sum(status_counts.values()),
 			"pending_acceptance": status_counts.get(PENDING, 0),

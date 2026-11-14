@@ -22,13 +22,21 @@ class NDSOperationsDashboard {
 	render(data) {
 		const e = (v) => frappe.utils.escape_html(v == null ? "" : String(v));
 		const k = data.kpis || {};
+		const now = frappe.datetime.now_datetime();
+		const tk = data.tasks || {};
+		const H = "NDS Task Handover";
 		const cards = [
-			["total_submitted", __("Submitted handovers"), "layers", "navy"],
-			["pending_acceptance", __("Pending acceptance"), "inbox", "amber"],
-			["under_review", __("Under review"), "eye", "blue"],
-			["overdue", __("Overdue responses"), "clock-o", "red"],
-			["accepted", __("Accepted"), "check-circle", "green"],
-			["rejected", __("Rejected"), "times-circle", "slate"],
+			["total_submitted", __("Submitted handovers"), "navy", [H, { docstatus: 1 }]],
+			["pending_acceptance", __("Pending acceptance"), "amber", [H, { docstatus: 1, handover_status: "Pending Acceptance" }]],
+			["under_review", __("Under review"), "blue", [H, { docstatus: 1, handover_status: "Under Review" }]],
+			["overdue", __("Overdue responses"), "red", [H, { docstatus: 1, handover_status: ["in", ["Pending Acceptance", "Under Review"]], response_due: ["<", now] }]],
+			["accepted", __("Accepted"), "green", [H, { docstatus: 1, handover_status: "Accepted" }]],
+			["rejected", __("Rejected"), "slate", [H, { docstatus: 1, handover_status: "Rejected" }]],
+		];
+		const taskCards = [
+			["open", __("Open tasks"), "blue", ["Task", { status: ["not in", ["Completed", "Cancelled", "Template"]] }]],
+			["overdue", __("Overdue tasks"), "red", ["Task", { status: ["not in", ["Completed", "Cancelled", "Template"]], exp_end_date: ["<", frappe.datetime.get_today()] }]],
+			["completed", __("Completed tasks"), "green", ["Task", { status: "Completed" }]],
 		];
 		const counts = data.status_counts || {};
 		const maxStatus = Math.max(1, ...Object.values(counts).map(Number));
@@ -52,10 +60,11 @@ class NDSOperationsDashboard {
 			' → ' + e(row.receiver_name) + '</small></span><span class="nds-pill">' +
 			e(__(row.handover_status)) + '</span></button>').join("") ||
 			'<div class="nds-dashboard-empty">' + __("No recent handovers.") + '</div>';
-		const kpiHtml = cards.map(([key, label, icon, tone]) =>
-			'<div class="nds-dash-kpi ' + tone + '"><div class="nds-dash-kpi-top"><span>' + e(label) +
-			'</span><i class="fa fa-' + icon + '"></i></div><strong>' +
-			(k[key] == null ? "—" : Number(k[key]).toLocaleString()) + '</strong></div>').join("");
+		const card = (value, label, tone, target, i, group) =>
+			'<button class="nds-dash-kpi ' + tone + '" data-group="' + group + '" data-i="' + i + '"><div class="nds-dash-kpi-top"><span>' +
+			e(label) + '</span></div><strong>' + (value == null ? "—" : Number(value).toLocaleString()) + '</strong></button>';
+		const kpiHtml = cards.map(([key, label, tone, target], i) => card(k[key], label, tone, target, i, "h")).join("");
+		const taskHtml = taskCards.map(([key, label, tone, target], i) => card(tk[key], label, tone, target, i, "t")).join("");
 		const rate = k.decision_acceptance_rate == null ? "—" : Number(k.decision_acceptance_rate).toFixed(1) + "%";
 		this.$body.html(
 			'<header class="nds-dash-header"><div><div class="nds-dash-eyebrow">NDS ENTERPRISE OPERATIONS</div><h2>' +
@@ -63,7 +72,7 @@ class NDSOperationsDashboard {
 			'</p></div><div class="nds-dash-header-actions"><span class="nds-dash-scope">' +
 			__("Permission-scoped data") + '</span><button class="btn btn-default btn-sm nds-dash-refresh">' +
 			__("Refresh") + '</button></div></header><section class="nds-dash-kpis">' + kpiHtml +
-			'</section><section class="nds-dash-insight-grid"><div class="nds-dash-panel"><div class="nds-dash-panel-head"><h4>' +
+			'</section><section class="nds-dash-kpis">' + taskHtml + '</section><section class="nds-dash-insight-grid"><div class="nds-dash-panel"><div class="nds-dash-panel-head"><h4>' +
 			__("Handover Status") + '</h4><span>' + __("Submitted records") + '</span></div>' + statusRows +
 			'</div><div class="nds-dash-panel"><div class="nds-dash-panel-head"><h4>' + __("Department Activity") +
 			'</h4><span>' + __("By receiving department") + '</span></div>' + departmentRows +
@@ -75,6 +84,12 @@ class NDSOperationsDashboard {
 			e(data.generated_at ? frappe.datetime.str_to_user(String(data.generated_at).split(".")[0]) : "") + ' · ' + __("Figures reflect records your account is allowed to read.") + '</footer>'
 		);
 		this.$body.find(".nds-dash-refresh").on("click", () => this.refresh());
+		this.$body.find(".nds-dash-kpi").on("click", (event) => {
+			const el = $(event.currentTarget);
+			const [doctype, filters] = (el.data("group") === "h" ? cards : taskCards)[el.data("i")][3];
+			frappe.route_options = filters;
+			frappe.set_route("List", doctype);
+		});
 		this.$body.find(".nds-dash-recent").on("click", (event) =>
 			frappe.set_route("Form", "NDS Task Handover", $(event.currentTarget).attr("data-name")));
 	}

@@ -70,3 +70,16 @@ class TestOperationsDashboard(NDSTestCase):
 		act_as("Guest")
 		with self.assertRaises(frappe.PermissionError):
 			get_dashboard()
+
+	def test_task_counts_follow_task_permissions(self):
+		act_as("Administrator")
+		before = get_dashboard()["tasks"]
+		task = self.new_task()
+		frappe.db.set_value("Task", task.name, "exp_end_date", add_to_date(now_datetime(), days=-3))
+		after = get_dashboard()["tasks"]
+		self.assertEqual(after["open"], before["open"] + 1)
+		self.assertEqual(after["overdue"], before["overdue"] + 1)
+		frappe.db.set_value("Task", task.name, "status", "Completed")
+		done = get_dashboard()["tasks"]
+		self.assertEqual(done["overdue"], before["overdue"])
+		self.assertEqual(done["completed"], before["completed"] + 1)

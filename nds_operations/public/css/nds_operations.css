@@ -262,6 +262,8 @@
 .nds-dash-kpis { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin-bottom:16px; }
 .nds-dash-kpi,.nds-dash-panel { background:var(--card-bg,#fff); border:1px solid var(--border-color); border-radius:12px; box-shadow:0 3px 14px rgba(10,35,66,.045); }
 .nds-dash-kpi { min-height:112px; padding:15px 17px; border-top:3px solid var(--nds-navy,#0A2342); }
+.nds-dash-kpi { display:block; width:100%; text-align:start; cursor:pointer; font:inherit; transition:box-shadow .15s, transform .15s; }
+.nds-dash-kpi:hover, .nds-dash-kpi:focus-visible { box-shadow:0 6px 18px rgba(10,35,66,.12); transform:translateY(-1px); outline:none; }
 .nds-dash-kpi.amber { border-top-color:#D4AF37; } .nds-dash-kpi.blue { border-top-color:#3678B8; }
 .nds-dash-kpi.red { border-top-color:#C45B5B; } .nds-dash-kpi.green { border-top-color:#39866A; }
 .nds-dash-kpi.slate { border-top-color:#7C8795; }
