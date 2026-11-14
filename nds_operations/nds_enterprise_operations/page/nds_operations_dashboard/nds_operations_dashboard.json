@@ -9,7 +9,41 @@
  "name": "nds-operations-dashboard",
  "owner": "Administrator",
  "page_name": "nds-operations-dashboard",
- "roles": [{"role": "Employee"}],
+ "roles": [
+  {
+   "role": "System Manager"
+  },
+  {
+   "role": "NDS Executive Management"
+  },
+  {
+   "role": "NDS Operations Manager"
+  },
+  {
+   "role": "NDS Department Manager"
+  },
+  {
+   "role": "NDS Team Leader"
+  },
+  {
+   "role": "NDS Project Manager"
+  },
+  {
+   "role": "NDS Task Sender"
+  },
+  {
+   "role": "NDS Task Executor"
+  },
+  {
+   "role": "NDS Task Receiver"
+  },
+  {
+   "role": "NDS Task Reviewer"
+  },
+  {
+   "role": "NDS Read Only Auditor"
+  }
+ ],
  "standard": "Yes",
  "title": "Operations Overview"
 }

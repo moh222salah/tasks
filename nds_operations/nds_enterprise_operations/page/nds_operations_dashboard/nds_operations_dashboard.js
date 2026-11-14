@@ -72,7 +72,7 @@ class NDSOperationsDashboard {
 			'<section class="nds-dash-panel nds-dash-recent-panel"><div class="nds-dash-panel-head"><h4>' +
 			__("Recent Handover Activity") + '</h4><a href="/app/nds-handover-center">' + __("View all") +
 			'</a></div>' + recentRows + '</section><footer class="nds-dash-footer">' + __("Updated") + ': ' +
-			e(data.generated_at || "") + ' · ' + __("Figures reflect records your account is allowed to read.") + '</footer>'
+			e(data.generated_at ? frappe.datetime.str_to_user(String(data.generated_at).split(".")[0]) : "") + ' · ' + __("Figures reflect records your account is allowed to read.") + '</footer>'
 		);
 		this.$body.find(".nds-dash-refresh").on("click", () => this.refresh());
 		this.$body.find(".nds-dash-recent").on("click", (event) =>
