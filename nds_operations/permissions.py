@@ -23,6 +23,7 @@ from nds_operations.constants import (
 	ROLE_OPS_MANAGER,
 	ROLE_TEAM_LEADER,
 )
+from nds_operations.services.delegation import get_delegators
 from nds_operations.utils.people import get_active_memberships
 
 WRITE_PTYPES = {"write", "create", "delete", "submit", "cancel", "amend"}
@@ -60,6 +61,7 @@ def _build_scope(user):
 		submitted_all=bool(roles & {ROLE_EXECUTIVE, ROLE_AUDITOR}),
 		departments=[],
 		teams=[],
+		delegators=get_delegators(user),
 	)
 	if ROLE_DEPT_MANAGER in roles:
 		scope.departments = get_managed_departments(user)
@@ -137,6 +139,8 @@ def handover_query_conditions(user=None, doctype=None):
 
 	me = frappe.db.escape(user)
 	visible = [f"{H}.receiver_user = {me}"]
+	if scope.delegators:
+		visible.append(f"{H}.receiver_user in ({_in(scope.delegators)})")
 	if scope.submitted_all:
 		visible.append("1 = 1")
 	if scope.departments:
@@ -197,7 +201,7 @@ def handover_has_permission(doc, ptype=None, user=None, debug=False):
 		return True
 	if doc.docstatus != 1:
 		return False
-	if doc.receiver_user == user or scope.submitted_all:
+	if doc.receiver_user == user or doc.receiver_user in scope.delegators or scope.submitted_all:
 		return True
 	if scope.departments and {doc.department, doc.sender_department, doc.receiver_department} & set(
 		scope.departments
@@ -227,3 +231,22 @@ def ownership_has_permission(doc, ptype=None, user=None, debug=False):
 	if doc.get("handover"):
 		return frappe.has_permission(HANDOVER, "read", doc=doc.handover, user=user)
 	return bool(get_scope(user).full)
+
+
+def delegation_query_conditions(user=None, doctype=None):
+	user = user or frappe.session.user
+	if get_scope(user).full or get_scope(user).submitted_all:
+		return ""
+	me = frappe.db.escape(user)
+	return f"(`tabNDS Delegation`.delegator = {me} or `tabNDS Delegation`.delegate = {me})"
+
+
+def delegation_has_permission(doc, ptype=None, user=None, debug=False):
+	"""A delegation is visible to its two parties; only the delegator (or a manager) may change it."""
+	user = user or frappe.session.user
+	scope = get_scope(user)
+	if ptype in ("create",) or doc.is_new():
+		return True
+	if ptype in WRITE_PTYPES:
+		return scope.full or doc.delegator == user
+	return scope.full or scope.submitted_all or user in (doc.delegator, doc.delegate)

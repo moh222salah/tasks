@@ -41,6 +41,7 @@ permission_query_conditions = {
 	"NDS Handover Review": "nds_operations.permissions.review_query_conditions",
 	"NDS Handover History": "nds_operations.permissions.history_query_conditions",
 	"NDS Ownership History": "nds_operations.permissions.ownership_query_conditions",
+	"NDS Delegation": "nds_operations.permissions.delegation_query_conditions",
 }
 
 has_permission = {
@@ -48,6 +49,7 @@ has_permission = {
 	"NDS Handover Review": "nds_operations.permissions.record_has_permission",
 	"NDS Handover History": "nds_operations.permissions.record_has_permission",
 	"NDS Ownership History": "nds_operations.permissions.ownership_has_permission",
+	"NDS Delegation": "nds_operations.permissions.delegation_has_permission",
 }
 
 # Scheduled Tasks

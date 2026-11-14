@@ -22,6 +22,7 @@ from nds_operations.constants import (
 	UNDER_REVIEW,
 )
 from nds_operations.services import handover as engine
+from nds_operations.services.delegation import get_delegators
 from nds_operations.services.snapshot import verify_snapshot
 
 LIST_FIELDS = [
@@ -246,9 +247,8 @@ def _page(filters, status, search, page, page_size):
 @frappe.whitelist(methods=["GET"])
 def get_inbox(status=None, search=None, page=1, page_size=20):
 	"""Handovers addressed to me (submitted only), newest first, paginated on the server."""
-	return _page(
-		{"receiver_user": frappe.session.user, "docstatus": 1}, status, search, page, page_size
-	)
+	receivers = [frappe.session.user, *get_delegators(frappe.session.user)]
+	return _page({"receiver_user": ("in", receivers), "docstatus": 1}, status, search, page, page_size)
 
 
 @frappe.whitelist(methods=["GET"])
@@ -272,13 +272,14 @@ def get_outbox(view=None, status=None, search=None, page=1, page_size=20):
 def get_counts():
 	"""Badge numbers for the Handover Center: only my own items, so nothing leaks across users."""
 	me = frappe.session.user
+	receivers = ("in", [me, *get_delegators(me)])
 
 	def count(**filters):
 		return frappe.db.count(HANDOVER, filters)
 
 	return {
-		"inbox_pending": count(receiver_user=me, docstatus=1, handover_status=PENDING),
-		"inbox_review": count(receiver_user=me, docstatus=1, handover_status=UNDER_REVIEW),
+		"inbox_pending": count(receiver_user=receivers, docstatus=1, handover_status=PENDING),
+		"inbox_review": count(receiver_user=receivers, docstatus=1, handover_status=UNDER_REVIEW),
 		"outbox_open": count(sender_user=me, docstatus=1, handover_status=("in", OPEN_STATUSES)),
 		"needs_my_action": count(
 			sender_user=me,

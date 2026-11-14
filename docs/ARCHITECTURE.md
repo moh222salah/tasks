@@ -159,3 +159,8 @@ Delegated acceptance and "approved exceptional self-acceptance" are **NOT IMPLEM
 ## Arabic and RTL
 
 `nds_operations/locale/ar.po` holds about 400 translated strings (labels, messages, report and dashboard text). Frappe v16 reads compiled `.mo` files, so run `bench compile-po-to-mo --app nds_operations --locale ar` (a normal `bench build`/update does it). Verified in a browser with an Arabic user: layout mirrors, no horizontal scroll on desktop or mobile. Not yet verified: the handover form and the reports in RTL.
+
+
+## Delegation
+
+`NDS Delegation` lets a receiver explicitly authorise another user to decide the handovers addressed to him, for a date range, revocable, never editable after creation and never deletable. The engine accepts a delegate's decision only inside the dates and never for the sender of that handover. The review stores `reviewer_user` (the delegate), `acted_on_behalf_of` and `delegation`; responsibility moves to the receiver the handover was addressed to, and the receiver is notified. Delegates see the delegator's handovers in the inbox and the row scope. Status: PASS (7 tests; form saved, shown Active and revoked in a browser).

@@ -60,3 +60,5 @@ DEFAULT_REJECTION_REASONS = (
 	("Wrong Assignment", "The task was handed to the wrong person, team or department."),
 	("Other", "Any other reason; details are mandatory."),
 )
+
+DELEGATION = "NDS Delegation"

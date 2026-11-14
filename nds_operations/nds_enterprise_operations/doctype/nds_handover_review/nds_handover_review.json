@@ -14,6 +14,8 @@
   "reviewer_user",
   "reviewer_employee",
   "reviewer_name",
+  "acted_on_behalf_of",
+  "delegation",
   "reviewed_at",
   "request_id",
   "sb_rv_detail",
@@ -89,6 +91,22 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Reviewer Name"
+  },
+  {
+   "fieldname": "acted_on_behalf_of",
+   "fieldtype": "Link",
+   "label": "Acted On Behalf Of",
+   "options": "User",
+   "read_only": 1,
+   "description": "Set when a delegate decided for the named receiver."
+  },
+  {
+   "fieldname": "delegation",
+   "fieldtype": "Link",
+   "label": "Delegation",
+   "options": "NDS Delegation",
+   "read_only": 1,
+   "ignore_user_permissions": 1
   },
   {
    "fieldname": "reviewed_at",

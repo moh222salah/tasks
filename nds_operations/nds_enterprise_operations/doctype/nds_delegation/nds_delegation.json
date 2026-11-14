@@ -1,0 +1,168 @@
+{
+ "actions": [],
+ "autoname": "format:NDS-DLG-{#####}",
+ "creation": "2026-11-14 12:00:00.000000",
+ "description": "Explicit, time-boxed permission for another user to decide handovers addressed to the delegator.",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "delegator",
+  "delegator_name",
+  "delegate",
+  "delegate_name",
+  "cb_dl",
+  "valid_from",
+  "valid_to",
+  "status",
+  "sb_dl",
+  "reason",
+  "sb_rv",
+  "is_revoked",
+  "revoked_at",
+  "revoked_by"
+ ],
+ "fields": [
+  {
+   "fieldname": "delegator",
+   "fieldtype": "Link",
+   "label": "Delegator",
+   "options": "User",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "search_index": 1,
+   "description": "The receiver who lets someone else decide handovers addressed to him."
+  },
+  {
+   "fieldname": "delegator_name",
+   "fieldtype": "Data",
+   "label": "Delegator Name",
+   "fetch_from": "delegator.full_name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "delegate",
+   "fieldtype": "Link",
+   "label": "Delegate",
+   "options": "User",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "search_index": 1,
+   "ignore_user_permissions": 0
+  },
+  {
+   "fieldname": "delegate_name",
+   "fieldtype": "Data",
+   "label": "Delegate Name",
+   "fetch_from": "delegate.full_name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "cb_dl",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "valid_from",
+   "fieldtype": "Date",
+   "label": "Valid From",
+   "reqd": 1,
+   "default": "Today",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "valid_to",
+   "fieldtype": "Date",
+   "label": "Valid To",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Scheduled\nActive\nExpired\nRevoked",
+   "read_only": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "sb_dl",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "reason",
+   "fieldtype": "Small Text",
+   "label": "Reason",
+   "reqd": 1
+  },
+  {
+   "fieldname": "sb_rv",
+   "fieldtype": "Section Break",
+   "label": "Revocation"
+  },
+  {
+   "fieldname": "is_revoked",
+   "fieldtype": "Check",
+   "label": "Revoked",
+   "read_only": 1
+  },
+  {
+   "fieldname": "revoked_at",
+   "fieldtype": "Datetime",
+   "label": "Revoked At",
+   "read_only": 1
+  },
+  {
+   "fieldname": "revoked_by",
+   "fieldtype": "Link",
+   "label": "Revoked By",
+   "options": "User",
+   "read_only": 1
+  }
+ ],
+ "icon": "users",
+ "links": [],
+ "modified": "2026-11-14 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "NDS Enterprise Operations",
+ "name": "NDS Delegation",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "report": 1,
+   "export": 1,
+   "create": 1,
+   "write": 1
+  },
+  {
+   "role": "NDS Operations Manager",
+   "read": 1,
+   "report": 1,
+   "export": 1,
+   "create": 1,
+   "write": 1
+  },
+  {
+   "role": "NDS Task Receiver",
+   "read": 1,
+   "report": 1,
+   "export": 1,
+   "create": 1,
+   "write": 1
+  },
+  {
+   "role": "NDS Read Only Auditor",
+   "read": 1,
+   "report": 1,
+   "export": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

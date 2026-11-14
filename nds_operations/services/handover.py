@@ -29,9 +29,11 @@ from nds_operations.constants import (
 	UNDER_REVIEW,
 	WITHDRAWN,
 )
+from nds_operations.services.delegation import get_active_delegation
 from nds_operations.services.history import log_event
 from nds_operations.services.notifications import manager_users, notify
 from nds_operations.services.ownership import get_current_owner, last_sequence
+from nds_operations.utils.people import get_employee_for_user
 
 NOT_COPIED_TO_REVISION = {"clarification_response"}
 LEDGER_CONTENT = ("attachment_type", "title", "file", "url", "description")
@@ -61,13 +63,18 @@ def _require_sender(doc):
 
 
 def _require_receiver(doc):
-	if frappe.session.user != doc.receiver_user:
-		frappe.throw(
-			_("Only {0}, the receiver of this handover, can respond to it.").format(
-				frappe.bold(doc.receiver_name)
-			),
-			frappe.PermissionError,
-		)
+	"""The named receiver, or a user the receiver explicitly delegated to. The sender never qualifies."""
+	user = frappe.session.user
+	if user == doc.receiver_user:
+		return
+	if user != doc.sender_user and get_active_delegation(doc.receiver_user, user):
+		return
+	frappe.throw(
+		_("Only {0}, the receiver of this handover, can respond to it.").format(
+			frappe.bold(doc.receiver_name)
+		),
+		frappe.PermissionError,
+	)
 
 
 def _set(doc, values):
@@ -462,6 +469,14 @@ def _record_review(
 	evidence=None,
 ):
 	user = frappe.session.user
+	delegation = None
+	if user != doc.receiver_user:
+		delegation = get_active_delegation(doc.receiver_user, user)
+		notify(
+			[doc.receiver_user],
+			_("{0} decided handover {1} on your behalf.").format(get_fullname(user), doc.name),
+			doc,
+		)
 	return frappe.get_doc(
 		{
 			"doctype": HANDOVER_REVIEW,
@@ -470,7 +485,9 @@ def _record_review(
 			"version_no": doc.version_no,
 			"decision": decision,
 			"reviewer_user": user,
-			"reviewer_employee": doc.receiver_employee,
+			"reviewer_employee": (get_employee_for_user(user) if delegation else doc.receiver_employee),
+			"acted_on_behalf_of": doc.receiver_user if delegation else None,
+			"delegation": delegation,
 			"reviewer_name": get_fullname(user),
 			"reviewed_at": now_datetime(),
 			"request_id": request_id,
@@ -708,7 +725,9 @@ def get_allowed_actions(doc, user=None):
 	if doc.docstatus == 0 and doc.sender_user == user:
 		actions = ["save", "submit"] + (["mark_ready"] if status == DRAFT else ["reopen_draft"])
 	elif doc.docstatus == 1:
-		if doc.receiver_user == user and status in DECIDABLE_STATUSES:
+		if (
+			doc.receiver_user == user or (user != doc.sender_user and get_active_delegation(doc.receiver_user, user))
+		) and status in DECIDABLE_STATUSES:
 			actions = ["accept", "reject", "request_clarification"]
 			if status == PENDING:
 				actions.insert(0, "start_review")
