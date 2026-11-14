@@ -147,7 +147,8 @@ Delegated acceptance and "approved exceptional self-acceptance" are **NOT IMPLEM
 | Concurrency (3 real multi-connection races) | PASS |
 | Desk UI (center, form, dialogs, CSS) | PASS (browser) |
 | Handover Operations Overview / initial KPIs | PASS (5 tests: scope, decisions, overdue, access, task counts) |
-| Full task KPIs / 14 reports | NOT IMPLEMENTED |
+| Reports: Task Handover Register, Acceptance (first-pass, hours), Rejection (reasons chart), Aging (buckets, receiver-only overdue) | PASS (5 tests; open in a browser; row-scoped; Excel/CSV/PDF via the standard report export) |
+| Remaining 10 reports (Tasks Master, Productivity, Department/Team Performance, Cycle Time, Rework, Workload, Project Delivery, Overdue Tasks, Executive) | NOT IMPLEMENTED |
 | Task Update / Checklist / Review, Department KPI, Team Assignment | NOT IMPLEMENTED |
 | Arabic translations (`translations/ar.csv`), local fonts | NOT IMPLEMENTED |
 | Production audit and deployment | BLOCKED (needs explicit approval) |
