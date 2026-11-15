@@ -6,7 +6,7 @@
 
 [![Frappe](https://img.shields.io/badge/Frappe-v16-0A2342?style=for-the-badge&logo=frappe&logoColor=D4AF37)](https://frappe.io)
 [![ERPNext](https://img.shields.io/badge/ERPNext-v16-164E8F?style=for-the-badge)](https://erpnext.com)
-[![Tests](https://img.shields.io/badge/tests-85%20passing-2e8b57?style=for-the-badge)](#-verified-status)
+[![Tests](https://img.shields.io/badge/tests-86%20passing-2e8b57?style=for-the-badge)](#-verified-status)
 [![Concurrency](https://img.shields.io/badge/concurrency-real%20races%20tested-D4AF37?style=for-the-badge&labelColor=0A2342)](#-verified-status)
 [![License](https://img.shields.io/badge/license-MIT-lightgrey?style=for-the-badge)](license.txt)
 
@@ -185,7 +185,7 @@ docs/          # architecture, deployment and rollback, screenshots, assets
 
 ## ✔ Verified status
 
-<div align="center"><img src="docs/assets/metrics.svg" alt="85 passing tests, 3 real concurrency races, 14 live reports, 0 core files edited" width="100%"/></div>
+<div align="center"><img src="docs/assets/metrics.svg" alt="86 passing tests, 3 real concurrency races, 14 live reports, 0 core files edited" width="100%"/></div>
 
 <br/>
 
@@ -204,6 +204,7 @@ docs/          # architecture, deployment and rollback, screenshots, assets
 | Department KPI snapshots: frozen monthly, one per department and period, created once, same fairness rules as the report | **PASS** | 3 tests; the daily job is registered, not yet observed on a running scheduler |
 | Organization chart (departments → teams → members, scoped) | **PASS** | 3 tests; browser check in Arabic RTL on desktop and mobile showed departments, no horizontal scroll; with sandbox data it had no teams to draw |
 | Task Review: append-only quality review of a completed task; reviewer role required; nobody reviews work he owned; score required for approval | **PASS** | 4 tests; the Review Task dialog on the Task form is not browser-checked |
+| Performance: query count does not grow with rows (no N+1) on the dashboard, inbox, counts, org chart, register, workload and executive screens | **PASS** (sandbox) | with 305 submitted handovers each screen answered in under 0.02 s on a local MariaDB; production hardware, real data volume and concurrent users are **not measured** |
 | Project Delivery and Management Executive reports | **PASS** | 2 tests; blank (not zero) when there is no data |
 | Kanban and Gantt views | **NOT IMPLEMENTED** | tracked in the architecture document |
 | Production installation | **BLOCKED** | needs explicit approval, a backup and the rollback plan |

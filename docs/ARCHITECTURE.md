@@ -196,3 +196,7 @@ The page `nds-org-chart` draws departments (nested by parent), their active team
 ## Task review
 
 `NDS Task Review` is the append-only quality review of a Completed task. The reviewer comes from the session and must hold Task Reviewer, Department Manager, Operations Manager or Executive Management; nobody who is, or ever was, an owner of the task in the ledger can review it; an approval needs a score from 1 to 5; the owner at review time is stamped so later reassignments cannot move the score onto someone else. A `Review Task` dialog on the Task form is added through `doctype_js`. The review score feeds the Employee Productivity Report (latest review per task, approvals only).
+
+## Performance check
+
+`tests/test_performance.py` seeds submitted handovers and compares the number of SQL queries per screen at 5 rows and at 5 + N rows (N defaults to 25; `NDS_PERF_ROWS=300` was used for the figures here), failing on growth, and fails any screen slower than 3 s. Result on the sandbox with 305 handovers: dashboard 15 → 12 queries, inbox 3 → 3, counts 6 → 6, org chart 35 → 6 (first call warms caches), register 1 → 1, workload 6 → 6, executive 6 → 6, all under 0.02 s. Limits: a local database, one user at a time, and the screens were run as Administrator; production hardware, real data volume and parallel users are not measured. The inbox and register are paginated, so their cost does not follow the row count by design.
