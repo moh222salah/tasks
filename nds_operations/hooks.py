@@ -13,6 +13,8 @@ required_apps = ["erpnext"]
 app_include_css = "/assets/nds_operations/css/nds_operations.css"
 app_include_js = "/assets/nds_operations/js/nds_operations.js"
 
+doctype_js = {"Task": "public/js/nds_task.js"}
+
 add_to_apps_screen = [
 	{
 		"name": "nds_operations",

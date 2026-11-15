@@ -1309,3 +1309,39 @@ msgstr "تقرير إنتاجية الموظفين"
 
 msgid "Task Updates"
 msgstr "تحديثات المهام"
+
+msgid "Post Update"
+msgstr "نشر تحديث"
+
+msgid "View Updates"
+msgstr "عرض التحديثات"
+
+msgid "Update posted"
+msgstr "تم نشر التحديث"
+
+msgid "Update Type"
+msgstr "نوع التحديث"
+
+msgid "Evidence Link"
+msgstr "رابط الدليل"
+
+msgid "Evidence File"
+msgstr "ملف الدليل"
+
+msgid "Posted By"
+msgstr "نشر بواسطة"
+
+msgid "Posted At"
+msgstr "وقت النشر"
+
+msgid "Help Request"
+msgstr "طلب مساعدة"
+
+msgid "Issue"
+msgstr "مشكلة"
+
+msgid "Note"
+msgstr "ملاحظة"
+
+msgid "Post"
+msgstr "نشر"

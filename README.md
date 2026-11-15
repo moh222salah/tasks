@@ -199,7 +199,7 @@ docs/          # architecture, deployment and rollback, screenshots, assets
 | Arabic translation (≈425 strings) and RTL layout | **PASS** (Handover Center, Operations Overview, handover form) | real browser, desktop and mobile, no horizontal scroll; the report screens are not yet checked in RTL |
 | Explicit delegation of acceptance (dated, revocable, never for the sender) | **PASS** | 7 tests plus the form exercised in a browser |
 | Scheduled reminders (due soon, overdue, manager escalation, task due dates) and per-user notification preferences | **PASS** | 7 tests; hooks registered on the sandbox; each reminder sent once |
-| Task Updates: append-only progress notes, only the current owner can post, author from the session, ownership moves the right | **PASS** | 6 tests; a Task checklist is **NOT IMPLEMENTED** |
+| Task Updates: append-only progress notes, only the current owner can post, author from the session, ownership moves the right | **PASS** | 6 tests plus a browser run: Post Update dialog on the Task form saved the update and set the progress; a Task checklist is **NOT IMPLEMENTED** |
 | Project Delivery and Management Executive reports | **PASS** | 2 tests; blank (not zero) when there is no data |
 | Org chart, kanban/gantt | **NOT IMPLEMENTED** | tracked in the architecture document |
 | Production installation | **BLOCKED** | needs explicit approval, a backup and the rollback plan |
