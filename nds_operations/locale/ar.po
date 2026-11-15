@@ -1414,3 +1414,21 @@ msgstr "متوسط زمن الرد (ساعات)"
 
 msgid "Awaiting Decision"
 msgstr "بانتظار القرار"
+
+msgid "Organization Chart"
+msgstr "الهيكل التنظيمي"
+
+msgid "Loading organization…"
+msgstr "جارٍ تحميل الهيكل…"
+
+msgid "The organization chart could not be loaded."
+msgstr "تعذّر تحميل الهيكل التنظيمي."
+
+msgid "No departments to show yet."
+msgstr "لا توجد إدارات للعرض بعد."
+
+msgid "members"
+msgstr "أعضاء"
+
+msgid "open tasks"
+msgstr "مهام مفتوحة"

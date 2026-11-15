@@ -6,7 +6,7 @@
 
 [![Frappe](https://img.shields.io/badge/Frappe-v16-0A2342?style=for-the-badge&logo=frappe&logoColor=D4AF37)](https://frappe.io)
 [![ERPNext](https://img.shields.io/badge/ERPNext-v16-164E8F?style=for-the-badge)](https://erpnext.com)
-[![Tests](https://img.shields.io/badge/tests-77%20passing-2e8b57?style=for-the-badge)](#-verified-status)
+[![Tests](https://img.shields.io/badge/tests-80%20passing-2e8b57?style=for-the-badge)](#-verified-status)
 [![Concurrency](https://img.shields.io/badge/concurrency-real%20races%20tested-D4AF37?style=for-the-badge&labelColor=0A2342)](#-verified-status)
 [![License](https://img.shields.io/badge/license-MIT-lightgrey?style=for-the-badge)](license.txt)
 
@@ -185,7 +185,7 @@ docs/          # architecture, deployment and rollback, screenshots, assets
 
 ## ✔ Verified status
 
-<div align="center"><img src="docs/assets/metrics.svg" alt="77 passing tests, 3 real concurrency races, 14 live reports, 0 core files edited" width="100%"/></div>
+<div align="center"><img src="docs/assets/metrics.svg" alt="80 passing tests, 3 real concurrency races, 14 live reports, 0 core files edited" width="100%"/></div>
 
 <br/>
 
@@ -202,8 +202,9 @@ docs/          # architecture, deployment and rollback, screenshots, assets
 | Task Updates: append-only progress notes, only the current owner can post, author from the session, ownership moves the right | **PASS** | 6 tests plus a browser run: Post Update dialog on the Task form saved the update and set the progress;  |
 | Task Checklist: completion criteria; a Task cannot be completed while a required item is open; only the current owner changes it | **PASS** | 5 tests; the guard runs before ERPNext validation so a refused completion closes nothing |
 | Department KPI snapshots: frozen monthly, one per department and period, created once, same fairness rules as the report | **PASS** | 3 tests; the daily job is registered, not yet observed on a running scheduler |
+| Organization chart (departments → teams → members, scoped) | **PASS** | 3 tests; browser check in Arabic RTL on desktop and mobile showed departments, no horizontal scroll; with sandbox data it had no teams to draw |
 | Project Delivery and Management Executive reports | **PASS** | 2 tests; blank (not zero) when there is no data |
-| Org chart, kanban/gantt | **NOT IMPLEMENTED** | tracked in the architecture document |
+| Kanban and Gantt views | **NOT IMPLEMENTED** | tracked in the architecture document |
 | Production installation | **BLOCKED** | needs explicit approval, a backup and the rollback plan |
 
 <img src="docs/assets/divider.svg" alt="" width="100%"/>

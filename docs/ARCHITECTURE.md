@@ -188,3 +188,7 @@ The Task form has an NDS menu with Post Update (dialog) and View Updates, added 
 ## Department KPI snapshots
 
 `NDS Department KPI` freezes the Department Performance Report figures for a closed month: one row per department and period (unique key, idempotent), never rewritten or deleted. `services.kpi_snapshot.generate` refuses an unfinished period; `freeze_period` is limited to System Manager, Operations Manager and Executive Management; a daily job freezes last month during the first week of a month and catches up after a missed day. The generating user's visibility applies, so the scheduler (Administrator) produces company-wide rows. Open tasks are a count at generation time, not a period figure. Registered but not yet observed on a real scheduler tick.
+
+## Organization chart
+
+The page `nds-org-chart` draws departments (nested by parent), their active teams with leads, and active members. The department structure, manager names and member names come from `frappe.get_all` after a role check, because the Employee role only has "select" on Department and `get_list` then hides everything but the id; teams, memberships and open-task counts stay permission-scoped through `get_list`. Status: PASS with 3 tests and a browser run in RTL; the sandbox had departments but no teams, so the team and member cards were checked by the test only.

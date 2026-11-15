@@ -302,3 +302,15 @@
  .nds-dash-bar-row { grid-template-columns:minmax(95px,1fr) minmax(65px,1.4fr) 24px; gap:7px; }
  .nds-dash-recent { align-items:flex-start; }
 }
+
+.nds-org { padding: 8px 0; }
+.nds-org-dept { margin: 8px 0 8px 0; padding: 8px 12px; border-inline-start: 3px solid #164e8f; background: var(--card-bg, #fff); border-radius: 6px; }
+.nds-org-dept > summary { cursor: pointer; display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: baseline; color: #0a2342; }
+.nds-org-dept .nds-org-dept { margin-inline-start: 18px; border-inline-start-color: #d4af37; }
+.nds-org-team { margin: 6px 0 6px 0; padding: 6px 10px; background: #f5f7fa; border-radius: 6px; }
+.nds-org-meta { color: var(--text-muted, #6b7280); font-size: 12px; margin-inline-start: 8px; }
+.nds-org-members { display: flex; flex-wrap: wrap; gap: 4px 6px; margin-top: 4px; }
+.nds-org-members span { font-size: 12px; padding: 1px 8px; border-radius: 10px; background: #e6edf7; color: #0a2342; }
+[data-theme="dark"] .nds-org-dept > summary { color: #e5e7eb; }
+[data-theme="dark"] .nds-org-team { background: #1f2937; }
+[data-theme="dark"] .nds-org-members span { background: #374151; color: #e5e7eb; }
