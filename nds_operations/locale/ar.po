@@ -1465,3 +1465,6 @@ msgstr "المالك الذي روجع عمله"
 
 msgid "Comments"
 msgstr "التعليقات"
+
+msgid "Quality Review Score"
+msgstr "درجة مراجعة الجودة"

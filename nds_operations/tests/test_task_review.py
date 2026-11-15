@@ -72,3 +72,20 @@ class TestTaskReview(NDSTestCase):
 		act_as("Administrator")
 		with self.assertRaises(frappe.PermissionError):
 			frappe.delete_doc("NDS Task Review", doc.name, force=True)
+
+	def test_productivity_report_uses_the_latest_approved_review(self):
+		from nds_operations.nds_enterprise_operations.report.employee_productivity_report import (
+			employee_productivity_report as productivity,
+		)
+
+		task = self.completed_task()
+		reviewer = self.reviewer()
+		self.review(task, reviewer, quality_score=2)
+		self.review(task, reviewer, quality_score=4)
+		act_as("Administrator")
+		row = next(r for r in productivity.execute({})[1] if r.user == self.sender)
+		self.assertEqual(row.review_score, 4.0)
+		self.review(task, reviewer, verdict="Changes Requested")
+		act_as("Administrator")
+		rows = {r.user: r for r in productivity.execute({})[1]}
+		self.assertIsNone(rows[self.sender].review_score)

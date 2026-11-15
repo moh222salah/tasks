@@ -42,6 +42,9 @@ METHODOLOGY = (
 	"empty when nothing was decided.</li>"
 	"<li><b>On-time rate</b> = completed tasks finished on or before the due date ÷ completed tasks that had a due date, "
 	"after removing excused tasks (a handover was waiting on the receiver across the due date).</li>"
+	"<li><b>Quality review score</b> = average 1-5 score of the latest review of each task, counting approvals only; "
+	"a task whose latest review asked for changes has no score; the score belongs to the owner when the task was reviewed; "
+	"empty when nothing was reviewed.</li>"
 	"<li><b>Response hours</b> = submission to decision, for the receiver. Cancelled and withdrawn work is excluded. "
 	"Owners come from the ownership ledger, so reassigning a task does not move past results onto someone else.</li></ul>"
 )
@@ -133,6 +136,25 @@ def handover_group_stats(rows, sender_key, receiver_key):
 		g.quality_score = quality_score(g.first_pass_rate, g.rework_rate, g.rejection_rate)
 		g.avg_response_hours = mean(g.response_hours)
 	return groups
+
+
+def review_scores_by_owner(filters=None):
+	"""Average quality score per owner from the latest review of each task (approvals only)."""
+	rows = frappe.get_list(
+		"NDS Task Review",
+		filters=filters or {},
+		fields=["task", "reviewed_owner", "verdict", "quality_score"],
+		order_by="reviewed_at desc, creation desc",
+		limit_page_length=0,
+	)
+	latest = {}
+	for row in rows:
+		latest.setdefault(row.task, row)
+	scores = {}
+	for row in latest.values():
+		if row.reviewed_owner and row.verdict == "Approved" and row.quality_score:
+			scores.setdefault(row.reviewed_owner, []).append(row.quality_score)
+	return {user: mean(values) for user, values in scores.items()}
 
 
 def completed_tasks(filters=None):
