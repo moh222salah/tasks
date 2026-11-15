@@ -285,6 +285,22 @@
    "child": 0,
    "collapsible": 1,
    "doctype": "Sidebar Item",
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "Department KPI Snapshots",
+   "link_type": "DocType",
+   "parentfield": "items",
+   "parenttype": "Sidebar",
+   "show_arrow": 0,
+   "type": "Link",
+   "link_to": "NDS Department KPI",
+   "idx": 19,
+   "icon": "gauge"
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "doctype": "Sidebar Item",
    "indent": 1,
    "keep_closed": 1,
    "label": "Reports",
@@ -294,7 +310,7 @@
    "show_arrow": 0,
    "type": "Section Break",
    "icon": "chart-column",
-   "idx": 19
+   "idx": 20
   },
   {
    "child": 0,
@@ -309,7 +325,7 @@
    "show_arrow": 0,
    "type": "Link",
    "link_to": "Department Performance Report",
-   "idx": 20
+   "idx": 21
   },
   {
    "child": 0,
@@ -324,7 +340,7 @@
    "show_arrow": 0,
    "type": "Link",
    "link_to": "Employee Productivity Report",
-   "idx": 21
+   "idx": 22
   },
   {
    "child": 0,
@@ -339,7 +355,7 @@
    "show_arrow": 0,
    "type": "Link",
    "link_to": "Employee Workload Report",
-   "idx": 22
+   "idx": 23
   },
   {
    "child": 0,
@@ -354,7 +370,7 @@
    "show_arrow": 0,
    "type": "Link",
    "link_to": "Handover Acceptance Report",
-   "idx": 23
+   "idx": 24
   },
   {
    "child": 0,
@@ -369,7 +385,7 @@
    "show_arrow": 0,
    "type": "Link",
    "link_to": "Handover Aging Report",
-   "idx": 24
+   "idx": 25
   },
   {
    "child": 0,
@@ -384,7 +400,7 @@
    "show_arrow": 0,
    "type": "Link",
    "link_to": "Handover Rejection Report",
-   "idx": 25
+   "idx": 26
   },
   {
    "child": 0,
@@ -399,7 +415,7 @@
    "show_arrow": 0,
    "type": "Link",
    "link_to": "Management Executive Report",
-   "idx": 26
+   "idx": 27
   },
   {
    "child": 0,
@@ -414,7 +430,7 @@
    "show_arrow": 0,
    "type": "Link",
    "link_to": "Overdue Tasks Report",
-   "idx": 27
+   "idx": 28
   },
   {
    "child": 0,
@@ -429,7 +445,7 @@
    "show_arrow": 0,
    "type": "Link",
    "link_to": "Project Delivery Report",
-   "idx": 28
+   "idx": 29
   },
   {
    "child": 0,
@@ -444,7 +460,7 @@
    "show_arrow": 0,
    "type": "Link",
    "link_to": "Rework and Revision Report",
-   "idx": 29
+   "idx": 30
   },
   {
    "child": 0,
@@ -459,7 +475,7 @@
    "show_arrow": 0,
    "type": "Link",
    "link_to": "Task Cycle Time Report",
-   "idx": 30
+   "idx": 31
   },
   {
    "child": 0,
@@ -474,7 +490,7 @@
    "show_arrow": 0,
    "type": "Link",
    "link_to": "Task Handover Register",
-   "idx": 31
+   "idx": 32
   },
   {
    "child": 0,
@@ -489,7 +505,7 @@
    "show_arrow": 0,
    "type": "Link",
    "link_to": "Tasks Master Report",
-   "idx": 32
+   "idx": 33
   },
   {
    "child": 0,
@@ -504,7 +520,7 @@
    "show_arrow": 0,
    "type": "Link",
    "link_to": "Team Performance Report",
-   "idx": 33
+   "idx": 34
   },
   {
    "child": 0,
@@ -519,7 +535,7 @@
    "show_arrow": 0,
    "type": "Section Break",
    "icon": "settings",
-   "idx": 34
+   "idx": 35
   },
   {
    "child": 0,
@@ -534,7 +550,7 @@
    "show_arrow": 0,
    "type": "Link",
    "link_to": "NDS Operations Settings",
-   "idx": 35
+   "idx": 36
   },
   {
    "child": 0,
@@ -549,7 +565,7 @@
    "show_arrow": 0,
    "type": "Link",
    "link_to": "NDS Rejection Reason",
-   "idx": 36
+   "idx": 37
   },
   {
    "child": 0,
@@ -564,7 +580,7 @@
    "show_arrow": 0,
    "type": "Link",
    "link_to": "NDS Notification Preference",
-   "idx": 37
+   "idx": 38
   }
  ],
  "module": "NDS Enterprise Operations",

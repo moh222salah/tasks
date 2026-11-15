@@ -73,6 +73,7 @@ scheduler_events = {
 	],
 	"daily": [
 		"nds_operations.services.reminders.run_task_reminders",
+		"nds_operations.services.kpi_snapshot.run_monthly_snapshot",
 		"nds_operations.nds_enterprise_operations.doctype.nds_team_membership.nds_team_membership.refresh_membership_status",
 	],
 }
