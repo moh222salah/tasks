@@ -1306,3 +1306,6 @@ msgstr "تقرير أداء الإدارات"
 
 msgid "Employee Productivity Report"
 msgstr "تقرير إنتاجية الموظفين"
+
+msgid "Task Updates"
+msgstr "تحديثات المهام"

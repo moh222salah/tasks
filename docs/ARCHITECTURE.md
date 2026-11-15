@@ -173,3 +173,8 @@ Hourly `run_handover_reminders`: a receiver is reminded once when the response i
 ## Navigation (sidebar)
 
 Frappe 16 no longer imports `<app>/workspace_sidebar/*.json`; a sidebar now ships per module as a `Sidebar` document under `<module>/sidebar/`. Without it the desk falls back to an auto-generated, alphabetical list. The curated sidebar (Overview, Handover Center, Task Handovers, Tasks, Projects, Organization, Audit Trail with Delegations, the 14 reports, Settings with Notification Preferences) is generated with `bench convert-sidebar-fixtures` and then extended; the old folder is kept so earlier v16 builds still read it. The workspace page also lists the reports, delegations and preferences. Verified in a browser on the sandbox (Frappe 16.55): the curated order loads. Not verified: how a Frappe build older than the one on the sandbox, including the production one, treats the two formats.
+
+
+## Task updates
+
+`NDS Task Update` is an append-only note on a Task (Progress, Issue, Help Request, Evidence, Note) with an optional progress percentage and evidence link or file. Only the current owner, as the ownership ledger defines it, can post; the author and timestamp come from the session, so they cannot be forged, and the Administrator is bound by the same controller guard. Ownership moves the right to post only on acceptance of a handover. Updates cannot be edited or deleted. Readers: the author, past and present owners, managers of the task's department, executives and auditors. A Progress update with a percentage sets the Task's progress. Not implemented: a task checklist and a department KPI document.

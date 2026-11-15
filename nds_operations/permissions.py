@@ -17,6 +17,7 @@ import frappe
 from nds_operations.constants import (
 	HANDOVER,
 	NDS_ROLES,
+	OWNERSHIP_HISTORY,
 	ROLE_AUDITOR,
 	ROLE_DEPT_MANAGER,
 	ROLE_EXECUTIVE,
@@ -231,6 +232,38 @@ def ownership_has_permission(doc, ptype=None, user=None, debug=False):
 	if doc.get("handover"):
 		return frappe.has_permission(HANDOVER, "read", doc=doc.handover, user=user)
 	return bool(get_scope(user).full)
+
+
+def task_update_query_conditions(user=None, doctype=None):
+	user = user or frappe.session.user
+	scope = get_scope(user)
+	if scope.full or scope.submitted_all:
+		return ""
+	T = "`tabNDS Task Update`"
+	me = frappe.db.escape(user)
+	visible = [
+		f"{T}.author = {me}",
+		f"{T}.task in (select task from `tabNDS Ownership History` where from_user = {me} or to_user = {me})",
+	]
+	if scope.departments:
+		visible.append(f"{T}.task in (select name from `tabTask` where department in ({_in(scope.departments)}))")
+	return f"({' or '.join(visible)})"
+
+
+def task_update_has_permission(doc, ptype=None, user=None, debug=False):
+	"""Updates are append-only; they are visible to their author, past and present owners and the task's managers."""
+	user = user or frappe.session.user
+	if ptype in WRITE_PTYPES:
+		return ptype == "create"
+	scope = get_scope(user)
+	if scope.full or scope.submitted_all or doc.get("author") == user:
+		return True
+	if frappe.db.exists(OWNERSHIP_HISTORY, {"task": doc.get("task"), "to_user": user}) or frappe.db.exists(
+		OWNERSHIP_HISTORY, {"task": doc.get("task"), "from_user": user}
+	):
+		return True
+	department = frappe.db.get_value("Task", doc.get("task"), "department")
+	return bool(department and department in scope.departments)
 
 
 def delegation_query_conditions(user=None, doctype=None):

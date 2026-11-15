@@ -6,7 +6,7 @@
 
 [![Frappe](https://img.shields.io/badge/Frappe-v16-0A2342?style=for-the-badge&logo=frappe&logoColor=D4AF37)](https://frappe.io)
 [![ERPNext](https://img.shields.io/badge/ERPNext-v16-164E8F?style=for-the-badge)](https://erpnext.com)
-[![Tests](https://img.shields.io/badge/tests-63%20passing-2e8b57?style=for-the-badge)](#-verified-status)
+[![Tests](https://img.shields.io/badge/tests-69%20passing-2e8b57?style=for-the-badge)](#-verified-status)
 [![Concurrency](https://img.shields.io/badge/concurrency-real%20races%20tested-D4AF37?style=for-the-badge&labelColor=0A2342)](#-verified-status)
 [![License](https://img.shields.io/badge/license-MIT-lightgrey?style=for-the-badge)](license.txt)
 
@@ -185,7 +185,7 @@ docs/          # architecture, deployment and rollback, screenshots, assets
 
 ## ✔ Verified status
 
-<div align="center"><img src="docs/assets/metrics.svg" alt="63 passing tests, 3 real concurrency races, 14 live reports, 0 core files edited" width="100%"/></div>
+<div align="center"><img src="docs/assets/metrics.svg" alt="69 passing tests, 3 real concurrency races, 14 live reports, 0 core files edited" width="100%"/></div>
 
 <br/>
 
@@ -199,6 +199,7 @@ docs/          # architecture, deployment and rollback, screenshots, assets
 | Arabic translation (≈425 strings) and RTL layout | **PASS** (Handover Center, Operations Overview, handover form) | real browser, desktop and mobile, no horizontal scroll; the report screens are not yet checked in RTL |
 | Explicit delegation of acceptance (dated, revocable, never for the sender) | **PASS** | 7 tests plus the form exercised in a browser |
 | Scheduled reminders (due soon, overdue, manager escalation, task due dates) and per-user notification preferences | **PASS** | 7 tests; hooks registered on the sandbox; each reminder sent once |
+| Task Updates: append-only progress notes, only the current owner can post, author from the session, ownership moves the right | **PASS** | 6 tests; a Task checklist is **NOT IMPLEMENTED** |
 | Project Delivery and Management Executive reports | **PASS** | 2 tests; blank (not zero) when there is no data |
 | Org chart, kanban/gantt | **NOT IMPLEMENTED** | tracked in the architecture document |
 | Production installation | **BLOCKED** | needs explicit approval, a backup and the rollback plan |

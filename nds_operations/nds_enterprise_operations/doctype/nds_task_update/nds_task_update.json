@@ -1,0 +1,158 @@
+{
+ "actions": [],
+ "autoname": "format:TUP-{#####}",
+ "creation": "2026-11-15 09:00:00.000000",
+ "description": "Append-only progress notes posted by the current owner of a Task.",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "task",
+  "update_type",
+  "progress",
+  "cb_tu_1",
+  "author",
+  "posted_at",
+  "sb_tu_1",
+  "note",
+  "link",
+  "attachment"
+ ],
+ "fields": [
+  {
+   "fieldname": "task",
+   "fieldtype": "Link",
+   "ignore_user_permissions": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Task",
+   "options": "Task",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "update_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Update Type",
+   "options": "Progress\nIssue\nHelp Request\nEvidence\nNote",
+   "default": "Progress",
+   "reqd": 1
+  },
+  {
+   "fieldname": "progress",
+   "fieldtype": "Percent",
+   "label": "Progress %",
+   "description": "Optional. Sets the task progress."
+  },
+  {
+   "fieldname": "cb_tu_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "author",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Posted By",
+   "options": "User",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "posted_at",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Posted At",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sb_tu_1",
+   "fieldtype": "Section Break",
+   "label": "Update"
+  },
+  {
+   "fieldname": "note",
+   "fieldtype": "Text Editor",
+   "label": "Note",
+   "reqd": 1
+  },
+  {
+   "fieldname": "link",
+   "fieldtype": "Data",
+   "label": "Evidence Link",
+   "options": "URL"
+  },
+  {
+   "fieldname": "attachment",
+   "fieldtype": "Attach",
+   "label": "Evidence File"
+  }
+ ],
+ "icon": "message-square",
+ "links": [],
+ "modified": "2026-11-15 09:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "NDS Enterprise Operations",
+ "name": "NDS Task Update",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "read": 1,
+   "export": 1,
+   "report": 1,
+   "role": "System Manager"
+  },
+  {
+   "read": 1,
+   "create": 1,
+   "role": "Employee"
+  },
+  {
+   "read": 1,
+   "create": 1,
+   "role": "NDS Task Executor"
+  },
+  {
+   "read": 1,
+   "export": 1,
+   "report": 1,
+   "role": "NDS Team Leader"
+  },
+  {
+   "read": 1,
+   "export": 1,
+   "report": 1,
+   "role": "NDS Department Manager"
+  },
+  {
+   "read": 1,
+   "export": 1,
+   "report": 1,
+   "role": "NDS Operations Manager"
+  },
+  {
+   "read": 1,
+   "export": 1,
+   "report": 1,
+   "role": "NDS Executive Management"
+  },
+  {
+   "read": 1,
+   "export": 1,
+   "report": 1,
+   "role": "NDS Read Only Auditor"
+  },
+  {
+   "read": 1,
+   "export": 1,
+   "report": 1,
+   "role": "NDS Project Manager"
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "task"
+}

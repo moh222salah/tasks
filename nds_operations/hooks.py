@@ -42,6 +42,7 @@ permission_query_conditions = {
 	"NDS Handover History": "nds_operations.permissions.history_query_conditions",
 	"NDS Ownership History": "nds_operations.permissions.ownership_query_conditions",
 	"NDS Delegation": "nds_operations.permissions.delegation_query_conditions",
+	"NDS Task Update": "nds_operations.permissions.task_update_query_conditions",
 	"NDS Notification Preference": "nds_operations.permissions.preference_query_conditions",
 }
 
@@ -51,6 +52,7 @@ has_permission = {
 	"NDS Handover History": "nds_operations.permissions.record_has_permission",
 	"NDS Ownership History": "nds_operations.permissions.ownership_has_permission",
 	"NDS Delegation": "nds_operations.permissions.delegation_has_permission",
+	"NDS Task Update": "nds_operations.permissions.task_update_has_permission",
 	"NDS Notification Preference": "nds_operations.permissions.preference_has_permission",
 }
 
