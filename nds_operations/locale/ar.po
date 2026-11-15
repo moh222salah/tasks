@@ -1231,3 +1231,78 @@ msgstr "عمليات NDS المؤسسية"
 msgid "Employee Workload"
 msgstr "عبء عمل الموظفين"
 
+
+msgid "Task Handovers"
+msgstr "تسليمات المهام"
+
+msgid "Department Profile"
+msgstr "ملف الإدارة"
+
+msgid "Teams"
+msgstr "الفرق"
+
+msgid "Team Memberships"
+msgstr "عضويات الفرق"
+
+msgid "Handover History"
+msgstr "سجل التسليم"
+
+msgid "Ownership History"
+msgstr "سجل المسؤولية"
+
+msgid "Delegations"
+msgstr "التفويضات"
+
+msgid "Rejection Reasons"
+msgstr "أسباب الرفض"
+
+msgid "Notification Preferences"
+msgstr "تفضيلات الإشعارات"
+
+msgid "Reviews"
+msgstr "المراجعات"
+
+msgid "Operations Settings"
+msgstr "إعدادات العمليات"
+
+msgid "Departments"
+msgstr "الإدارات"
+
+msgid "Projects"
+msgstr "المشروعات"
+
+msgid "Tasks"
+msgstr "المهام"
+
+msgid "Audit Trail"
+msgstr "سجل التدقيق"
+
+msgid "Reports"
+msgstr "التقارير"
+
+msgid "Organization"
+msgstr "الهيكل التنظيمي"
+
+msgid "Settings"
+msgstr "الإعدادات"
+
+msgid "Project Delivery Report"
+msgstr "تقرير تسليم المشروعات"
+
+msgid "Management Executive Report"
+msgstr "التقرير التنفيذي للإدارة"
+
+msgid "Task Cycle Time Report"
+msgstr "تقرير زمن دورة المهمة"
+
+msgid "Team Performance Report"
+msgstr "تقرير أداء الفرق"
+
+msgid "Rework and Revision Report"
+msgstr "تقرير إعادة العمل والمراجعة"
+
+msgid "Department Performance Report"
+msgstr "تقرير أداء الإدارات"
+
+msgid "Employee Productivity Report"
+msgstr "تقرير إنتاجية الموظفين"

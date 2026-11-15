@@ -196,7 +196,7 @@ docs/          # architecture, deployment and rollback, screenshots, assets
 | Permissions and immutability, including Administrator | **PASS** | security tests, backend-enforced |
 | Team leader / department manager scope | **PASS** | org-scope tests |
 | Operations Overview and 14 reports (KPI rules: cancelled excluded, waiting-on-receiver excused) | **PASS** | tests plus a real browser check |
-| Arabic translation (≈400 strings) and RTL layout | **PASS** (Handover Center, Operations Overview) | real browser, desktop and mobile, no horizontal scroll; the handover form itself is not yet checked in RTL |
+| Arabic translation (≈425 strings) and RTL layout | **PASS** (Handover Center, Operations Overview, handover form) | real browser, desktop and mobile, no horizontal scroll; the report screens are not yet checked in RTL |
 | Explicit delegation of acceptance (dated, revocable, never for the sender) | **PASS** | 7 tests plus the form exercised in a browser |
 | Scheduled reminders (due soon, overdue, manager escalation, task due dates) and per-user notification preferences | **PASS** | 7 tests; hooks registered on the sandbox; each reminder sent once |
 | Project Delivery and Management Executive reports | **PASS** | 2 tests; blank (not zero) when there is no data |
