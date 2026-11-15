@@ -1,7 +1,7 @@
 {
  "app": "nds_operations",
  "charts": [],
- "content": "[{\"id\":\"nds00hdr01\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>NDS Enterprise Operations</b></span>\",\"col\":12}},{\"id\":\"nds00para1\",\"type\":\"paragraph\",\"data\":{\"text\":\"One Organization. Connected Teams. Clear Ownership. Measurable Results.\",\"col\":12}},{\"id\":\"nds00sc000\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Operations Overview\",\"col\":3}},{\"id\":\"nds00sc001\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Handover Center\",\"col\":3}},{\"id\":\"nds00sc002\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Task Handovers\",\"col\":3}},{\"id\":\"nds00sc003\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Teams\",\"col\":3}},{\"id\":\"nds00sc004\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Tasks\",\"col\":3}},{\"id\":\"nds00card01\",\"type\":\"card\",\"data\":{\"card_name\":\"Organization\",\"col\":4}},{\"id\":\"nds00card02\",\"type\":\"card\",\"data\":{\"card_name\":\"Handover\",\"col\":4}},{\"id\":\"nds00card03\",\"type\":\"card\",\"data\":{\"card_name\":\"Settings\",\"col\":4}}]",
+ "content": "[{\"id\":\"nds00hdr01\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>NDS Enterprise Operations</b></span>\",\"col\":12}},{\"id\":\"nds00para1\",\"type\":\"paragraph\",\"data\":{\"text\":\"One Organization. Connected Teams. Clear Ownership. Measurable Results.\",\"col\":12}},{\"id\":\"nds00sc000\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Operations Overview\",\"col\":3}},{\"id\":\"nds00sc001\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Handover Center\",\"col\":3}},{\"id\":\"nds00sc002\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Task Handovers\",\"col\":3}},{\"id\":\"nds00sc003\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Teams\",\"col\":3}},{\"id\":\"nds00sc004\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Tasks\",\"col\":3}},{\"id\":\"nds00card01\",\"type\":\"card\",\"data\":{\"card_name\":\"Organization\",\"col\":4}},{\"id\":\"nds00card02\",\"type\":\"card\",\"data\":{\"card_name\":\"Handover\",\"col\":4}},{\"id\":\"nds00card04\",\"type\":\"card\",\"data\":{\"card_name\":\"Reports\",\"col\":4}},{\"id\":\"nds00card03\",\"type\":\"card\",\"data\":{\"card_name\":\"Settings\",\"col\":4}}]",
  "creation": "2026-11-14 00:00:00.000000",
  "custom_blocks": [],
  "docstatus": 0,
@@ -72,7 +72,7 @@
    "hidden": 0,
    "is_query_report": 0,
    "label": "Handover",
-   "link_count": 4,
+   "link_count": 5,
    "onboard": 0,
    "type": "Card Break"
   },
@@ -119,8 +119,18 @@
   {
    "hidden": 0,
    "is_query_report": 0,
+   "label": "Delegations",
+   "link_count": 0,
+   "link_to": "NDS Delegation",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
    "label": "Settings",
-   "link_count": 2,
+   "link_count": 3,
    "onboard": 0,
    "type": "Card Break"
   },
@@ -143,9 +153,181 @@
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Notification Preferences",
+   "link_count": 0,
+   "link_to": "NDS Notification Preference",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Reports",
+   "link_count": 14,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Department Performance Report",
+   "link_count": 0,
+   "link_to": "Department Performance Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link",
+   "report_ref_doctype": "NDS Task Handover"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Employee Productivity Report",
+   "link_count": 0,
+   "link_to": "Employee Productivity Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link",
+   "report_ref_doctype": "NDS Task Handover"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Employee Workload Report",
+   "link_count": 0,
+   "link_to": "Employee Workload Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link",
+   "report_ref_doctype": "Task"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Handover Acceptance Report",
+   "link_count": 0,
+   "link_to": "Handover Acceptance Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link",
+   "report_ref_doctype": "NDS Task Handover"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Handover Aging Report",
+   "link_count": 0,
+   "link_to": "Handover Aging Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link",
+   "report_ref_doctype": "NDS Task Handover"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Handover Rejection Report",
+   "link_count": 0,
+   "link_to": "Handover Rejection Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link",
+   "report_ref_doctype": "NDS Task Handover"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Management Executive Report",
+   "link_count": 0,
+   "link_to": "Management Executive Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link",
+   "report_ref_doctype": "Task"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Overdue Tasks Report",
+   "link_count": 0,
+   "link_to": "Overdue Tasks Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link",
+   "report_ref_doctype": "Task"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Project Delivery Report",
+   "link_count": 0,
+   "link_to": "Project Delivery Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link",
+   "report_ref_doctype": "Project"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Rework and Revision Report",
+   "link_count": 0,
+   "link_to": "Rework and Revision Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link",
+   "report_ref_doctype": "NDS Task Handover"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Task Cycle Time Report",
+   "link_count": 0,
+   "link_to": "Task Cycle Time Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link",
+   "report_ref_doctype": "Task"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Task Handover Register",
+   "link_count": 0,
+   "link_to": "Task Handover Register",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link",
+   "report_ref_doctype": "NDS Task Handover"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Tasks Master Report",
+   "link_count": 0,
+   "link_to": "Tasks Master Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link",
+   "report_ref_doctype": "Task"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Team Performance Report",
+   "link_count": 0,
+   "link_to": "Team Performance Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link",
+   "report_ref_doctype": "NDS Task Handover"
   }
  ],
- "modified": "2026-11-14 00:00:00.000000",
+ "modified": "2026-11-14 22:00:00.000000",
  "modified_by": "Administrator",
  "module": "NDS Enterprise Operations",
  "name": "NDS Enterprise Operations",
