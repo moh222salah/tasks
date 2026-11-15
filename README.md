@@ -10,6 +10,7 @@
 [![Concurrency](https://img.shields.io/badge/concurrency-real%20races%20tested-D4AF37?style=for-the-badge&labelColor=0A2342)](#-verified-status)
 [![License](https://img.shields.io/badge/license-MIT-lightgrey?style=for-the-badge)](license.txt)
 
+**[Project page](index.html)** ·
 **[Handover](#-the-heart-task-handover--acceptance)** ·
 **[Capabilities](#-capabilities)** ·
 **[Screens](#-screens)** ·
