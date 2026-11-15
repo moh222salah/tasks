@@ -72,7 +72,7 @@
    "hidden": 0,
    "is_query_report": 0,
    "label": "Handover",
-   "link_count": 6,
+   "link_count": 7,
    "onboard": 0,
    "type": "Card Break"
   },
@@ -132,6 +132,16 @@
    "label": "Task Updates",
    "link_count": 0,
    "link_to": "NDS Task Update",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Task Checklists",
+   "link_count": 0,
+   "link_to": "NDS Task Checklist",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
@@ -337,7 +347,7 @@
    "report_ref_doctype": "NDS Task Handover"
   }
  ],
- "modified": "2026-11-15 09:30:00.000000",
+ "modified": "2026-11-15 10:30:00.000000",
  "modified_by": "Administrator",
  "module": "NDS Enterprise Operations",
  "name": "NDS Enterprise Operations",

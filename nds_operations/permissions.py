@@ -266,6 +266,39 @@ def task_update_has_permission(doc, ptype=None, user=None, debug=False):
 	return bool(department and department in scope.departments)
 
 
+def checklist_query_conditions(user=None, doctype=None):
+	user = user or frappe.session.user
+	scope = get_scope(user)
+	if scope.full or scope.submitted_all:
+		return ""
+	T = "`tabNDS Task Checklist`"
+	me = frappe.db.escape(user)
+	visible = [
+		f"{T}.owner = {me}",
+		f"{T}.task in (select task from `tabNDS Ownership History` where from_user = {me} or to_user = {me})",
+	]
+	if scope.departments:
+		visible.append(f"{T}.task in (select name from `tabTask` where department in ({_in(scope.departments)}))")
+	return f"({' or '.join(visible)})"
+
+
+def checklist_has_permission(doc, ptype=None, user=None, debug=False):
+	"""Visible like the task's updates; changes are decided by the controller (current owner only)."""
+	user = user or frappe.session.user
+	if ptype in WRITE_PTYPES:
+		return True
+	scope = get_scope(user)
+	if scope.full or scope.submitted_all or doc.get("owner") == user:
+		return True
+	task = doc.get("task")
+	if frappe.db.exists(OWNERSHIP_HISTORY, {"task": task, "to_user": user}) or frappe.db.exists(
+		OWNERSHIP_HISTORY, {"task": task, "from_user": user}
+	):
+		return True
+	department = frappe.db.get_value("Task", task, "department")
+	return bool(department and department in scope.departments)
+
+
 def delegation_query_conditions(user=None, doctype=None):
 	user = user or frappe.session.user
 	if get_scope(user).full or get_scope(user).submitted_all:

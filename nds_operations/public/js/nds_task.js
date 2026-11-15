@@ -46,5 +46,13 @@ frappe.ui.form.on("Task", {
 			},
 			__("NDS")
 		);
+		frm.add_custom_button(
+			__("View Checklist"),
+			() => {
+				frappe.route_options = { task: frm.doc.name };
+				frappe.set_route("List", "NDS Task Checklist");
+			},
+			__("NDS")
+		);
 	},
 });

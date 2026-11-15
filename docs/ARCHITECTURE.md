@@ -177,6 +177,10 @@ Frappe 16 no longer imports `<app>/workspace_sidebar/*.json`; a sidebar now ship
 
 ## Task updates
 
-`NDS Task Update` is an append-only note on a Task (Progress, Issue, Help Request, Evidence, Note) with an optional progress percentage and evidence link or file. Only the current owner, as the ownership ledger defines it, can post; the author and timestamp come from the session, so they cannot be forged, and the Administrator is bound by the same controller guard. Ownership moves the right to post only on acceptance of a handover. Updates cannot be edited or deleted. Readers: the author, past and present owners, managers of the task's department, executives and auditors. A Progress update with a percentage sets the Task's progress. Not implemented: a task checklist and a department KPI document.
+`NDS Task Update` is an append-only note on a Task (Progress, Issue, Help Request, Evidence, Note) with an optional progress percentage and evidence link or file. Only the current owner, as the ownership ledger defines it, can post; the author and timestamp come from the session, so they cannot be forged, and the Administrator is bound by the same controller guard. Ownership moves the right to post only on acceptance of a handover. Updates cannot be edited or deleted. Readers: the author, past and present owners, managers of the task's department, executives and auditors. A Progress update with a percentage sets the Task's progress. Not implemented: a department KPI document.
 
 The Task form has an NDS menu with Post Update (dialog) and View Updates, added with `doctype_js` rather than by editing ERPNext.
+
+## Task checklist
+
+`NDS Task Checklist` holds completion criteria for a Task. Only the current owner adds, ticks or removes items; `done_by` and `done_at` come from the session and are cleared on untick; a ticked item cannot be deleted. A `before_validate` hook on Task refuses `Completed` while a required item is open. It runs before ERPNext's own validation on purpose: ERPNext closes the task's assignments inside `validate`, which would otherwise change the owner even though the completion was refused. Tasks without a checklist behave exactly as before.

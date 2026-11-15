@@ -1345,3 +1345,27 @@ msgstr "ملاحظة"
 
 msgid "Post"
 msgstr "نشر"
+
+msgid "Task Checklists"
+msgstr "قوائم إنجاز المهام"
+
+msgid "View Checklist"
+msgstr "عرض قائمة الإنجاز"
+
+msgid "Completion Criterion"
+msgstr "معيار الإنجاز"
+
+msgid "Required to Complete"
+msgstr "مطلوب للإكمال"
+
+msgid "Done"
+msgstr "تم"
+
+msgid "Done By"
+msgstr "أنجزه"
+
+msgid "Done At"
+msgstr "وقت الإنجاز"
+
+msgid "Evidence / Note"
+msgstr "دليل / ملاحظة"
