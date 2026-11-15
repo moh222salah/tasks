@@ -1,0 +1,154 @@
+{
+ "actions": [],
+ "autoname": "format:TRV-{#####}",
+ "creation": "2026-11-15 14:00:00.000000",
+ "description": "Append-only quality review of a completed Task by someone who never owned it.",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "task",
+  "verdict",
+  "quality_score",
+  "cb_tr_1",
+  "reviewer",
+  "reviewed_at",
+  "reviewed_owner",
+  "sb_tr_1",
+  "comments"
+ ],
+ "fields": [
+  {
+   "fieldname": "task",
+   "fieldtype": "Link",
+   "label": "Task",
+   "options": "Task",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "search_index": 1,
+   "ignore_user_permissions": 1
+  },
+  {
+   "fieldname": "verdict",
+   "fieldtype": "Select",
+   "label": "Verdict",
+   "options": "Approved\nChanges Requested",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "quality_score",
+   "fieldtype": "Int",
+   "label": "Quality Score (1-5)",
+   "in_list_view": 1,
+   "description": "Required when approving."
+  },
+  {
+   "fieldname": "cb_tr_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "reviewer",
+   "fieldtype": "Link",
+   "label": "Reviewer",
+   "options": "User",
+   "read_only": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "reviewed_at",
+   "fieldtype": "Datetime",
+   "label": "Reviewed At",
+   "read_only": 1
+  },
+  {
+   "fieldname": "reviewed_owner",
+   "fieldtype": "Link",
+   "label": "Owner Reviewed",
+   "options": "User",
+   "read_only": 1,
+   "description": "The owner of the task when it was reviewed."
+  },
+  {
+   "fieldname": "sb_tr_1",
+   "fieldtype": "Section Break",
+   "label": "Review"
+  },
+  {
+   "fieldname": "comments",
+   "fieldtype": "Text Editor",
+   "label": "Comments",
+   "reqd": 1
+  }
+ ],
+ "icon": "badge-check",
+ "links": [],
+ "modified": "2026-11-15 14:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "NDS Enterprise Operations",
+ "name": "NDS Task Review",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "read": 1,
+   "export": 1,
+   "report": 1,
+   "role": "System Manager"
+  },
+  {
+   "read": 1,
+   "create": 1,
+   "export": 1,
+   "report": 1,
+   "role": "NDS Task Reviewer"
+  },
+  {
+   "read": 1,
+   "create": 1,
+   "export": 1,
+   "report": 1,
+   "role": "NDS Department Manager"
+  },
+  {
+   "read": 1,
+   "create": 1,
+   "export": 1,
+   "report": 1,
+   "role": "NDS Operations Manager"
+  },
+  {
+   "read": 1,
+   "create": 1,
+   "export": 1,
+   "report": 1,
+   "role": "NDS Executive Management"
+  },
+  {
+   "read": 1,
+   "role": "NDS Read Only Auditor"
+  },
+  {
+   "read": 1,
+   "role": "NDS Team Leader"
+  },
+  {
+   "read": 1,
+   "role": "NDS Project Manager"
+  },
+  {
+   "read": 1,
+   "role": "Employee"
+  },
+  {
+   "read": 1,
+   "role": "NDS Task Executor"
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "task"
+}

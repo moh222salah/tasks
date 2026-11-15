@@ -192,3 +192,7 @@ The Task form has an NDS menu with Post Update (dialog) and View Updates, added 
 ## Organization chart
 
 The page `nds-org-chart` draws departments (nested by parent), their active teams with leads, and active members. The department structure, manager names and member names come from `frappe.get_all` after a role check, because the Employee role only has "select" on Department and `get_list` then hides everything but the id; teams, memberships and open-task counts stay permission-scoped through `get_list`. Status: PASS with 3 tests and a browser run in RTL; the sandbox had departments but no teams, so the team and member cards were checked by the test only.
+
+## Task review
+
+`NDS Task Review` is the append-only quality review of a Completed task. The reviewer comes from the session and must hold Task Reviewer, Department Manager, Operations Manager or Executive Management; nobody who is, or ever was, an owner of the task in the ledger can review it; an approval needs a score from 1 to 5; the owner at review time is stamped so later reassignments cannot move the score onto someone else. A `Review Task` dialog on the Task form is added through `doctype_js`. The review score is not yet fed into the productivity report.

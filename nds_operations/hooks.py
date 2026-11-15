@@ -46,6 +46,7 @@ permission_query_conditions = {
 	"NDS Delegation": "nds_operations.permissions.delegation_query_conditions",
 	"NDS Task Update": "nds_operations.permissions.task_update_query_conditions",
 	"NDS Task Checklist": "nds_operations.permissions.checklist_query_conditions",
+	"NDS Task Review": "nds_operations.permissions.checklist_query_conditions",
 	"NDS Notification Preference": "nds_operations.permissions.preference_query_conditions",
 }
 
@@ -57,6 +58,7 @@ has_permission = {
 	"NDS Delegation": "nds_operations.permissions.delegation_has_permission",
 	"NDS Task Update": "nds_operations.permissions.task_update_has_permission",
 	"NDS Task Checklist": "nds_operations.permissions.checklist_has_permission",
+	"NDS Task Review": "nds_operations.permissions.checklist_has_permission",
 	"NDS Notification Preference": "nds_operations.permissions.preference_has_permission",
 }
 

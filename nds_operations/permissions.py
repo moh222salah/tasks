@@ -271,7 +271,7 @@ def checklist_query_conditions(user=None, doctype=None):
 	scope = get_scope(user)
 	if scope.full or scope.submitted_all:
 		return ""
-	T = "`tabNDS Task Checklist`"
+	T = f"`tab{doctype or 'NDS Task Checklist'}`"
 	me = frappe.db.escape(user)
 	visible = [
 		f"{T}.owner = {me}",

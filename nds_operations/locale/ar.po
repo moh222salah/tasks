@@ -1432,3 +1432,36 @@ msgstr "أعضاء"
 
 msgid "open tasks"
 msgstr "مهام مفتوحة"
+
+msgid "Task Reviews"
+msgstr "مراجعات المهام"
+
+msgid "Review Task"
+msgstr "مراجعة المهمة"
+
+msgid "View Reviews"
+msgstr "عرض المراجعات"
+
+msgid "Submit Review"
+msgstr "إرسال المراجعة"
+
+msgid "Review recorded"
+msgstr "تم تسجيل المراجعة"
+
+msgid "Verdict"
+msgstr "القرار"
+
+msgid "Approved"
+msgstr "معتمد"
+
+msgid "Changes Requested"
+msgstr "مطلوب تعديلات"
+
+msgid "Quality Score (1-5)"
+msgstr "درجة الجودة (1-5)"
+
+msgid "Owner Reviewed"
+msgstr "المالك الذي روجع عمله"
+
+msgid "Comments"
+msgstr "التعليقات"
