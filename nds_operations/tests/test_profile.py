@@ -126,3 +126,19 @@ class TestProfiles(NDSTestCase):
 		else:
 			with self.assertRaises(frappe.PermissionError):
 				get_employee_profile(self.sender_employee)
+
+
+class TestTaskKanban(NDSTestCase):
+	def test_seed_creates_one_board_and_never_duplicates_or_overwrites(self):
+		from nds_operations.install import KANBAN_BOARD, seed_task_kanban
+
+		act_as("Administrator")
+		seed_task_kanban()
+		seed_task_kanban()
+		self.assertEqual(frappe.db.count("Kanban Board", {"name": KANBAN_BOARD}), 1)
+		board = frappe.get_doc("Kanban Board", KANBAN_BOARD)
+		self.assertEqual((board.reference_doctype, board.field_name), ("Task", "status"))
+		self.assertEqual([c.column_name for c in board.columns][:2], ["Open", "Working"])
+		frappe.db.set_value("Kanban Board", KANBAN_BOARD, "show_labels", 1)
+		seed_task_kanban()
+		self.assertEqual(frappe.db.get_value("Kanban Board", KANBAN_BOARD, "show_labels"), 1)
