@@ -37,10 +37,10 @@ class NDSOrgChart {
 			const teams = d.teams
 				.map(
 					(t) =>
-						'<div class="nds-org-team"><a href="/desk/nds-team/' + encodeURIComponent(t.name) + '"><b>' + e(t.title) + "</b></a>" +
+						'<div class="nds-org-team"><a href="/desk/nds-profile/team/' + encodeURIComponent(t.name) + '"><b>' + e(t.title) + "</b></a>" +
 						'<span class="nds-org-meta">' + (t.lead ? e(t.lead) + " · " : "") + t.member_count + " " + __("members") + "</span>" +
 						(t.members.length
-							? '<div class="nds-org-members">' + t.members.map((m) => "<span>" + e(m.name) + "</span>").join("") + (t.more ? "<span>+" + t.more + "</span>" : "") + "</div>"
+							? '<div class="nds-org-members">' + t.members.map((m) => '<span><a href="/desk/nds-profile/employee/' + encodeURIComponent(m.employee) + '">' + e(m.name) + "</a></span>").join("") + (t.more ? "<span>+" + t.more + "</span>" : "") + "</div>"
 							: "") +
 						"</div>"
 				)

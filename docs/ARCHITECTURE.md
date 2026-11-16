@@ -123,7 +123,7 @@ Delegated acceptance and "approved exceptional self-acceptance" are **NOT IMPLEM
 | New Handover dialog | implemented; PASS in browser for Accept dialog only |
 | Workspace + sidebar + desktop icon | implemented; sidebar entry order not yet verified |
 | Operations Overview dashboard (permission-scoped handover KPIs, status distribution, receiving-department breakdown, recent activity) | PASS (5 tests; task KPIs; cards click through to filtered lists; browser-verified desktop + mobile; reviewed and corrected after a first draft whose API failed on Frappe v16) |
-| Org chart, full task KPIs, 14 reports, kanban/gantt, notification settings, delegation | NOT IMPLEMENTED |
+| Kanban/Gantt views | NOT IMPLEMENTED |
 | RTL / mobile layout | CSS uses logical properties; not yet verified in a browser |
 
 ## 8. Risk assessment
@@ -200,3 +200,9 @@ The page `nds-org-chart` draws departments (nested by parent), their active team
 ## Performance check
 
 `tests/test_performance.py` seeds submitted handovers and compares the number of SQL queries per screen at 5 rows and at 5 + N rows (N defaults to 25; `NDS_PERF_ROWS=300` was used for the figures here), failing on growth, and fails any screen slower than 3 s. Result on the sandbox with 305 handovers: dashboard 15 → 12 queries, inbox 3 → 3, counts 6 → 6, org chart 35 → 6 (first call warms caches), register 1 → 1, workload 6 → 6, executive 6 → 6, all under 0.02 s. Limits: a local database, one user at a time, and the screens were run as Administrator; production hardware, real data volume and parallel users are not measured. The inbox and register are paginated, so their cost does not follow the row count by design.
+
+## Employee and team profiles
+
+The page `nds-profile` (routes `/desk/nds-profile`, `/employee/<id>`, `/team/<id>`) is fed by `nds_operations.api.profile`. An employee profile shows identity, teams, open and overdue tasks, completed tasks, on-time rate, average cycle time, handovers sent, handovers awaiting the person's decision, first-pass, rejection and rework rates, the handover quality score and the quality review score. A team profile shows members with a workload bar, team totals and the team's handover quality; a member is flagged as carrying a heavy load only with at least 3 open tasks and more than 1.5 times the team average.
+
+Figures come from the same helpers as the reports (`services/kpi.py`, `reports.current_owners`), so the fairness rules are identical: owners from the ownership ledger, cancelled tasks out, a delay while a handover waits on its receiver is not counted as overdue, empty rates stay empty. Every query uses `get_list`, so a viewer only sees figures for records he may read. A profile of another employee needs read access to that Employee record or being that employee. Org-chart team and member names link to these pages. Status: PASS with 8 tests (figures, own profile, excused overdue, employee without user, refusals, heavy-load flag, balanced team, colleague access) and a browser run on the sandbox in desktop and mobile widths with no horizontal scroll. Not verified: large teams (member lists are not paged) and production data.

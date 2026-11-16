@@ -69,10 +69,12 @@ def get_org_chart(company=None):
 		TEAM_MEMBERSHIP,
 		filters={"from_date": ("<=", today)},
 		or_filters=[["to_date", "is", "not set"], ["to_date", ">=", today]],
-		fields=["team", "employee_name", "role_in_team"],
+		fields=["team", "employee", "employee_name", "role_in_team"],
 		limit_page_length=0,
 	):
-		members.setdefault(m.team, []).append({"name": m.employee_name, "role": m.role_in_team})
+		members.setdefault(m.team, []).append(
+			{"employee": m.employee, "name": m.employee_name, "role": m.role_in_team}
+		)
 	open_tasks = {
 		r.department: r.total
 		for r in frappe.get_list(
