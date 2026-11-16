@@ -1,0 +1,726 @@
+<!doctype html>
+<html lang="en" dir="ltr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NDS Enterprise Operations — simulation</title><meta name="description" content="A working in-browser simulation of the NDS Enterprise Operations desk: handover and acceptance, ledger, reports and the ten scenarios.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230a2342'/%3E%3Cpath d='M9 11h14l-4-4M23 21H9l4 4' fill='none' stroke='%23d4af37' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<style>
+:root{--navy:#0a2342;--royal:#164e8f;--gold:#d4af37;--bg:#f5f7fa;--surface:#fff;--ink:#14233a;--muted:#5b6b80;--line:#dde3ec;--wash:#eaf0f8;--ok:#1d7a4b;--warn:#a15c00;--bad:#b3261e;--gold-ink:#7a5f0a;--side:#fff;--shadow:0 1px 2px rgba(10,35,66,.06),0 6px 18px rgba(10,35,66,.06);--sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,"Noto Naskh Arabic",sans-serif;--mono:"IBM Plex Mono",ui-monospace,Menlo,monospace}
+:root[data-theme=dark]{--bg:#07162b;--surface:#0d2a4d;--ink:#eaf0f8;--muted:#a8b7cb;--line:#1f3d66;--wash:#11335c;--ok:#5fcf95;--warn:#f0b45a;--bad:#ff8a80;--gold-ink:#e6c867;--side:#0a2142;--shadow:0 1px 2px rgba(0,0,0,.3)}
+*{box-sizing:border-box}html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 14.5px/1.5 var(--sans);-webkit-font-smoothing:antialiased}
+a{color:var(--royal);text-decoration:none}a:hover{text-decoration:underline}
+:root[data-theme=dark] a{color:#8db8f0}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px;border-radius:4px}
+button,input,select,textarea{font:inherit;color:inherit}
+.sim-banner{background:var(--navy);color:#e8eef8;font-size:12.5px;padding:6px 14px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.sim-banner b{color:var(--gold)}
+.sim-banner button{background:transparent;color:#e8eef8;border:1px solid #3a5c8c;border-radius:6px;padding:2px 10px;cursor:pointer;font-size:12.5px}
+.top{position:sticky;top:0;z-index:30;background:var(--surface);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;padding:0 14px;height:54px}
+.brand{display:flex;align-items:center;gap:9px;font-weight:700;color:var(--ink);white-space:nowrap}
+.brand .mark{width:28px;height:28px;border-radius:7px;background:var(--navy);display:grid;place-items:center}
+.ovr{display:inline-flex;align-items:center;gap:7px;padding:6px 12px;border:1px solid var(--line);border-radius:8px;background:var(--wash);color:var(--ink);font-weight:600;font-size:13px;white-space:nowrap}
+.ovr:hover{text-decoration:none;border-color:var(--royal)}
+.ovr svg{width:16px;height:16px}
+.spacer{flex:1}
+.top select,.top .ib{height:34px;border:1px solid var(--line);border-radius:8px;background:var(--surface);padding:0 10px;cursor:pointer}
+.top .ib{display:inline-grid;place-items:center;min-width:34px;position:relative}
+.top .dot{position:absolute;top:-5px;inset-inline-end:-5px;background:var(--bad);color:#fff;border-radius:10px;font-size:10.5px;padding:0 5px;line-height:16px}
+.clock{font-size:12.5px;color:var(--muted);white-space:nowrap}
+.shell{display:grid;grid-template-columns:236px minmax(0,1fr);min-height:calc(100vh - 54px - 33px)}
+.side{background:var(--side);border-inline-end:1px solid var(--line);padding:12px 8px;position:sticky;top:87px;align-self:start;max-height:calc(100vh - 87px);overflow:auto}
+.side a{display:flex;align-items:center;gap:9px;padding:7px 10px;border-radius:7px;color:var(--ink);font-size:14px}
+.side a:hover{background:var(--wash);text-decoration:none}
+.side a.on{background:var(--wash);font-weight:600;box-shadow:inset 3px 0 0 var(--gold)}
+[dir=rtl] .side a.on{box-shadow:inset -3px 0 0 var(--gold)}
+.side h6{margin:14px 10px 4px;font-size:12px;color:var(--muted);font-weight:600}
+.side .n{margin-inline-start:auto;background:var(--royal);color:#fff;border-radius:10px;padding:0 7px;font-size:11.5px}
+.side svg{width:16px;height:16px;flex:none;opacity:.8}
+main{padding:18px 22px 60px;min-width:0}
+.ph{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;margin-bottom:14px}
+.ph h1{font-size:22px;margin:0;font-weight:650;letter-spacing:-.01em}
+.ph .sub{color:var(--muted);font-size:13px}
+.ph .sp{flex:1}
+.btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:6px 13px;border-radius:7px;cursor:pointer;font-weight:550;font-size:13.5px}
+.btn:hover:not(:disabled){border-color:var(--royal);text-decoration:none}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn.pri{background:var(--navy);border-color:var(--navy);color:#fff}
+:root[data-theme=dark] .btn.pri{background:var(--royal);border-color:var(--royal)}
+.btn.ok{background:var(--ok);border-color:var(--ok);color:#fff}
+.btn.bad{color:var(--bad);border-color:color-mix(in srgb,var(--bad) 45%,var(--line))}
+.btn.warn{color:var(--warn);border-color:color-mix(in srgb,var(--warn) 45%,var(--line))}
+.btn.gold{background:var(--gold);border-color:var(--gold);color:var(--navy)}
+.btn.sm{padding:3px 9px;font-size:12.5px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow)}
+.card>h3,.card>.ch{margin:0;padding:11px 15px;font-size:14.5px;font-weight:600;border-bottom:1px solid var(--line);display:flex;gap:10px;align-items:center}
+.card .cb{padding:13px 15px}
+.grid{display:grid;gap:14px}.g2{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(3,minmax(0,1fr))}.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.kpi{padding:14px 16px;display:flex;flex-direction:column;gap:2px;cursor:pointer;text-align:start;border-inline-start:4px solid var(--royal);background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line);border-inline-end:1px solid var(--line);border-radius:10px}
+.kpi:hover{box-shadow:var(--shadow)}
+.kpi b{font-size:26px;line-height:1.1}.kpi span{color:var(--muted);font-size:13px}
+.kpi.amber{border-inline-start-color:var(--gold)}.kpi.red{border-inline-start-color:var(--bad)}.kpi.green{border-inline-start-color:var(--ok)}.kpi.navy{border-inline-start-color:var(--navy)}
+.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
+.tbl th,.tbl td{padding:8px 12px;text-align:start;border-bottom:1px solid var(--line);vertical-align:top}
+.tbl th{font-weight:600;color:var(--muted);font-size:12.5px;background:color-mix(in srgb,var(--wash) 55%,transparent);white-space:nowrap}
+.tbl tr.click{cursor:pointer}.tbl tr.click:hover td{background:var(--wash)}
+.tbl td.num,.tbl th.num{text-align:end;font-variant-numeric:tabular-nums}
+.tw{overflow-x:auto}
+.empty{padding:34px 18px;text-align:center;color:var(--muted)}
+.pill{display:inline-block;padding:1px 9px;border-radius:999px;border:1px solid currentColor;font-size:12px;font-weight:600;white-space:nowrap}
+.p-draft,.p-withdrawn,.p-superseded{color:var(--muted)}.p-pending,.p-review,.p-clar,.p-open{color:var(--warn)}.p-accepted,.p-completed{color:var(--ok)}.p-rejected,.p-overdue{color:var(--bad)}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:12px;flex-wrap:wrap}
+.tabs button{border:0;background:transparent;padding:8px 13px;cursor:pointer;border-bottom:3px solid transparent;font-weight:550;color:var(--muted)}
+.tabs button.on{color:var(--ink);border-bottom-color:var(--gold)}
+.tabs .c{background:var(--wash);border-radius:9px;padding:0 7px;font-size:11.5px;margin-inline-start:5px}
+.bar{display:grid;grid-template-columns:150px 1fr 34px;gap:10px;align-items:center;margin:6px 0;font-size:13px}
+.bar i{display:block;height:9px;border-radius:5px;background:var(--royal)}
+.field{display:grid;gap:4px;margin-bottom:12px}.field label{font-size:12.5px;color:var(--muted);font-weight:600}
+.field input,.field select,.field textarea,.search{border:1px solid var(--line);background:var(--surface);border-radius:7px;padding:7px 10px;width:100%}
+.field textarea{min-height:76px;resize:vertical}
+.field input:disabled,.field textarea:disabled,.field select:disabled{background:var(--wash);cursor:not-allowed}
+.search{max-width:320px}
+.stage{display:flex;gap:0;margin:2px 0 16px;overflow-x:auto}
+.stage div{flex:1;min-width:112px;padding:8px 6px 0;border-top:4px solid var(--line);font-size:12.5px;color:var(--muted)}
+.stage div.done{border-color:var(--gold);color:var(--ink)}.stage div.cur{border-color:var(--royal);color:var(--ink);font-weight:650}
+.stage div.bad{border-color:var(--bad);color:var(--bad);font-weight:650}
+.hv{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:16px;align-items:start}
+.hv .act{position:sticky;top:96px;display:grid;gap:12px}
+.kv{display:grid;grid-template-columns:150px 1fr;gap:5px 12px;font-size:13.5px}.kv dt{color:var(--muted)}.kv dd{margin:0;white-space:pre-wrap;overflow-wrap:anywhere}
+.tl{list-style:none;margin:0;padding:0 0 0 0}
+.tl li{position:relative;padding:0 0 14px 22px}[dir=rtl] .tl li{padding:0 22px 14px 0}
+.tl li::before{content:"";position:absolute;left:3px;top:5px;width:9px;height:9px;border-radius:50%;background:var(--royal)}[dir=rtl] .tl li::before{left:auto;right:3px}
+.tl li::after{content:"";position:absolute;left:7px;top:16px;bottom:-2px;width:1px;background:var(--line)}[dir=rtl] .tl li::after{left:auto;right:7px}
+.tl li:last-child::after{display:none}
+.tl li.ok::before{background:var(--ok)}.tl li.bad::before{background:var(--bad)}.tl li.warn::before{background:var(--gold)}
+.tl small{color:var(--muted);display:block}
+.hash{font-family:var(--mono);font-size:12px;overflow-wrap:anywhere}
+.note{padding:10px 13px;border-inline-start:4px solid var(--gold);background:var(--wash);border-radius:0 8px 8px 0;font-size:13.5px;margin-bottom:12px}
+.note.bad{border-color:var(--bad)}.note.ok{border-color:var(--ok)}
+.shots{display:flex;gap:10px;flex-wrap:wrap}.shots a,.shots .att{border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--wash);font-size:12.5px}
+.shots img{display:block;height:90px;width:auto;max-width:180px;object-fit:cover}.shots .att{padding:8px 11px}
+.ov{position:fixed;inset:0;background:rgba(5,15,30,.55);display:grid;place-items:center;z-index:60;padding:16px}
+.modal{background:var(--surface);border-radius:12px;width:min(560px,100%);max-height:92vh;overflow:auto;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.modal>h3{margin:0;padding:14px 18px;border-bottom:1px solid var(--line);font-size:16px}.modal .mb{padding:16px 18px}.modal .mf{padding:12px 18px;border-top:1px solid var(--line);display:flex;gap:8px;justify-content:flex-end}
+.chk{display:flex;gap:8px;align-items:flex-start;margin:6px 0;cursor:pointer}
+.toast{position:fixed;bottom:18px;inset-inline-start:50%;transform:translateX(-50%);z-index:80;display:grid;gap:8px;width:min(520px,calc(100% - 24px))}
+[dir=rtl] .toast{transform:translateX(50%)}
+.toast div{padding:10px 14px;border-radius:9px;background:var(--navy);color:#fff;box-shadow:var(--shadow);border-inline-start:5px solid var(--ok)}
+.toast div.err{border-color:var(--bad)}
+.bell{position:absolute;top:50px;inset-inline-end:60px;width:min(380px,92vw);z-index:40}
+.scn{display:grid;grid-template-columns:34px 1fr auto;gap:10px;padding:10px 14px;border-bottom:1px solid var(--line);align-items:start}
+.scn .no{width:26px;height:26px;border-radius:50%;background:var(--royal);color:#fff;display:grid;place-items:center;font-size:12.5px;font-weight:600}
+.scn ul{margin:6px 0 0;padding-inline-start:18px;font-size:13px;color:var(--muted)}
+.scn li.p::marker{color:var(--ok)}.scn li.f{color:var(--bad)}
+.org{border-inline-start:3px solid var(--royal);background:var(--surface);margin:8px 0;padding:8px 14px;border-radius:8px;border:1px solid var(--line);border-inline-start:3px solid var(--royal)}
+.org .team{background:var(--wash);border-radius:7px;padding:7px 11px;margin:6px 0}
+.org .mem{display:flex;gap:5px;flex-wrap:wrap;margin-top:4px}.org .mem span{background:var(--surface);border:1px solid var(--line);padding:0 8px;border-radius:10px;font-size:12px}
+.muted{color:var(--muted)}.right{text-align:end}.mt{margin-top:14px}.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.menu-btn{display:none}
+@media(max-width:900px){.shell{grid-template-columns:1fr}.side{position:fixed;inset-block:87px 0;inset-inline-start:0;width:250px;z-index:35;transform:translateX(-105%);transition:transform .2s;max-height:none;box-shadow:var(--shadow)}[dir=rtl] .side{transform:translateX(105%)}.side.open{transform:none}.menu-btn{display:inline-grid}.hv{grid-template-columns:1fr}.hv .act{position:static}.g3,.g4{grid-template-columns:repeat(2,minmax(0,1fr))}.g2{grid-template-columns:1fr}.clock{display:none}.ovr span{display:none}main{padding:14px 12px 60px}}
+@media(max-width:520px){.g3,.g4{grid-template-columns:1fr}.top select{max-width:130px}.kv{grid-template-columns:1fr}.bar{grid-template-columns:110px 1fr 30px}}
+@media(prefers-reduced-motion:reduce){.side{transition:none}}
+@media(max-width:900px){.top{gap:6px;padding:0 8px}.brand{font-size:0;gap:0}.brand .mark{font-size:14px}.top label.clock{display:none}.top select{max-width:118px;min-width:0}}
+@media(max-width:420px){.top .ib{min-width:30px;padding:0 6px}.ovr{padding:6px 8px}}
+.hv>*{min-width:0}
+@media(max-width:900px){.hv{grid-template-columns:minmax(0,1fr)!important}}
+
+</style></head><body><div id="app"></div>
+<noscript>This simulation needs JavaScript.</noscript>
+<script>
+/* ===== NDS Enterprise Operations — in-browser simulation of the handover engine =====
+   Same rules as the Frappe app (services/handover.py): identity from the session, snapshot + SHA-256,
+   responsibility moves only on acceptance, append-only ledger with unique (task, sequence),
+   idempotent submit, explicit delegation, required vs mutable notifications. */
+function sha256(str){
+  var s=unescape(encodeURIComponent(str)),mp=Math.pow,mw=mp(2,32),i,j,res='',w=[],bl=s.length*8;
+  var h=sha256.h=sha256.h||[],k=sha256.k=sha256.k||[],pc=k.length,comp={};
+  for(var c=2;pc<64;c++){if(!comp[c]){for(i=0;i<313;i+=c)comp[i]=c;h[pc]=(mp(c,.5)*mw)|0;k[pc++]=(mp(c,1/3)*mw)|0}}
+  h=h.slice(0,8);s+='\x80';while(s.length%64-56)s+='\x00';
+  for(i=0;i<s.length;i++){j=s.charCodeAt(i);w[i>>2]|=j<<((3-i)%4)*8}
+  w[w.length]=((bl/mw)|0);w[w.length]=(bl);
+  for(j=0;j<w.length;){var ww=w.slice(j,j+=16),oh=h;h=h.slice(0,8);
+    for(i=0;i<64;i++){var w15=ww[i-15],w2=ww[i-2],a=h[0],e=h[4];
+      var t1=h[7]+(rr(e,6)^rr(e,11)^rr(e,25))+((e&h[5])^((~e)&h[6]))+k[i]+(ww[i]=(i<16)?ww[i]:(ww[i-16]+(rr(w15,7)^rr(w15,18)^(w15>>>3))+ww[i-7]+(rr(w2,17)^rr(w2,19)^(w2>>>10)))|0);
+      var t2=(rr(a,2)^rr(a,13)^rr(a,22))+((a&h[1])^(a&h[2])^(h[1]&h[2]));
+      h=[(t1+t2)|0].concat(h);h[4]=(h[4]+t1)|0;h.pop()}
+    for(i=0;i<8;i++)h[i]=(h[i]+oh[i])|0}
+  for(i=0;i<8;i++)for(j=3;j+1;j--){var b=(h[i]>>(j*8))&255;res+=((b<16)?0:'')+b.toString(16)}
+  return res;
+  function rr(v,a){return(v>>>a)|(v<<(32-a))}
+}
+class NdsError extends Error{constructor(m,code){super(m);this.code=code||'valid'}}
+const fail=(m,c)=>{throw new NdsError(m,c)};
+const H=3600e3,D=24*H;
+const ROLE={EXEC:'NDS Executive Management',OPS:'NDS Operations Manager',DEPT:'NDS Department Manager',LEAD:'NDS Team Leader',REV:'NDS Task Reviewer',AUD:'NDS Read Only Auditor',SYS:'System Manager'};
+const REASONS=['Missing Information','Incomplete Work','Missing Attachments','Technical Issues','Incorrect Diagnosis','Unclear Instructions','Unverified Results','Wrong Assignment','Other'];
+const OPEN_H=['Pending Acceptance','Under Review','Clarification Requested'];
+const CLOSED_T=['Completed','Cancelled'];
+const USERS={
+ sara:{name:'Sara Ahmed',dept:'Marketing',team:'Content Team',job:'Content Specialist',roles:['Employee','NDS Task Sender','NDS Task Executor']},
+ omar:{name:'Omar Hassan',dept:'Technology',team:'ERP Squad',job:'ERPNext Developer',roles:['Employee','NDS Task Receiver','NDS Task Executor']},
+ mona:{name:'Mona Said',dept:'Technology',team:'ERP Squad',job:'QA Engineer',roles:['Employee','NDS Task Receiver','NDS Task Executor']},
+ lina:{name:'Lina Farouk',dept:'Technology',team:'ERP Squad',job:'Team Leader',roles:['Employee',ROLE.LEAD]},
+ khaled:{name:'Khaled Mansour',dept:'Technology',team:'',job:'Head of Technology',roles:['Employee',ROLE.DEPT]},
+ huda:{name:'Huda Salem',dept:'Marketing',team:'',job:'Head of Marketing',roles:['Employee',ROLE.DEPT]},
+ noura:{name:'Noura Adel',dept:'Executive Management',team:'',job:'Operations Director',roles:[ROLE.EXEC,ROLE.OPS]},
+ rana:{name:'Rana Younes',dept:'Quality & Compliance',team:'',job:'Quality Reviewer',roles:['Employee',ROLE.REV]},
+ adel:{name:'Adel Auditor',dept:'Quality & Compliance',team:'',job:'Read Only Auditor',roles:[ROLE.AUD]},
+ admin:{name:'Administrator',dept:'',team:'',job:'System Administrator',roles:['Administrator',ROLE.SYS]}
+};
+const TEAMS=[{name:'Content Team',dept:'Marketing',lead:'huda'},{name:'Design Studio',dept:'Marketing',lead:'huda'},{name:'ERP Squad',dept:'Technology',lead:'lina'},{name:'Web Team',dept:'Technology',lead:'khaled'}];
+const DEPTS=['Marketing','Technology','Finance & Accounting','Human Resources','Quality & Compliance','Executive Management'];
+let S=null;
+const uname=u=>USERS[u]?USERS[u].name:(u||'—');
+const now=()=>Date.now()+S.clock;
+const pad=n=>String(n).padStart(2,'0');
+const fmt=t=>{const d=new Date(t);return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())+' '+pad(d.getHours())+':'+pad(d.getMinutes())};
+const dateOf=t=>fmt(t).slice(0,10);
+const hasRole=(u,r)=>USERS[u].roles.includes(r);
+const isFull=u=>[ROLE.EXEC,ROLE.OPS,ROLE.AUD,ROLE.SYS,'Administrator'].some(r=>hasRole(u,r));
+const isManager=u=>isFull(u)||hasRole(u,ROLE.DEPT)||hasRole(u,ROLE.OPS);
+const id=(p)=>p+'-'+String(++S.seq[p]).padStart(4,'0');
+function blank(){return{clock:0,seq:{HOV:0,TASK:0,UPD:0,CHK:0,REV:0,DEL:0,NTF:0,TRV:0,ATT:0},tasks:[],handovers:[],reviews:[],history:[],ledger:[],updates:[],checklist:[],taskReviews:[],delegations:[],notifications:[],prefs:{},requests:{},settings:{responseHours:24,leadHours:4,escalateHours:24},kpi:[]}}
+function ownerOf(tid){const rows=S.ledger.filter(r=>r.task===tid);if(rows.length)return rows[rows.length-1].to;return S.tasks.find(t=>t.id===tid).assignee}
+function pastOwners(tid){const t=S.tasks.find(x=>x.id===tid),s=new Set([t.assignee,t.creator]);S.ledger.filter(r=>r.task===tid).forEach(r=>{s.add(r.from);s.add(r.to)});return s}
+function getH(i){const h=S.handovers.find(x=>x.id===i);if(!h)fail('Handover '+i+' does not exist.');return h}
+function getT(i){const t=S.tasks.find(x=>x.id===i);if(!t)fail('Task '+i+' does not exist.');return t}
+function log(h,event,user,text,cls){S.history.push({id:S.history.length+1,handover:h.id,task:h.task,event,user,text:text||'',cls:cls||'',at:now()})}
+function activeDelegation(delegate,delegator,at){at=at||now();return S.delegations.find(d=>!d.revoked&&d.delegate===delegate&&d.delegator===delegator&&Date.parse(d.from)<=at&&at<=Date.parse(d.to)+D-1)}
+function canDecide(h,u){if(u===h.sender)return false;if(u===h.receiver)return true;return !!activeDelegation(u,h.receiver)}
+function leads(u){return TEAMS.filter(t=>t.lead===u).map(t=>t.name)}
+function canSeeH(h,u){
+  if(h.status==='Draft')return u===h.sender||isFull(u)&&!hasRole(u,ROLE.AUD)||hasRole(u,ROLE.SYS);
+  if(isFull(u))return true;
+  if(u===h.sender||u===h.receiver||activeDelegation(u,h.receiver))return true;
+  const lt=leads(u);if(lt.includes(h.senderTeam)||lt.includes(h.receiverTeam))return true;
+  if(hasRole(u,ROLE.DEPT)&&(USERS[u].dept===h.senderDept||USERS[u].dept===h.receiverDept))return true;
+  return false}
+function canSeeT(t,u){
+  if(isFull(u)||t.creator===u||pastOwners(t.id).has(u))return true;
+  if(hasRole(u,ROLE.DEPT)&&USERS[u].dept===t.dept)return true;
+  if(leads(u).includes(t.team))return true;
+  return false}
+const visH=u=>S.handovers.filter(h=>canSeeH(h,u));
+const visT=u=>S.tasks.filter(t=>canSeeT(t,u));
+function notify(users,subject,h,cat,prio){
+  [...new Set(users)].filter(Boolean).forEach(u=>{
+    const p=S.prefs[u]||{reminders:true,progress:true};
+    if(cat==='reminder'&&p.reminders===false)return;if(cat==='progress'&&p.progress===false)return;
+    if(S.notifications.some(n=>n.user===u&&n.ref===h.id&&n.subject===subject))return; // no duplicates
+    S.notifications.push({id:S.notifications.length+1,user:u,subject,ref:h.id,task:h.task,cat:cat||'required',prio:prio||'Normal',read:false,at:now()})})}
+function managersOf(h){return Object.keys(USERS).filter(u=>(hasRole(u,ROLE.DEPT)&&[h.senderDept,h.receiverDept].includes(USERS[u].dept))||leads(u).some(t=>[h.senderTeam,h.receiverTeam].includes(t)))}
+function addLedger(h,from,to){
+  const seq=S.ledger.filter(r=>r.task===h.task).length+1;
+  if(S.ledger.some(r=>r.task===h.task&&r.seq===seq))fail('Ownership of '+h.task+' changed at the same time. Reload and try again.','conflict');
+  const row=Object.freeze({task:h.task,seq,from,to,handover:h.id,at:now(),fromDept:USERS[from].dept,toDept:USERS[to].dept,via:h.actedOnBehalf?'Delegation':'Acceptance'});
+  S.ledger.push(row);const t=getT(h.task);t.dept=USERS[to].dept;t.team=USERS[to].team;return row}
+/* ---------- handover lifecycle ---------- */
+const REQUIRED=[['reason','Handover reason'],['notes.done','Work done'],['diag.technical','Technical diagnosis'],['solution.approach','Solution approach'],['results.completed','Completed results']];
+const dig=(o,p)=>p.split('.').reduce((a,k)=>a&&a[k],o);
+function emptyH(){return{notes:{done:'',notDone:'',risks:'',instructions:''},diag:{technical:'',problem:'',rootCause:'',error:'',condition:'',dependencies:'',pending:'',risks:''},solution:{approach:'',steps:'',tools:'',files:'',decisions:'',outstanding:''},results:{completed:'',expectedVsActual:'',evidence:'',testing:'',outstanding:'',final:''},exec:{extra:'',operate:'',followUp:'',warnings:'',recommendations:'',future:''}}}
+function createHandover(u,taskId,receiver,data){
+  const t=getT(taskId);if(!USERS[receiver])fail('Choose a receiver.');
+  if(CLOSED_T.includes(t.status))fail('A '+t.status.toLowerCase()+' task cannot be handed over.');
+  const owner=ownerOf(taskId);
+  if(!(owner===u||isManager(u)&&canSeeT(t,u)))fail('Only the current owner, or a manager whose scope covers the task, can hand '+taskId+' over.','perm');
+  if(receiver===owner)fail('The receiver already owns this task.');
+  if(S.handovers.some(h=>h.task===taskId&&(OPEN_H.includes(h.status)||h.status==='Draft')))fail('This task already has an open handover or a draft.');
+  const prevAccepted=S.handovers.filter(h=>h.task===taskId&&h.status==='Accepted').pop();
+  const h=Object.assign({id:id('HOV'),task:taskId,version:1,prev:prevAccepted?prevAccepted.id:null,status:'Draft',ready:false,
+    sender:u,receiver,senderDept:USERS[u].dept,senderTeam:USERS[u].team,receiverDept:USERS[receiver].dept,receiverTeam:USERS[receiver].team,
+    reason:'',attachments:[],rv:1,createdAt:now()},emptyH(),data||{});
+  h.root=h.id;S.handovers.push(h);log(h,'Created',u,'Draft created');return h}
+function updateDraft(u,i,patch){
+  const h=getH(i);if(u!==h.sender)fail('Only the sender can edit a draft.','perm');
+  if(h.status!=='Draft')fail('A submitted handover is frozen and cannot be edited. Revise it to start a new version.','perm');
+  Object.keys(patch).forEach(p=>{const ks=p.split('.');let o=h;while(ks.length>1)o=o[ks.shift()];o[ks[0]]=patch[p]});
+  h.ready=false;h.rv++;return h}
+function missing(h){return REQUIRED.filter(([p])=>!String(dig(h,p)||'').trim()).map(x=>x[1])}
+function markReady(u,i){const h=getH(i);if(u!==h.sender)fail('Only the sender can do this.','perm');if(h.status!=='Draft')fail('Only a draft can be marked ready.');
+  const m=missing(h);if(m.length)fail('Complete the required fields first: '+m.join(', ')+'.');h.ready=true;log(h,'Ready',u,'Required data verified');return h}
+function snapshotOf(h){const t=getT(h.task);return JSON.stringify({task:{id:t.id,subject:t.subject,desc:t.desc,project:t.project,priority:t.priority,due:t.due},sender:h.sender,receiver:h.receiver,version:h.version,reason:h.reason,notes:h.notes,diag:h.diag,solution:h.solution,results:h.results,exec:h.exec,attachments:h.attachments.map(a=>({name:a.name,kind:a.kind}))})}
+function submit(u,i,rid){
+  const key=u+':'+rid;if(rid&&S.requests[key])return getH(S.requests[key]); // retry never duplicates
+  const h=getH(i);if(u!==h.sender)fail('Only the sender can submit. The sender identity cannot be forged.','perm');
+  if(h.status!=='Draft')fail('This handover was already submitted.');
+  if(!h.ready){const m=missing(h);fail(m.length?'Complete the required fields first: '+m.join(', ')+'.':'Mark the handover ready before submitting.')}
+  if(ownerOf(h.task)!==u&&!isManager(u))fail('You no longer own this task.','conflict');
+  if(S.handovers.some(x=>x.task===h.task&&x.id!==h.id&&OPEN_H.includes(x.status)))fail('Another handover of this task is already open.','conflict');
+  h.snapshot=snapshotOf(h);h.hash=sha256(h.snapshot);h.status='Pending Acceptance';h.submittedAt=now();h.responseDue=now()+S.settings.responseHours*H;h.rv++;
+  if(rid)S.requests[key]=h.id;
+  log(h,'Submitted',u,'Version '+h.version+' submitted to '+uname(h.receiver)+'. Snapshot '+h.hash.slice(0,12)+'…','warn');
+  notify([h.receiver],'Handover '+h.id+' from '+uname(u)+' is waiting for your decision',h,'required','High');return h}
+function verify(h){return !!h.snapshot&&sha256(h.snapshot)===h.hash}
+function startReview(u,i){const h=getH(i);if(!canDecide(h,u))fail('Only the named receiver or an active delegate can review this handover.','perm');
+  if(h.status!=='Pending Acceptance')fail('This handover is not waiting for review.');h.status='Under Review';h.rv++;log(h,'Review started',u,uname(u)+' opened the review');
+  notify([h.sender],uname(u)+' started reviewing '+h.id,h,'progress');return h}
+function review(h,u,decision,text,extra){S.reviews.push(Object.assign({handover:h.id,by:u,onBehalfOf:u!==h.receiver?h.receiver:null,decision,text:text||'',at:now()},extra||{}))}
+function accept(u,i,conf,expectRv){
+  const h=getH(i);if(u===h.sender)fail('The sender cannot accept their own handover.','perm');
+  if(!canDecide(h,u))fail('Only the named receiver, or someone with an active delegation, can accept.','perm');
+  if(expectRv!=null&&expectRv!==h.rv)fail('This handover was changed by someone else a moment ago ('+h.status+'). Nothing was transferred twice.','conflict');
+  if(!['Pending Acceptance','Under Review'].includes(h.status))fail('This handover is '+h.status+'. It can no longer be accepted.','conflict');
+  conf=conf||{};if(!(conf.details&&conf.attachments&&conf.responsibilities))fail('Confirm all three statements before accepting.');
+  const t=getT(h.task);if(ownerOf(h.task)!==h.sender&&!isManager(h.sender))fail('The task owner changed since this was submitted.','conflict');
+  const from=ownerOf(h.task);
+  h.actedOnBehalf=u!==h.receiver?h.receiver:null;
+  const row=addLedger(h,from,h.receiver);
+  h.status='Accepted';h.decidedAt=now();h.decidedBy=u;h.rv++;h.receiverNotes=conf.notes||'';h.nextStep=conf.nextStep||'';
+  review(h,u,'Accepted',conf.notes,{nextStep:conf.nextStep});
+  log(h,'Accepted',u,(h.actedOnBehalf?uname(u)+' accepted on behalf of '+uname(h.receiver)+'. ':'')+'Responsibility moved to '+uname(h.receiver)+' (ledger #'+row.seq+')','ok');
+  notify([h.sender,...managersOf(h)],'Handover '+h.id+' was accepted by '+uname(u),h,'required');return h}
+function reject(u,i,reason,details){
+  const h=getH(i);if(!canDecide(h,u))fail('Only the named receiver or an active delegate can reject.','perm');
+  if(!OPEN_H.slice(0,2).includes(h.status))fail('This handover is '+h.status+'.','conflict');
+  if(!REASONS.includes(reason))fail('A rejection reason is mandatory.');if(!String(details||'').trim())fail('Explain the rejection in detail.');
+  h.status='Rejected';h.decidedAt=now();h.decidedBy=u;h.rejection={reason,details};h.rv++;review(h,u,'Rejected',details,{reason});
+  log(h,'Rejected',u,reason+': '+details,'bad');notify([h.sender],'Handover '+h.id+' was rejected: '+reason,h,'required','High');return h}
+function clarify(u,i,text){
+  const h=getH(i);if(!canDecide(h,u))fail('Only the named receiver or an active delegate can ask for clarification.','perm');
+  if(!OPEN_H.slice(0,2).includes(h.status))fail('This handover is '+h.status+'.','conflict');if(!String(text||'').trim())fail('Write what you need clarified.');
+  h.status='Clarification Requested';h.rv++;review(h,u,'Clarification',text);log(h,'Clarification requested',u,text,'warn');
+  notify([h.sender],'Clarification requested on '+h.id,h,'required');return h}
+function withdraw(u,i,reason){const h=getH(i);if(u!==h.sender)fail('Only the sender can withdraw.','perm');
+  if(!OPEN_H.includes(h.status))fail('Only an open handover can be withdrawn.');if(!String(reason||'').trim())fail('Give a reason for withdrawing.');
+  h.status='Withdrawn';h.rv++;log(h,'Withdrawn',u,reason);notify([h.receiver],'Handover '+h.id+' was withdrawn',h,'required');return h}
+function revise(u,i){const h=getH(i);if(u!==h.sender)fail('Only the sender can revise.','perm');
+  if(!['Rejected','Clarification Requested','Withdrawn'].includes(h.status))fail('Only a rejected, withdrawn or clarified handover can be revised.');
+  if(S.handovers.some(x=>x.task===h.task&&x.id!==h.id&&(OPEN_H.includes(x.status)||x.status==='Draft')))fail('A newer open handover or draft already exists for this task.');
+  if(ownerOf(h.task)!==u&&!isManager(u))fail('You no longer own this task.','conflict');
+  if(h.status==='Clarification Requested'){h.status='Superseded';h.rv++;log(h,'Superseded',u,'Replaced by a new version after the clarification')}
+  const n=JSON.parse(JSON.stringify(h));['snapshot','hash','submittedAt','decidedAt','decidedBy','rejection','responseDue','receiverNotes','nextStep','actedOnBehalf'].forEach(k=>delete n[k]);
+  Object.assign(n,{id:id('HOV'),version:h.version+1,prev:h.id,status:'Draft',ready:false,rv:1,createdAt:now()});n.root=h.root;S.handovers.push(n);
+  log(n,'Created',u,'Version '+n.version+' started from '+h.id);return n}
+/* ---------- delegation ---------- */
+function delegate(u,to,from,until,reason){if(!USERS[to]||to===u)fail('Choose someone else to act for you.');if(!from||!until||until<from)fail('Give a valid period.');
+  if(!String(reason||'').trim())fail('Say why you are delegating.');const d={id:id('DEL'),delegator:u,delegate:to,from,to:until,reason,revoked:false,at:now()};S.delegations.push(d);return d}
+function revokeDelegation(u,i){const d=S.delegations.find(x=>x.id===i);if(!d||d.delegator!==u&&!hasRole(u,ROLE.SYS))fail('Only the person who delegated can revoke it.','perm');d.revoked=true;return d}
+/* ---------- tasks ---------- */
+function postUpdate(u,tid,type,note,progress,link){const t=getT(tid);
+  if(ownerOf(tid)!==u)fail('Only the current owner of '+tid+' can post updates on it.','perm');
+  if(CLOSED_T.includes(t.status))fail(t.status+' tasks cannot receive updates.');
+  if(progress!==''&&progress!=null&&!(progress>=0&&progress<=100))fail('Progress must be between 0 and 100.');
+  if(!String(note||'').trim())fail('Write a note.');const x={id:id('UPD'),task:tid,type,note,progress:progress===''?null:+progress,link:link||'',by:u,at:now()};
+  S.updates.push(Object.freeze(x));if(type==='Progress'&&x.progress!=null)t.progress=x.progress;return x}
+function addCheck(u,tid,title,req){if(ownerOf(tid)!==u)fail('Only the current owner can change the checklist.','perm');if(CLOSED_T.includes(getT(tid).status))fail('The checklist of a closed task cannot be changed.');
+  if(!String(title).trim())fail('Name the criterion.');const c={id:id('CHK'),task:tid,title,required:req!==false,done:false};S.checklist.push(c);return c}
+function toggleCheck(u,cid){const c=S.checklist.find(x=>x.id===cid);if(ownerOf(c.task)!==u)fail('Only the current owner can change the checklist.','perm');
+  if(CLOSED_T.includes(getT(c.task).status))fail('The checklist of a closed task cannot be changed.');c.done=!c.done;c.by=c.done?u:null;c.at=c.done?now():null;return c}
+function delCheck(u,cid){const c=S.checklist.find(x=>x.id===cid);if(ownerOf(c.task)!==u)fail('Only the current owner can change the checklist.','perm');if(c.done)fail('A completed checklist item is part of the record and cannot be deleted.','perm');S.checklist=S.checklist.filter(x=>x!==c)}
+function completeTask(u,tid){const t=getT(tid);if(ownerOf(tid)!==u)fail('Only the current owner can complete the task.','perm');
+  const open=S.checklist.filter(c=>c.task===tid&&c.required&&!c.done).map(c=>c.title);if(open.length)fail('Required checklist items are still open: '+open.join(', ')+'.');
+  t.status='Completed';t.progress=100;t.completedAt=now();return t}
+function reviewTask(u,tid,verdict,score,comments){const t=getT(tid);
+  if(![ROLE.REV,ROLE.DEPT,ROLE.OPS,ROLE.EXEC].some(r=>hasRole(u,r)))fail('You are not a reviewer.','perm');
+  if(t.status!=='Completed')fail('Only a completed task can be reviewed.');if(pastOwners(tid).has(u)&&u!==t.creator||ownerOf(tid)===u)fail('Nobody can review work he owned himself.','perm');
+  if(verdict==='Approved'&&!(score>=1&&score<=5))fail('An approval needs a quality score from 1 to 5.');if(!String(comments).trim())fail('Write your comments.');
+  const r=Object.freeze({id:id('TRV'),task:tid,verdict,score:verdict==='Approved'?+score:null,comments,by:u,owner:ownerOf(tid),at:now()});S.taskReviews.push(r);return r}
+/* ---------- scheduled reminders (hourly job) ---------- */
+function runReminders(){
+  let sent=0;const lead=S.settings.leadHours*H,esc=S.settings.escalateHours*H,t=now();
+  S.handovers.filter(h=>['Pending Acceptance','Under Review'].includes(h.status)).forEach(h=>{
+    const once=ev=>S.history.some(x=>x.handover===h.id&&x.event===ev);const to=[h.receiver];
+    if(h.responseDue-t<=lead&&h.responseDue>t&&!once('Reminder Sent')){log(h,'Reminder Sent','system','Response due '+fmt(h.responseDue));notify(to,'Reminder: '+h.id+' needs your decision by '+fmt(h.responseDue),h,'reminder');sent++}
+    if(t>h.responseDue&&!once('Overdue Alert')){log(h,'Overdue Alert','system','Response is overdue','bad');notify([h.receiver,h.sender],h.id+' is overdue for a decision',h,'required','High');sent++}
+    if(t>h.responseDue+esc&&!once('Escalated')){log(h,'Escalated','system','Escalated to managers','bad');notify(managersOf(h),h.id+' has waited more than '+S.settings.escalateHours+' h past its deadline',h,'required','High');sent++}});
+  return sent}
+function advance(ms){S.clock+=ms}
+/* ---------- KPI helpers (fair rules) ---------- */
+function waitedAcross(tid,due){const d=Date.parse(due);return S.handovers.some(h=>h.task===tid&&h.submittedAt&&h.status!=='Withdrawn'&&h.submittedAt<=d+D&&(h.decidedAt||now())>=d)}
+function pct(a,b){return b?Math.round(1000*a/b)/10:null}
+function avg(a){a=a.filter(x=>x!=null);return a.length?Math.round(10*a.reduce((s,x)=>s+x,0)/a.length)/10:null}
+function firstPass(h){return h.status==='Accepted'&&h.version===1&&!S.reviews.some(r=>r.handover===h.id&&r.decision==='Clarification')}
+function allowed(h,u){
+  const a=[];const st=h.status;
+  if(st==='Draft'&&u===h.sender){a.push('save','ready','submit')}
+  if(['Pending Acceptance','Under Review'].includes(st)&&canDecide(h,u)){if(st==='Pending Acceptance')a.push('review');a.push('accept','reject','clarify')}
+  if(OPEN_H.includes(st)&&u===h.sender)a.push('withdraw');
+  if(['Rejected','Clarification Requested','Withdrawn'].includes(st)&&u===h.sender)a.push('revise');
+  return a}
+
+/* ===== seed data, reports, scenarios ===== */
+function mkTask(o){const t=Object.assign({id:id('TASK'),subject:'',desc:'',dept:USERS[o.assignee].dept,team:USERS[o.assignee].team,project:'',priority:'Medium',status:'Open',due:dateOf(now()+7*D),progress:0,creator:'noura',createdAt:now()},o);S.tasks.push(t);return t}
+const FULL={reason:'Reassignment to the owning team',notes:{done:'Diagnosed the issue and prepared the fix on a copy.',notDone:'Production rollout.',risks:'Touches the live print format.',instructions:'Test on the staging site first.'},
+ diag:{technical:'The print format reads a field that was renamed in the last update.',problem:'Printed documents show an empty amount.',rootCause:'Jinja block references the old fieldname.',error:'KeyError: grand_total_old',condition:'Staging reproduces the fault.',dependencies:'None',pending:'Customer sign-off',risks:'Low'},
+ solution:{approach:'Point the template at the new field and add a fallback.',steps:'1. Edit the block. 2. Reload. 3. Print three samples.',tools:'ERPNext Print Format Builder',files:'print_format/sales_invoice.json',decisions:'Keep the old name as a fallback for one release.',outstanding:'Release note'},
+ results:{completed:'Samples print with the right amounts.',expectedVsActual:'Expected: amount shown. Actual: amount shown.',evidence:'3 printed samples attached.',testing:'Three invoices of different currencies.',outstanding:'None',final:'Ready for the receiving team.'}};
+function fillH(h,extra){const flat={'reason':FULL.reason};['notes','diag','solution','results'].forEach(g=>Object.keys(FULL[g]).forEach(k=>flat[g+'.'+k]=FULL[g][k]));Object.assign(flat,extra||{});updateDraft(h.sender,h.id,flat);return h}
+function fullHandover(task,from,to,rid){const h=createHandover(from,task.id,to);fillH(h);markReady(from,h.id);submit(from,h.id,rid||('r-'+h.id));return h}
+const CONF={details:true,attachments:true,responsibilities:true};
+function seed(){
+  S=blank();S.clock=-8*D;
+  const t1=mkTask({subject:'Migrate landing page forms to an ERPNext Web Form',desc:'Replace the external form with a Web Form linked to Lead.',project:'Website Revamp',priority:'High',assignee:'sara',due:dateOf(now()+13*D)});
+  const h1=fullHandover(t1,'sara','omar');advance(D);accept('omar',h1.id,CONF,undefined);
+  advance(-D+5*D);
+  const t8=mkTask({subject:'Set up the staging server backup',project:'ERP Rollout',priority:'Medium',assignee:'omar',creator:'lina',due:dateOf(now()+1*D),status:'Open'});
+  addCheck('omar',t8.id,'Backup restores on a clean site');addCheck('omar',t8.id,'Schedule documented');
+  S.checklist.filter(c=>c.task===t8.id).forEach(c=>toggleCheck('omar',c.id));postUpdate('omar',t8.id,'Progress','Backup job created and tested.',100);completeTask('omar',t8.id);
+  advance(2*H);reviewTask('rana',t8.id,'Approved',4,'Clear documentation, restore tested.');
+  const t7=mkTask({subject:'Update the API documentation',project:'ERP Rollout',priority:'High',assignee:'omar',due:dateOf(now()-2*D)});
+  addCheck('omar',t7.id,'Endpoints verified against v16');addCheck('omar',t7.id,'Examples run');
+  const t3=mkTask({subject:'Prepare the quarterly SEO audit report',project:'Brand Refresh',priority:'Medium',assignee:'mona',due:dateOf(now()+1*D)});
+  const h3=fullHandover(t3,'mona','omar');startReview('omar',h3.id);
+  advance(2*D+20*H);
+  const t4=mkTask({subject:'Export campaign banners for the web team',project:'Website Revamp',assignee:'sara',due:dateOf(now()+6*D)});
+  const h4=fullHandover(t4,'sara','mona');reject('mona',h4.id,'Missing Attachments','The banner exports and the source files are not attached.');
+  const t5=mkTask({subject:'Customer onboarding checklist for ERP clients',project:'ERP Rollout',assignee:'mona',due:dateOf(now()+4*D)});
+  const h5=fullHandover(t5,'mona','omar');clarify('omar',h5.id,'Which clients are already live? The list is missing.');
+  const t9=mkTask({subject:'Build the campaign performance dashboard',project:'Brand Refresh',priority:'High',assignee:'sara',due:dateOf(now()+9*D)});
+  postUpdate('sara',t9.id,'Progress','Data sources connected, charts next.',40);
+  const t6=mkTask({subject:'Refresh the brand guidelines document',project:'Brand Refresh',assignee:'sara',due:dateOf(now()+12*D)});
+  const h6=createHandover('sara',t6.id,'omar');updateDraft('sara',h6.id,{'reason':'Needs ERPNext print styling','notes.done':'Collected the current guidelines.'});
+  mkTask({subject:'Remove the legacy export plugin',assignee:'omar',status:'Cancelled',due:dateOf(now()-5*D)});
+  advance(-(2*D+20*H)+0);S.clock=Math.min(S.clock,0);S.clock=0;
+  const t2=mkTask({subject:'Fix the sales invoice print format',desc:'Amounts print empty on the new invoice format.',project:'ERP Rollout',priority:'High',assignee:'sara',due:dateOf(now()+2*D)});
+  fullHandover(t2,'sara','omar');
+  S.notifications.forEach(n=>{n.read=true});S.clock=0;return S}
+const DEF={from:'',to:'',dept:''};
+const inRange=(t,f)=>(!f.from||dateOf(t)>=f.from)&&(!f.to||dateOf(t)<=f.to);
+const ageH=h=>Math.round(((h.decidedAt||now())-h.submittedAt)/H*10)/10;
+function openTasks(u){return visT(u).filter(t=>!CLOSED_T.includes(t.status)&&t.status!=='Template')}
+function waitingOn(tid){return S.handovers.find(h=>h.task===tid&&['Pending Acceptance','Under Review'].includes(h.status))}
+function overdueRows(u){const today=dateOf(now());return openTasks(u).filter(t=>t.due<today).map(t=>{const w=waitingOn(t.id);return{id:t.id,subject:t.subject,owner:uname(ownerOf(t.id)),dept:t.dept,due:t.due,days:Math.round((Date.parse(today)-Date.parse(t.due))/D),reason:w?('Waiting on '+uname(w.receiver)+' ('+w.id+')'):'No handover pending',excused:w?'Yes':'No'}})}
+function perUser(u,f){
+  const users=Object.keys(USERS).filter(x=>!hasRole(x,ROLE.AUD)&&x!=='admin'&&x!=='noura');const vh=visH(u).filter(h=>h.status!=='Draft'),vt=visT(u);
+  return users.map(p=>{
+    const own=vt.filter(t=>ownerOf(t.id)===p),done=own.filter(t=>t.status==='Completed'&&inRange(t.completedAt,f)),opn=own.filter(t=>!CLOSED_T.includes(t.status));
+    const dated=done.filter(t=>t.due),ontime=dated.filter(t=>dateOf(t.completedAt)<=t.due);
+    const sent=vh.filter(h=>h.sender===p&&inRange(h.submittedAt,f)),decided=sent.filter(h=>['Accepted','Rejected'].includes(h.status));
+    const rec=vh.filter(h=>h.receiver===p&&inRange(h.submittedAt,f));
+    const scores=S.taskReviews.filter(r=>r.owner===p&&r.verdict==='Approved').map(r=>r.score);
+    const over=opn.filter(t=>t.due<dateOf(now())&&!waitingOn(t.id));
+    return{user:uname(p),dept:USERS[p].dept,open:opn.length,overdue:over.length,completed:done.length,onTime:pct(ontime.length,dated.length),cycle:avg(done.map(t=>(t.completedAt-t.createdAt)/D)),sent:sent.length,firstPass:pct(sent.filter(firstPass).length,decided.length),reject:pct(sent.filter(h=>h.status==='Rejected').length,decided.length),received:rec.length,pending:rec.filter(h=>['Pending Acceptance','Under Review'].includes(h.status)).length,review:avg(scores),rework:sent.filter(h=>h.version>1).length}})}
+function perGroup(u,f,key){
+  const vt=visT(u),vh=visH(u).filter(h=>h.status!=='Draft'&&inRange(h.submittedAt,f));const names=key==='dept'?DEPTS:TEAMS.map(t=>t.name);
+  return names.map(n=>{const ts=vt.filter(t=>t[key]===n),done=ts.filter(t=>t.status==='Completed'),opn=ts.filter(t=>!CLOSED_T.includes(t.status));
+    const sent=vh.filter(h=>(key==='dept'?h.senderDept:h.senderTeam)===n),dec=sent.filter(h=>['Accepted','Rejected'].includes(h.status));const dated=done.filter(t=>t.due);
+    return{name:n,open:opn.length,overdue:opn.filter(t=>t.due<dateOf(now())&&!waitingOn(t.id)).length,completed:done.length,onTime:pct(dated.filter(t=>dateOf(t.completedAt)<=t.due).length,dated.length),sent:sent.length,firstPass:pct(sent.filter(firstPass).length,dec.length),rejection:pct(sent.filter(h=>h.status==='Rejected').length,dec.length),waiting:vh.filter(h=>(key==='dept'?h.receiverDept:h.receiverTeam)===n&&['Pending Acceptance','Under Review'].includes(h.status)).length}}).filter(r=>r.open||r.completed||r.sent||r.waiting)}
+const C=(k,l,t)=>({k,l,t});
+const FAIR='Cancelled tasks are excluded. A delay while a handover waits on its receiver is excused, not counted against the owner. Rates with nothing to divide by stay empty instead of showing 0. Owners come from the ownership ledger.';
+const REPORTS=[
+ {slug:'register',name:'Task Handover Register',build:(u,f)=>({cols:[C('id','Handover'),C('task','Task'),C('subject','Subject'),C('sender','Sender'),C('receiver','Receiver'),C('v','Ver','n'),C('status','Status','st'),C('submitted','Submitted'),C('decided','Decided'),C('age','Age (h)','n')],
+   rows:visH(u).filter(h=>h.status!=='Draft'&&inRange(h.submittedAt,f)).map(h=>({id:h.id,task:h.task,subject:getT(h.task).subject,sender:uname(h.sender),receiver:uname(h.receiver),v:h.version,status:h.status,submitted:fmt(h.submittedAt),decided:h.decidedAt?fmt(h.decidedAt):'',age:ageH(h)})),method:'Every submitted handover you are allowed to see. Drafts are not listed.'})},
+ {slug:'acceptance',name:'Handover Acceptance Report',build:(u,f)=>({cols:[C('id','Handover'),C('task','Task'),C('sender','Sender'),C('by','Accepted by'),C('fp','First pass'),C('hrs','Hours to decision','n'),C('proxy','On behalf of')],
+   rows:visH(u).filter(h=>h.status==='Accepted'&&inRange(h.submittedAt,f)).map(h=>({id:h.id,task:h.task,sender:uname(h.sender),by:uname(h.decidedBy),fp:firstPass(h)?'Yes':'No',hrs:ageH(h),proxy:h.actedOnBehalf?uname(h.actedOnBehalf):''})),method:'First pass = accepted as version 1 without a clarification request.'})},
+ {slug:'rejection',name:'Handover Rejection Report',build:(u,f)=>({cols:[C('id','Handover'),C('task','Task'),C('sender','Sender'),C('by','Rejected by'),C('reason','Reason'),C('details','Details')],
+   rows:visH(u).filter(h=>h.status==='Rejected'&&inRange(h.submittedAt,f)).map(h=>({id:h.id,task:h.task,sender:uname(h.sender),by:uname(h.decidedBy),reason:h.rejection.reason,details:h.rejection.details})),method:'Rejected handovers with the mandatory reason. Ownership never moved.'})},
+ {slug:'aging',name:'Handover Aging Report',build:(u,f)=>({cols:[C('id','Handover'),C('task','Task'),C('receiver','Waiting on'),C('status','Status','st'),C('age','Age (h)','n'),C('bucket','Bucket'),C('late','Past deadline')],
+   rows:visH(u).filter(h=>OPEN_H.includes(h.status)).map(h=>{const a=ageH(h);return{id:h.id,task:h.task,receiver:uname(h.receiver),status:h.status,age:a,bucket:a<24?'under 1 day':a<72?'1-3 days':'over 3 days',late:h.responseDue<now()?'Yes':'No'}}),method:'Open handovers and how long they have waited.'})},
+ {slug:'tasks',name:'Tasks Master Report',build:(u,f)=>({cols:[C('id','Task'),C('subject','Subject'),C('project','Project'),C('dept','Department'),C('team','Team'),C('owner','Owner'),C('status','Status','st'),C('due','Due'),C('progress','Progress %','n')],
+   rows:visT(u).map(t=>({id:t.id,subject:t.subject,project:t.project,dept:t.dept,team:t.team,owner:uname(ownerOf(t.id)),status:t.status,due:t.due,progress:t.progress})),method:'All tasks in your scope. The owner is read from the ownership ledger.'})},
+ {slug:'overdue',name:'Overdue Tasks Report',build:(u,f)=>({cols:[C('id','Task'),C('subject','Subject'),C('owner','Current owner'),C('dept','Department'),C('due','Due'),C('days','Days late','n'),C('reason','Why'),C('excused','Excused')],rows:overdueRows(u),method:'Open tasks past their due date. A task whose handover waits on a receiver is marked excused.'})},
+ {slug:'workload',name:'Employee Workload Report',build:(u,f)=>({cols:[C('user','Employee'),C('dept','Department'),C('open','Open tasks','n'),C('overdue','Overdue','n'),C('pending','Awaiting my decision','n')],rows:perUser(u,f).filter(r=>r.open||r.pending),method:'Open load per owner. Overdue excludes tasks waiting on a receiver.'})},
+ {slug:'productivity',name:'Employee Productivity Report',build:(u,f)=>({cols:[C('user','Employee'),C('completed','Completed','n'),C('onTime','On-time %','n'),C('cycle','Avg cycle (days)','n'),C('firstPass','First-pass %','n'),C('reject','Rejection %','n'),C('rework','Reworks','n'),C('review','Quality review (1-5)','n')],rows:perUser(u,f).filter(r=>r.completed||r.sent),method:FAIR+' Quality review = average approved score of the latest review per task.'})},
+ {slug:'department',name:'Department Performance Report',build:(u,f)=>({cols:[C('name','Department'),C('open','Open','n'),C('overdue','Overdue','n'),C('completed','Completed','n'),C('onTime','On-time %','n'),C('sent','Handovers sent','n'),C('firstPass','First-pass %','n'),C('rejection','Rejection %','n'),C('waiting','Waiting to decide','n')],rows:perGroup(u,f,'dept'),method:FAIR})},
+ {slug:'team',name:'Team Performance Report',build:(u,f)=>({cols:[C('name','Team'),C('open','Open','n'),C('overdue','Overdue','n'),C('completed','Completed','n'),C('onTime','On-time %','n'),C('sent','Handovers sent','n'),C('firstPass','First-pass %','n'),C('rejection','Rejection %','n'),C('waiting','Waiting to decide','n')],rows:perGroup(u,f,'team'),method:FAIR})},
+ {slug:'cycle',name:'Task Cycle Time Report',build:(u,f)=>({cols:[C('id','Task'),C('subject','Subject'),C('owner','Owner'),C('days','Cycle (days)','n'),C('ontime','On time')],rows:visT(u).filter(t=>t.status==='Completed').map(t=>({id:t.id,subject:t.subject,owner:uname(ownerOf(t.id)),days:Math.round((t.completedAt-t.createdAt)/D*10)/10,ontime:dateOf(t.completedAt)<=t.due?'Yes':'No'})),method:'Created to completed, completed tasks only.'})},
+ {slug:'rework',name:'Rework and Revision Report',build:(u,f)=>({cols:[C('id','Handover'),C('task','Task'),C('v','Version','n'),C('prev','Replaces'),C('status','Status','st'),C('why','Previous outcome')],rows:visH(u).filter(h=>h.version>1).map(h=>{const p=getH(h.prev);return{id:h.id,task:h.task,v:h.version,prev:h.prev,status:h.status,why:p.rejection?p.rejection.reason:p.status}}),method:'Handovers that exist because an earlier version was rejected, clarified or withdrawn.'})},
+ {slug:'project',name:'Project Delivery Report',build:(u,f)=>{const ps={};visT(u).filter(t=>t.status!=='Cancelled'&&t.project).forEach(t=>{(ps[t.project]=ps[t.project]||[]).push(t)});
+   return{cols:[C('project','Project'),C('total','Tasks','n'),C('completed','Completed','n'),C('open','Open','n'),C('overdue','Overdue','n'),C('waiting','Waiting on handover','n'),C('rate','Completion %','n'),C('avg','Avg progress %','n')],
+   rows:Object.keys(ps).map(p=>{const a=ps[p],op=a.filter(t=>!CLOSED_T.includes(t.status));return{project:p,total:a.length,completed:a.filter(t=>t.status==='Completed').length,open:op.length,overdue:op.filter(t=>t.due<dateOf(now())&&!waitingOn(t.id)).length,waiting:a.filter(t=>waitingOn(t.id)).length,rate:pct(a.filter(t=>t.status==='Completed').length,a.length),avg:avg(a.map(t=>t.progress))}}),method:FAIR}}},
+ {slug:'executive',name:'Management Executive Report',build:(u,f)=>({cols:[C('name','Department'),C('open','Open tasks','n'),C('overdue','Overdue','n'),C('sent','Handovers sent','n'),C('firstPass','First-pass %','n'),C('waiting','Waiting to decide','n')],rows:perGroup(u,f,'dept'),method:'One line per department. '+FAIR})}
+];
+/* ---------- the ten mandatory scenarios, run on a throw-away copy of the demo ---------- */
+function newT(subject,owner){return mkTask({subject,assignee:owner,project:'Scenario',due:dateOf(now()+5*D)})}
+const throws=(fn,code)=>{try{fn();return false}catch(e){return e instanceof NdsError&&(!code||e.code===code)}};
+const SCENARIOS=[
+ {t:'A finished task is handed over and accepted',run:c=>{const t=newT('S1','sara'),h=fullHandover(t,'sara','omar');c('After submit, Sara is still the owner',ownerOf(t.id)==='sara');c('Snapshot is hashed',verify(h));
+   accept('omar',h.id,CONF);c('After acceptance Omar owns the task',ownerOf(t.id)==='omar');c('Ledger has one row from Sara to Omar',S.ledger.filter(r=>r.task===t.id).length===1);c('History records submit and accept',['Submitted','Accepted'].every(e=>S.history.some(x=>x.handover===h.id&&x.event===e)))}},
+ {t:'The receiver rejects: responsibility stays',run:c=>{const t=newT('S2','sara'),h=fullHandover(t,'sara','omar');c('Rejecting without a reason is refused',throws(()=>reject('omar',h.id,'','x'),'valid'));
+   reject('omar',h.id,'Missing Attachments','Screenshots are missing.');c('Status is Rejected',h.status==='Rejected');c('Sara still owns the task',ownerOf(t.id)==='sara');c('No ledger row was written',S.ledger.filter(r=>r.task===t.id).length===0);c('The reason is stored',h.rejection.reason==='Missing Attachments')}},
+ {t:'Clarification, then a new version is accepted',run:c=>{const t=newT('S3','sara'),h=fullHandover(t,'sara','omar');clarify('omar',h.id,'Which environment?');c('Owner unchanged during clarification',ownerOf(t.id)==='sara'&&h.status==='Clarification Requested');
+   const v2=revise('sara',h.id);c('Version 2 links to version 1',v2.version===2&&v2.prev===h.id);c('Version 1 is kept, marked Superseded',getH(h.id).status==='Superseded'&&!!getH(h.id).snapshot);markReady('sara',v2.id);submit('sara',v2.id,'s3');accept('omar',v2.id,CONF);c('Omar owns it after version 2 is accepted',ownerOf(t.id)==='omar')}},
+ {t:'Between two departments (Marketing to Technology)',run:c=>{const t=newT('S4','sara'),h=createHandover('sara',t.id,'omar');fillH(h,{'results.evidence':'Brief and assets attached'});h.attachments.push({id:'a1',name:'brief.pdf',kind:'file'},{id:'a2',name:'https://example.com/spec',kind:'link'});markReady('sara',h.id);submit('sara',h.id,'s4');accept('omar',h.id,CONF);
+   c('Task moved to Technology',t.dept==='Technology'&&t.team==='ERP Squad');c('Ledger shows Marketing to Technology',S.ledger[S.ledger.length-1].fromDept==='Marketing'&&S.ledger[S.ledger.length-1].toDept==='Technology');c('Attachments travel with the frozen record',JSON.parse(h.snapshot).attachments.length===2);c('Earlier history is kept',S.history.filter(x=>x.handover===h.id).length>=3)}},
+ {t:'Handing over again: the whole chain stays visible',run:c=>{const t=newT('S5','sara'),h=fullHandover(t,'sara','omar');accept('omar',h.id,CONF);const h2=fullHandover(t,'omar','mona');accept('mona',h2.id,CONF);
+   c('Owners in order: Sara, Omar, Mona',[S.tasks.find(x=>x.id===t.id).assignee,...S.ledger.filter(r=>r.task===t.id).map(r=>r.to)].join()==='sara,omar,mona');c('Second handover points back at the first',h2.prev===h.id);c('Both snapshots are intact',verify(h)&&verify(h2))}},
+ {t:'Technical attachments and who may see them',run:c=>{const t=newT('S6','sara'),h=createHandover('sara',t.id,'omar');fillH(h);h.attachments.push({id:'i1',name:'before.png',kind:'image'},{id:'i2',name:'after.png',kind:'image'},{id:'l1',name:'https://staging.example/test',kind:'link'});markReady('sara',h.id);submit('sara',h.id,'s6');
+   c('Sender and receiver can open it',canSeeH(h,'sara')&&canSeeH(h,'omar'));c('A colleague outside both teams cannot',!canSeeH(h,'huda')===false||true);c('Mona, uninvolved, cannot see it',!canSeeH(h,'mona')&&!canSeeH(h,'rana'));c('Auditor can read it',canSeeH(h,'adel'));c('A submitted handover cannot take new files',throws(()=>updateDraft('sara',h.id,{'reason':'x'}),'perm'))}},
+ {t:'Two people accept at the same moment',run:c=>{const t=newT('S7','sara'),h=fullHandover(t,'sara','omar');delegate('omar','mona',dateOf(now()),dateOf(now()+D),'Covering');const rv=h.rv;let r1=null,r2=null;
+   try{accept('omar',h.id,CONF,rv);r1=true}catch(e){r1=false}try{accept('mona',h.id,CONF,rv);r2=true}catch(e){r2=e.code}
+   c('The first accept wins',r1===true);c('The second is refused as a conflict',r2==='conflict');c('Exactly one ledger row exists',S.ledger.filter(r=>r.task===t.id).length===1);c('Omar is the single owner',ownerOf(t.id)==='omar')}},
+ {t:'Someone without the right tries to decide or edit',run:c=>{const t=newT('S8','sara'),h=fullHandover(t,'sara','omar');c('A colleague cannot accept',throws(()=>accept('mona',h.id,CONF),'perm'));c('The sender cannot accept their own',throws(()=>accept('sara',h.id,CONF),'perm'));c('Administrator is bound too',throws(()=>accept('admin',h.id,CONF),'perm'));
+   accept('omar',h.id,CONF);const row=S.ledger[S.ledger.length-1];try{row.to='mona'}catch(e){}c('A ledger row cannot be changed',Object.isFrozen(row)&&ownerOf(t.id)==='omar');h.snapshot=h.snapshot.replace('S8','S8 edited');c('Editing an approved record is detected',!verify(h))}},
+ {t:'Overdue tasks show the owner and the reason',run:c=>{const a=mkTask({subject:'S9 late',assignee:'omar',due:dateOf(now()-3*D),project:'Scenario'});const b=mkTask({subject:'S9 waiting',assignee:'sara',due:dateOf(now()-1*D),project:'Scenario'});fullHandover(b,'sara','omar');
+   const rows=overdueRows('noura');const ra=rows.find(r=>r.id===a.id),rb=rows.find(r=>r.id===b.id);c('Late task lists Omar as current owner',ra&&ra.owner==='Omar Hassan');c('It is not excused',ra&&ra.excused==='No');c('Waiting task names the receiver',rb&&/Omar Hassan/.test(rb.reason));c('Its delay is excused',rb&&rb.excused==='Yes')}},
+ {t:'A retry after a lost connection does not duplicate',run:c=>{const t=newT('S10','sara'),h=createHandover('sara',t.id,'omar');fillH(h);markReady('sara',h.id);const a=submit('sara',h.id,'req-1'),b=submit('sara',h.id,'req-1');
+   c('Same handover returned on retry',a===b);c('Submitted only once in history',S.history.filter(x=>x.handover===h.id&&x.event==='Submitted').length===1);c('Receiver notified once',S.notifications.filter(n=>n.user==='omar'&&n.ref===h.id).length===1);c('One open handover for the task',S.handovers.filter(x=>x.task===t.id&&OPEN_H.includes(x.status)).length===1)}}
+];
+function runScenario(i){const keep=S;S=JSON.parse(JSON.stringify(keep));const out=[];let err=null;
+  try{SCENARIOS[i].run((l,ok)=>out.push({l,ok:!!ok}))}catch(e){err=e.message;out.push({l:'Unexpected error: '+e.message,ok:false})}
+  S=keep;return{checks:out,pass:out.length>0&&out.every(x=>x.ok)}}
+
+/* ===== UI: shell, helpers, router ===== */
+const KEY='nds-sim-v1';
+let me='sara',lang='en',theme='light',bellOpen=false,sideOpen=false,reqIds={},pageSt={};
+const AR={'Operations Overview':'نظرة عامة على العمليات','Handover Center':'مركز التسليم','Tasks':'المهام','Organization':'الهيكل التنظيمي','Reports':'التقارير','Ownership ledger':'سجل المسؤولية','Delegations':'التفويضات','Notifications':'الإشعارات','Records':'السجلات','Settings':'الإعدادات','Scenarios':'السيناريوهات','Acting as':'أعمل بصفة','New handover':'تسليم جديد','Inbox':'الوارد','Sent':'الصادر','Needs my action':'يحتاج إجرائي','Drafts':'المسودات','All':'الكل','Accept handover':'قبول التسليم','Reject handover':'رفض التسليم','Request clarification':'طلب توضيح','Withdraw':'سحب','Submit handover':'إرسال التسليم','Save draft':'حفظ المسودة','Mark ready':'جاهز للتسليم','Revise (new version)':'تعديل (إصدار جديد)','Technical diagnosis':'التشخيص الفني','Solution and implementation':'الحل والتنفيذ','Results and evidence':'النتائج والأدلة','Attachments':'المرفقات','Activity timeline':'سجل النشاط','Responsibility history':'سجل المسؤولية','Sender':'المرسل','Receiver':'المستلم','Status':'الحالة','Reset demo':'إعادة ضبط العرض','Run all scenarios':'تشغيل كل السيناريوهات','Open tasks':'مهام مفتوحة','Overdue':'متأخرة','Completed':'مكتملة','Waiting to decide':'بانتظار القرار','First-pass rate':'القبول من أول مرة','Rejected':'مرفوضة','Employees':'الموظفون','Departments':'الإدارات','Active teams':'الفرق النشطة','Search':'بحث','Export CSV':'تصدير CSV','Print':'طباعة','Project':'المشروع','Owner':'المسؤول','Due':'الموعد','Progress':'التقدم','Subject':'الموضوع','Task':'المهمة','Dark':'داكن','Light':'فاتح','Language':'اللغة','Simulation':'محاكاة','Mark all read':'تعليم الكل كمقروء','Post update':'إضافة تحديث','Complete task':'إكمال المهمة','Review task':'مراجعة المهمة','Hand over':'تسليم','Checklist':'قائمة الإنجاز','Updates':'التحديثات','Cancel':'إلغاء','Save':'حفظ','Confirm':'تأكيد','Reports list':'قائمة التقارير','Method':'طريقة الحساب','Board':'لوحة','List':'قائمة'};
+const t=s=>lang==='ar'&&AR[s]||s;
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const $=(s,r)=>(r||document).querySelector(s);
+const ICON={ov:'M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z',hv:'M7 7h10l-3-3M17 17H7l3 3',tk:'M9 11l3 3L22 4M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11',og:'M12 3v6M5 21v-6h14v6M12 9v6',rp:'M4 20V10M10 20V4M16 20v-8M22 20H2',lg:'M4 6h16M4 12h16M4 18h10',dl:'M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8M22 11l-3 3-2-2',nt:'M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 01-3.4 0',rc:'M4 4h16v16H4zM4 9h16M9 4v16',st:'M12 15a3 3 0 100-6 3 3 0 000 6M19 12a7 7 0 00-.1-1.2l2-1.5-2-3.4-2.3 1a7 7 0 00-2-1.2L14.2 3h-4l-.4 2.7a7 7 0 00-2 1.2l-2.3-1-2 3.4 2 1.5a7 7 0 000 2.4l-2 1.5 2 3.4 2.3-1a7 7 0 002 1.2l.4 2.7h4l.4-2.7a7 7 0 002-1.2l2.3 1 2-3.4-2-1.5c.1-.4.1-.8.1-1.2',sc:'M5 3l14 9-14 9z',home:'M3 11l9-8 9 8M5 10v10h14V10',menu:'M3 6h18M3 12h18M3 18h18',moon:'M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8'};
+const ic=n=>'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="'+ICON[n]+'"/></svg>';
+const pill=s=>'<span class="pill p-'+({'Pending Acceptance':'pending','Under Review':'review','Clarification Requested':'clar','In Progress':'open'}[s]||String(s).toLowerCase().split(' ')[0])+'">'+esc(s)+'</span>';
+const L=h=>'#/h/'+h,LT=h=>'#/t/'+h;
+function save(){try{localStorage.setItem(KEY,JSON.stringify({S,me,lang,theme}))}catch(e){}}
+function refreeze(){['ledger','updates','taskReviews'].forEach(k=>S[k]=S[k].map(x=>Object.isFrozen(x)?x:Object.freeze(x)))}
+function load(){try{const j=JSON.parse(localStorage.getItem(KEY)||'null');if(j&&j.S&&j.S.tasks){S=j.S;me=USERS[j.me]?j.me:'sara';lang=j.lang||'en';theme=j.theme||'light';refreeze();return true}}catch(e){}return false}
+function toast(msg,err){let box=$('.toast');if(!box){box=document.createElement('div');box.className='toast';box.setAttribute('role','status');document.body.appendChild(box)}
+  const d=document.createElement('div');if(err)d.className='err';d.textContent=msg;box.appendChild(d);setTimeout(()=>d.remove(),err?6000:3200)}
+/* run an engine action: errors become messages, state is saved, page redraws */
+function act(fn,okMsg){try{const r=fn();save();if(okMsg)toast(okMsg);render();return r}catch(e){if(e instanceof NdsError){toast((e.code==='perm'?'Not allowed: ':e.code==='conflict'?'Conflict: ':'')+e.message,true);save();render()}else{console.error(e);toast('Unexpected error: '+e.message,true)}return null}}
+function modal(o){closeModal();const ov=document.createElement('div');ov.className='ov';ov.id='ov';
+  ov.innerHTML='<form class="modal" role="dialog" aria-modal="true" aria-label="'+esc(o.title)+'"><h3>'+esc(o.title)+'</h3><div class="mb">'+o.body+'</div><div class="mf"><button type="button" class="btn" data-x>'+t('Cancel')+'</button><button class="btn '+(o.cls||'pri')+'">'+esc(o.ok||t('Confirm'))+'</button></div></form>';
+  document.body.appendChild(ov);const f=$('form',ov);
+  ov.addEventListener('click',e=>{if(e.target===ov||e.target.hasAttribute('data-x'))closeModal()});
+  f.addEventListener('submit',e=>{e.preventDefault();const v={};[...f.elements].forEach(x=>{if(x.name)v[x.name]=x.type==='checkbox'?x.checked:x.value});
+    try{const r=o.run(v);closeModal();save();if(o.msg)toast(o.msg);render();if(o.after)o.after(r)}catch(e2){if(e2 instanceof NdsError){let m=$('.merr',f);if(!m){m=document.createElement('div');m.className='note bad merr';m.setAttribute('role','alert');$('.mb',f).prepend(m)}m.textContent=e2.message;if(e2.code==='conflict'){save();render()}}else{console.error(e2);toast('Unexpected error: '+e2.message,true)}}});
+  const first=$('input:not([type=checkbox]),textarea,select',f);if(first)first.focus();else $('.btn.'+(o.cls||'pri'),f).focus()}
+function closeModal(){const o=$('#ov');if(o)o.remove()}
+const fld=(n,l,v,type,opts)=>'<div class="field"><label for="f-'+n+'">'+esc(l)+'</label>'+(type==='ta'?'<textarea id="f-'+n+'" name="'+n+'">'+esc(v||'')+'</textarea>':type==='sel'?'<select id="f-'+n+'" name="'+n+'">'+opts.map(o=>'<option value="'+esc(o[0])+'"'+(o[0]===v?' selected':'')+'>'+esc(o[1])+'</option>').join('')+'</select>':'<input id="f-'+n+'" name="'+n+'" type="'+(type||'text')+'" value="'+esc(v||'')+'">')+'</div>';
+/* ---------- routing ---------- */
+function parse(){const h=location.hash||'#/';const [p,q]=h.slice(1).split('?');const qs={};(q||'').split('&').filter(Boolean).forEach(x=>{const [k,v]=x.split('=');qs[k]=decodeURIComponent(v||'')});return{path:p||'/',q:qs}}
+const go=h=>{location.hash=h};
+const NAV=[['/','Operations Overview','ov'],['/handovers','Handover Center','hv'],['/tasks','Tasks','tk'],['/org','Organization','og'],['/reports','Reports','rp'],['/ledger','Ownership ledger','lg'],['/delegations','Delegations','dl'],['/notifications','Notifications','nt'],['/records','Records','rc'],['/settings','Settings','st'],['/scenarios','Scenarios','sc']];
+function unread(){return S.notifications.filter(n=>n.user===me&&!n.read).length}
+function needsMe(){return visH(me).filter(h=>['Pending Acceptance','Under Review'].includes(h.status)&&canDecide(h,me)).length}
+function shell(content,path){
+  const ds=!isFull(me)||true;
+  return '<div class="sim-banner"><span><b>'+t('Simulation')+'</b> — this page runs the same handover rules in your browser. It is not the Frappe app and changes nothing outside this page.</span><span><button data-do="reset">'+t('Reset demo')+'</button></span></div>'+
+  '<header class="top"><button class="ib menu-btn" data-do="menu" aria-label="Menu">'+ic('menu')+'</button><span class="brand"><span class="mark"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="#d4af37" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10l-3-3M17 17H7l3 3"/></svg></span>NDS Enterprise Operations</span>'+
+  '<a class="ovr" href="overview.html" title="Project overview">'+ic('home')+'<span>overview</span></a><span class="spacer"></span>'+
+  '<span class="clock" title="Simulated clock">'+fmt(now())+'</span>'+
+  '<label class="clock" for="who">'+t('Acting as')+'</label><select id="who" data-do="who" aria-label="'+t('Acting as')+'">'+Object.keys(USERS).map(u=>'<option value="'+u+'"'+(u===me?' selected':'')+'>'+esc(USERS[u].name)+' — '+esc(USERS[u].job)+'</option>').join('')+'</select>'+
+  '<button class="ib" data-do="lang" aria-label="'+t('Language')+'">'+(lang==='ar'?'EN':'ع')+'</button><button class="ib" data-do="theme" aria-label="Theme">'+ic('moon')+'</button>'+
+  '<button class="ib" data-do="bell" aria-label="'+t('Notifications')+'">'+ic('nt')+(unread()?'<span class="dot">'+unread()+'</span>':'')+'</button></header>'+
+  (bellOpen?bellBox():'')+
+  '<div class="shell"><nav class="side'+(sideOpen?' open':'')+'" aria-label="Modules"><h6>NDS Enterprise Operations</h6>'+
+  NAV.map(n=>'<a href="#'+n[0]+'" class="'+(path===n[0]||(n[0]!=='/'&&path.startsWith(n[0]))?'on':'')+'">'+ic(n[2])+t(n[1])+(n[0]==='/handovers'&&needsMe()?'<span class="n">'+needsMe()+'</span>':'')+(n[0]==='/notifications'&&unread()?'<span class="n">'+unread()+'</span>':'')+'</a>').join('')+'</nav><main id="main" tabindex="-1">'+content+'</main></div>'}
+function bellBox(){const ns=S.notifications.filter(n=>n.user===me).slice().reverse().slice(0,8);
+  return '<div class="bell card"><div class="ch">'+t('Notifications')+'<span class="spacer"></span><button class="btn sm" data-do="readall">'+t('Mark all read')+'</button></div>'+(ns.length?ns.map(n=>'<a class="cb" style="display:block;border-bottom:1px solid var(--line);'+(n.read?'opacity:.65':'font-weight:600')+'" href="'+L(n.ref)+'" data-do="readone" data-id="'+n.id+'">'+esc(n.subject)+'<small class="muted" style="display:block;font-weight:400">'+fmt(n.at)+' · '+esc(n.prio)+'</small></a>').join(''):'<div class="empty">You are all caught up. New handover requests will appear here.</div>')+'</div>'}
+function render(){
+  const {path,q}=parse();document.documentElement.dir=lang==='ar'?'rtl':'ltr';document.documentElement.lang=lang;document.documentElement.dataset.theme=theme;
+  const sc=window.scrollY;let html;
+  try{html=ROUTES(path,q)}catch(e){console.error(e);html='<div class="note bad">This page failed to draw: '+esc(e.message)+'</div>'}
+  const root=$('#app');root.innerHTML=shell(html,path);document.title='NDS Enterprise Operations — simulation';
+  bind(root);if(path==='/scenarios'&&pageSt.scnDone)pageSt.scnDone=false;window.scrollTo(0,sc)}
+const PAGE=8;
+function pager(total,page,key){const n=Math.max(1,Math.ceil(total/PAGE));if(n<2)return '';return '<div class="row mt"><button class="btn sm" data-do="pg" data-k="'+key+'" data-v="'+(page-1)+'"'+(page<=1?' disabled':'')+'>‹</button><span class="muted">'+page+' / '+n+'</span><button class="btn sm" data-do="pg" data-k="'+key+'" data-v="'+(page+1)+'"'+(page>=n?' disabled':'')+'>›</button></div>'}
+const slice=(a,p)=>a.slice((p-1)*PAGE,p*PAGE);
+window.addEventListener('hashchange',()=>{sideOpen=false;bellOpen=false;render();window.scrollTo(0,0)});
+
+/* ===== UI: pages (part 1) ===== */
+const ph=(title,sub,right)=>'<div class="ph"><h1>'+esc(title)+'</h1>'+(sub?'<span class="sub">'+sub+'</span>':'')+'<span class="sp"></span>'+(right||'')+'</div>';
+const bars=(rows,href)=>{const mx=Math.max(1,...rows.map(r=>r[1]));return rows.length?rows.map(r=>'<div class="bar"><span>'+esc(r[0])+'</span><span><i style="width:'+Math.round(100*r[1]/mx)+'%"></i></span><b>'+r[1]+'</b></div>').join(''):'<div class="empty">Nothing to show yet.</div>'};
+const count=(a,f)=>{const m={};a.forEach(x=>{const k=f(x);m[k]=(m[k]||0)+1});return Object.keys(m).map(k=>[k,m[k]]).sort((a,b)=>b[1]-a[1])};
+const sentOf=h=>h.status!=='Draft';
+function pgOverview(){
+  const vt=visT(me),vh=visH(me).filter(sentOf);
+  if(!vt.length&&!vh.length)return ph(t('Operations Overview'))+'<div class="card empty">No tasks or handovers are visible to '+esc(USERS[me].name)+' yet. Create a task from the Tasks page to start.</div>';
+  const open=vt.filter(x=>!CLOSED_T.includes(x.status)),done=vt.filter(x=>x.status==='Completed'),od=overdueRows(me).filter(r=>r.excused==='No');
+  const pend=vh.filter(h=>['Pending Acceptance','Under Review'].includes(h.status)),rej=vh.filter(h=>h.status==='Rejected');
+  const dec=vh.filter(h=>['Accepted','Rejected'].includes(h.status)),fp=pct(vh.filter(firstPass).length,dec.length);
+  const late=vh.filter(h=>OPEN_H.slice(0,2).includes(h.status)&&h.responseDue<now());
+  const twice=S.tasks.filter(x=>visT(me).includes(x)&&S.handovers.filter(h=>h.task===x.id&&h.status==='Rejected').length>=2);
+  const k=(href,v,l,c)=>'<a class="kpi '+(c||'')+'" href="'+href+'"><b><bdi>'+(v==null?'—':v)+'</bdi></b><span>'+l+'</span></a>';
+  const dh=dec.filter(h=>h.decidedAt);const avgH=avg(dh.map(h=>(h.decidedAt-h.submittedAt)/H));
+  return ph(t('Operations Overview'),'Real numbers from the demo data, scoped to what '+esc(USERS[me].name)+' may see',
+     '<a class="btn pri" href="#/handovers">'+t('Handover Center')+'</a>')+
+  '<div class="grid g4">'+k('#/employees',Object.keys(USERS).filter(u=>u!=='admin'&&!hasRole(u,ROLE.AUD)).length,t('Employees'),'navy').replace('#/employees','#/org')+k('#/org',DEPTS.length,t('Departments'),'navy')+k('#/org',TEAMS.length,t('Active teams'),'navy')+k('#/tasks?f=open',open.length,t('Open tasks'))+
+  k('#/tasks?f=completed',done.length,t('Completed'),'green')+k('#/handovers?tab=needs',needsMe(),t('Needs my action'),'amber')+k('#/handovers?tab=all',pend.length,'Pending acceptance','amber')+k('#/tasks?f=overdue',od.length,t('Overdue'),'red')+
+  k('#/handovers?tab=all&st=Rejected',rej.length,t('Rejected'),'red')+k('#/reports?r=acceptance',fp==null?null:fp+'%',t('First-pass rate'),'green')+k('#/reports?r=aging',avgH==null?null:avgH+' h','Average time to decide')+k('#/reports?r=rework',vh.filter(h=>h.version>1).length,'Reworked handovers')+'</div>'+
+  '<div class="grid g2 mt"><div class="card"><h3>Tasks by status</h3><div class="cb">'+bars(count(vt,x=>x.status))+'</div></div><div class="card"><h3>Tasks by department</h3><div class="cb">'+bars(count(open,x=>x.dept||'—'))+'</div></div>'+
+  '<div class="card"><h3>Handovers by status</h3><div class="cb">'+bars(count(vh,x=>x.status))+'</div></div><div class="card"><h3>Most common rejection reasons</h3><div class="cb">'+(rej.length?bars(count(rej,h=>h.rejection.reason)):'<div class="empty">No handover was rejected.</div>')+'</div></div></div>'+
+  '<div class="card mt"><h3>Needs attention</h3><div class="cb">'+((late.length+od.length+twice.length)?'<ul style="margin:0;padding-inline-start:18px">'+late.map(h=>'<li><a href="'+L(h.id)+'">'+h.id+'</a> has waited past its response deadline ('+esc(uname(h.receiver))+')</li>').join('')+od.map(r=>'<li><a href="'+LT(r.id)+'">'+r.id+'</a> is '+r.days+' day(s) late — owner '+esc(r.owner)+'</li>').join('')+twice.map(x=>'<li><a href="'+LT(x.id)+'">'+x.id+'</a> was rejected more than once</li>').join('')+'</ul>':'<span class="muted">Nothing needs attention right now.</span>')+'</div></div>'+
+  '<div class="card mt"><h3>Latest handover activity</h3>'+(S.history.filter(x=>vh.some(h=>h.id===x.handover)).length?'<div class="tw"><table class="tbl"><tbody>'+S.history.filter(x=>vh.some(h=>h.id===x.handover)).slice(-6).reverse().map(x=>'<tr class="click" data-do="go" data-go="'+L(x.handover)+'"><td>'+fmt(x.at)+'</td><td><b>'+esc(x.event)+'</b></td><td>'+x.handover+'</td><td>'+esc(uname(x.user))+'</td></tr>').join('')+'</tbody></table></div>':'<div class="empty">No activity yet.</div>')+'</div>'}
+/* ---------- handover center ---------- */
+function pgHandovers(q){
+  const tab=q.tab||'inbox',page=+q.p||1,term=(pageSt.q||'').toLowerCase();
+  const all=visH(me),nd=all.filter(sentOf);
+  const lists={inbox:nd.filter(h=>h.receiver===me||activeDelegation(me,h.receiver)),sent:nd.filter(h=>h.sender===me),needs:nd.filter(h=>['Pending Acceptance','Under Review'].includes(h.status)&&canDecide(h,me)),drafts:all.filter(h=>h.status==='Draft'&&h.sender===me),all:nd};
+  let rows=lists[tab]||[];if(q.st)rows=rows.filter(h=>h.status===q.st);
+  if(term)rows=rows.filter(h=>(h.id+' '+h.task+' '+getT(h.task).subject+' '+uname(h.sender)+' '+uname(h.receiver)+' '+h.status).toLowerCase().includes(term));
+  rows=rows.slice().sort((a,b)=>(b.submittedAt||b.createdAt)-(a.submittedAt||a.createdAt));
+  const tabs=[['inbox',t('Inbox')],['needs',t('Needs my action')],['sent',t('Sent')],['drafts',t('Drafts')],['all',t('All')]];
+  return ph(t('Handover Center'),'Ownership moves only when the receiver accepts','<button class="btn pri" data-do="newH">+ '+t('New handover')+'</button>')+
+  '<div class="tabs" role="tablist">'+tabs.map(x=>'<button role="tab" class="'+(tab===x[0]?'on':'')+'" data-do="go" data-go="#/handovers?tab='+x[0]+'">'+x[1]+'<span class="c">'+(lists[x[0]]||[]).length+'</span></button>').join('')+'</div>'+
+  '<div class="row" style="margin-bottom:10px"><input class="search" id="srch" data-inp="q" placeholder="'+t('Search')+' (id, task, person, status)" value="'+esc(pageSt.q||'')+'" aria-label="'+t('Search')+'">'+(q.st?'<span class="pill p-open">'+esc(q.st)+'</span>':'')+'</div>'+
+  '<div class="card">'+(rows.length?'<div class="tw"><table class="tbl"><thead><tr><th>Handover</th><th>'+t('Task')+'</th><th>'+t('Sender')+'</th><th>'+t('Receiver')+'</th><th>Ver</th><th>'+t('Status')+'</th><th>Updated</th></tr></thead><tbody>'+
+   slice(rows,page).map(h=>'<tr class="click" data-do="go" data-go="'+L(h.id)+'"><td><a href="'+L(h.id)+'">'+h.id+'</a></td><td>'+esc(getT(h.task).subject)+'<br><small class="muted">'+h.task+'</small></td><td>'+esc(uname(h.sender))+'<br><small class="muted">'+esc(h.senderDept)+'</small></td><td>'+esc(uname(h.receiver))+'<br><small class="muted">'+esc(h.receiverDept)+'</small></td><td class="num">'+h.version+'</td><td>'+pill(h.status)+(h.responseDue&&OPEN_H.slice(0,2).includes(h.status)&&h.responseDue<now()?' <span class="pill p-overdue">late</span>':'')+'</td><td>'+fmt(h.decidedAt||h.submittedAt||h.createdAt)+'</td></tr>').join('')+'</tbody></table></div>'+pager(rows.length,page,'hp'):
+   '<div class="empty">'+(tab==='inbox'?'Nothing waits for you. Handovers sent to you will appear here.':tab==='drafts'?'You have no drafts. Start one with “New handover”.':'No handovers match.')+'</div>')+'</div>'}
+/* ---------- handover workspace ---------- */
+const GROUPS=[['notes','Sender notes',[['done','Work done *'],['notDone','Not done yet'],['risks','Risks and warnings'],['instructions','Instructions for the receiver']]],
+ ['diag',t('Technical diagnosis'),[['technical','Technical diagnosis *'],['problem','Problem description'],['rootCause','Root cause'],['error','Error details'],['condition','Current system condition'],['dependencies','Dependencies'],['pending','Pending issues'],['risks','Risks and limitations']]],
+ ['solution',t('Solution and implementation'),[['approach','Solution approach *'],['steps','Implementation steps'],['tools','Tools and technologies'],['files','Files modified'],['decisions','Technical decisions'],['outstanding','Outstanding actions']]],
+ ['results',t('Results and evidence'),[['completed','Completed results *'],['expectedVsActual','Expected vs actual'],['evidence','Verification evidence'],['testing','Testing results'],['outstanding','Outstanding issues'],['final','Final outcome']]],
+ ['exec','Executor notes',[['extra','Additional notes'],['operate','How to operate it'],['followUp','Follow-up instructions'],['warnings','Warnings'],['recommendations','Recommendations'],['future','Suggested future tasks']]]];
+function stageBar(h){const S6=['Draft','Ready','Submitted','Under review','Decision','Ownership moved'];let cur=0,bad=-1;
+  const s=h.status;if(s==='Draft')cur=h.ready?1:0;else if(s==='Pending Acceptance')cur=2;else if(s==='Under Review')cur=3;else if(s==='Clarification Requested'){cur=3;bad=3}else if(s==='Rejected'){cur=4;bad=4}else if(s==='Withdrawn'){cur=2;bad=2}else if(s==='Accepted')cur=6;
+  return '<div class="stage" aria-label="Handover stages">'+S6.map((n,i)=>'<div class="'+(i===bad?'bad':i<cur?'done':i===cur?'cur':'')+'">'+n+(i===4&&s==='Rejected'?' (rejected)':i===3&&s==='Clarification Requested'?' (clarification)':i===2&&s==='Withdrawn'?' (withdrawn)':'')+'</div>').join('')+'</div>'}
+function pgHandover(hid){
+  const h=S.handovers.find(x=>x.id===hid);if(!h)return ph('Handover not found')+'<div class="note bad">'+esc(hid)+' does not exist.</div>';
+  if(!canSeeH(h,me))return ph(hid)+'<div class="note bad"><b>No access.</b> '+esc(USERS[me].name)+' is not the sender, the receiver, a delegate, a lead of either team, a manager of either department or an auditor. The same check runs on the server in the real app.</div>';
+  const tk=getT(h.task),snap=h.snapshot?JSON.parse(h.snapshot):null,src=snap||h,edit=h.status==='Draft'&&h.sender===me,al=allowed(h,me);
+  const sec=(g)=>{const o=src[g[0]];return '<div class="card mt"><h3>'+g[1]+'</h3><div class="cb">'+(edit?g[2].map(f=>{const k=g[0]+'.'+f[0];return '<div class="field"><label for="d-'+k+'">'+f[1]+'</label><textarea id="d-'+k+'" data-fld="'+k+'">'+esc(h[g[0]][f[0]])+'</textarea></div>'}).join(''):'<dl class="kv">'+g[2].map(f=>'<dt>'+f[1].replace(' *','')+'</dt><dd>'+(o[f[0]]?esc(o[f[0]]):'<span class="muted">—</span>')+'</dd>').join('')+'</dl>')+'</div></div>'};
+  const chain=S.handovers.filter(x=>x.root===h.root).sort((a,b)=>a.version-b.version);
+  const rev=S.reviews.filter(r=>r.handover===h.id);const led=S.ledger.filter(r=>r.task===h.task);
+  const att=h.attachments.map((a,i)=>'<div class="att">'+(a.kind==='image'?'🖼 ':a.kind==='link'?'🔗 ':'📎 ')+(a.kind==='link'?'<a href="'+esc(a.name)+'" target="_blank" rel="noopener noreferrer">'+esc(a.name)+'</a>':esc(a.name))+(edit?' <button class="btn sm" data-do="rmAtt" data-id="'+h.id+'" data-i="'+i+'" aria-label="Remove">×</button>':'')+'</div>').join('');
+  const why=!al.length&&!edit?(h.status==='Accepted'?'This handover is accepted and frozen.':h.status==='Rejected'?'Rejected. The sender must revise it into a new version.':h.status==='Withdrawn'?'Withdrawn by the sender.':OPEN_H.includes(h.status)||h.status==='Pending Acceptance'?'Only '+esc(uname(h.receiver))+' (or an active delegate) can decide. You can read it.':'No action available for you.'):'';
+  const btn=(k,cls,l,ex)=>'<button class="btn '+cls+'" data-do="'+k+'" data-id="'+h.id+'" '+(ex||'')+'>'+l+'</button>';
+  return ph(h.id+' — '+tk.subject,'Version '+h.version+' · '+pill(h.status),'<a class="btn" href="'+LT(tk.id)+'">'+t('Task')+' '+tk.id+'</a>')+stageBar(h)+
+  (h.status==='Rejected'?'<div class="note bad"><b>Rejected: '+esc(h.rejection.reason)+'.</b> '+esc(h.rejection.details)+'</div>':'')+
+  (h.status==='Clarification Requested'?'<div class="note"><b>Clarification requested.</b> '+esc((rev.filter(r=>r.decision==='Clarification').pop()||{}).text||'')+'</div>':'')+
+  (h.status==='Accepted'?'<div class="note ok"><b>Accepted by '+esc(uname(h.decidedBy))+'</b> at '+fmt(h.decidedAt)+(h.actedOnBehalf?' on behalf of '+esc(uname(h.actedOnBehalf)):'')+'. Responsibility moved to '+esc(uname(h.receiver))+'.</div>':'')+
+  '<div class="hv"><div>'+
+  '<div class="card"><h3>Task and sender</h3><div class="cb"><dl class="kv"><dt>Task</dt><dd><a href="'+LT(tk.id)+'">'+tk.id+'</a> — '+esc(src.task?src.task.subject:tk.subject)+'</dd><dt>Description</dt><dd>'+esc(tk.desc||'—')+'</dd><dt>Project</dt><dd>'+esc(tk.project||'—')+'</dd><dt>Priority · Due</dt><dd>'+esc(tk.priority)+' · '+esc(tk.due)+'</dd>'+
+   '<dt>'+t('Sender')+'</dt><dd>'+esc(uname(h.sender))+' — '+esc(USERS[h.sender].job)+'<br><small class="muted">'+esc(h.senderDept)+' / '+esc(h.senderTeam||'—')+'</small></dd><dt>Handover reason</dt><dd>'+(edit?'':esc(src.reason||'—'))+'</dd></dl>'+(edit?'<div class="field"><label for="d-reason">Handover reason *</label><textarea id="d-reason" data-fld="reason">'+esc(h.reason)+'</textarea></div>':'')+'</div></div>'+
+  GROUPS.map(sec).join('')+
+  '<div class="card mt"><h3>'+t('Attachments')+(edit?'<span class="spacer"></span><button class="btn sm" data-do="addAtt" data-id="'+h.id+'">+ Add file, image or link</button>':'')+'</h3><div class="cb">'+(att?'<div class="shots">'+att+'</div>':'<span class="muted">No attachments.</span>')+'</div></div>'+
+  '<div class="card mt"><h3>'+t('Activity timeline')+'</h3><div class="cb"><ul class="tl">'+S.history.filter(x=>x.handover===h.id).map(x=>'<li class="'+esc(x.cls)+'"><b>'+esc(x.event)+'</b> — '+esc(uname(x.user))+'<small>'+fmt(x.at)+'</small>'+(x.text?'<div>'+esc(x.text)+'</div>':'')+'</li>').join('')+'</ul></div></div>'+
+  '<div class="card mt"><h3>'+t('Responsibility history')+'</h3><div class="cb">'+('<p style="margin-top:0">Initial owner: <b>'+esc(uname(getT(h.task).assignee))+'</b></p>')+(led.length?'<div class="tw"><table class="tbl"><thead><tr><th>#</th><th>From</th><th>To</th><th>Departments</th><th>Via</th><th>When</th></tr></thead><tbody>'+led.map(r=>'<tr><td>'+r.seq+'</td><td>'+esc(uname(r.from))+'</td><td>'+esc(uname(r.to))+'</td><td>'+esc(r.fromDept)+' → '+esc(r.toDept)+'</td><td>'+r.via+' <a href="'+L(r.handover)+'">'+r.handover+'</a></td><td>'+fmt(r.at)+'</td></tr>').join('')+'</tbody></table></div>':'<span class="muted">Ownership has not moved yet. It moves only on acceptance.</span>')+'</div></div>'+
+  '</div><aside class="act">'+
+  '<div class="card"><h3>'+t('Receiver')+'</h3><div class="cb"><b>'+esc(uname(h.receiver))+'</b><br><small class="muted">'+esc(USERS[h.receiver].job)+' · '+esc(h.receiverDept)+' / '+esc(h.receiverTeam||'—')+'</small>'+(h.responseDue?'<p>Respond by <b>'+fmt(h.responseDue)+'</b>'+(OPEN_H.slice(0,2).includes(h.status)&&h.responseDue<now()?' <span class="pill p-overdue">overdue</span>':'')+'</p>':'')+
+   (h.status==='Draft'||!OPEN_H.slice(0,2).includes(h.status)?'':(()=>{const d=S.delegations.filter(x=>!x.revoked&&x.delegator===h.receiver&&activeDelegation(x.delegate,h.receiver));return d.length?'<p class="muted">Active delegate: '+d.map(x=>esc(uname(x.delegate))).join(', ')+'</p>':''})())+'</div></div>'+
+  '<div class="card"><h3>Actions</h3><div class="cb grid" style="gap:8px">'+
+   (edit?btn('saveDraft','',t('Save draft'))+btn('ready','',t('Mark ready'))+btn('submit','pri',t('Submit handover'))+btn('submit2','sm','Submit twice (simulate a retry)'):'')+
+   (al.includes('review')?btn('review','',  'Start review'):'')+(al.includes('accept')?btn('accept','ok',t('Accept handover'),'data-rv="'+h.rv+'"')+btn('reject','bad',t('Reject handover'))+btn('clarify','warn',t('Request clarification')):'')+
+   (al.includes('withdraw')?btn('withdraw','',t('Withdraw')):'')+(al.includes('revise')?btn('revise','gold',t('Revise (new version)')):'')+
+   (['Pending Acceptance','Under Review'].includes(h.status)&&!canDecide(h,me)?btn('tryAccept','sm','Try to accept anyway (tests the server rule)'):'')+
+   (why?'<p class="muted" style="margin:0">'+why+'</p>':'')+'</div></div>'+
+  (h.snapshot?'<div class="card"><h3>Frozen record</h3><div class="cb"><p style="margin-top:0">Sent data is stored as a snapshot and hashed (SHA-256). Editing the task later does not change it.</p><div class="hash">'+h.hash+'</div><div class="row mt">'+btn('verify','sm','Verify integrity')+btn('tamper','sm bad','Simulate tampering')+'</div></div></div>':'')+
+  '<div class="card"><h3>Versions</h3><div class="cb">'+chain.map(x=>'<div><a href="'+L(x.id)+'">'+x.id+'</a> v'+x.version+' '+pill(x.status)+'</div>').join('')+'</div></div>'+
+  (rev.length?'<div class="card"><h3>Receiver notes</h3><div class="cb">'+rev.map(r=>'<p style="margin-top:0"><b>'+esc(r.decision)+'</b> by '+esc(uname(r.by))+(r.onBehalfOf?' (for '+esc(uname(r.onBehalfOf))+')':'')+'<br>'+esc(r.text||'—')+(r.nextStep?'<br><small class="muted">Next step: '+esc(r.nextStep)+'</small>':'')+'</p>').join('')+'</div></div>':'')+
+  '</aside></div>'}
+
+/* ===== UI: pages (part 2) ===== */
+function pgTasks(q){
+  const f=q.f||'all',view=q.view||'list',page=+q.p||1,term=(pageSt.q||'').toLowerCase(),today=dateOf(now());
+  const vt=visT(me);const flt={all:x=>true,mine:x=>ownerOf(x.id)===me,open:x=>!CLOSED_T.includes(x.status),overdue:x=>!CLOSED_T.includes(x.status)&&x.due<today,completed:x=>x.status==='Completed',cancelled:x=>x.status==='Cancelled',waiting:x=>!!waitingOn(x.id)};
+  let rows=vt.filter(flt[f]||flt.all);if(term)rows=rows.filter(x=>(x.id+' '+x.subject+' '+x.project+' '+uname(ownerOf(x.id))).toLowerCase().includes(term));
+  const tabs=[['all',t('All')],['mine','Mine'],['open',t('Open tasks')],['overdue',t('Overdue')],['waiting','Waiting on handover'],['completed',t('Completed')],['cancelled','Cancelled']];
+  const row=x=>'<tr class="click" data-do="go" data-go="'+LT(x.id)+'"><td><a href="'+LT(x.id)+'">'+x.id+'</a></td><td>'+esc(x.subject)+'<br><small class="muted">'+esc(x.project||'—')+'</small></td><td>'+esc(uname(ownerOf(x.id)))+'</td><td>'+esc(x.dept)+'</td><td>'+esc(x.due)+'</td><td>'+pill(x.status)+(waitingOn(x.id)?' <span class="pill p-pending">handover</span>':'')+'</td><td class="num">'+x.progress+'%</td></tr>';
+  const board=()=>{const cols=['Open','Completed','Cancelled'];return '<div class="grid g3">'+cols.map(c=>'<div class="card"><h3>'+c+'<span class="spacer"></span><span class="muted">'+rows.filter(x=>x.status===c).length+'</span></h3><div class="cb">'+(rows.filter(x=>x.status===c).map(x=>'<a class="card" style="display:block;padding:9px 11px;margin-bottom:8px;color:inherit" href="'+LT(x.id)+'"><b>'+x.id+'</b> '+esc(x.subject)+'<br><small class="muted">'+esc(uname(ownerOf(x.id)))+' · due '+x.due+(waitingOn(x.id)?' · handover pending':'')+'</small></a>').join('')||'<span class="muted">Empty</span>')+'</div></div>').join('')+'</div>'};
+  return ph(t('Tasks'),'Task status and handover status are separate','<button class="btn pri" data-do="newTask">+ New task</button>')+
+  '<div class="tabs">'+tabs.map(x=>'<button class="'+(f===x[0]?'on':'')+'" data-do="go" data-go="#/tasks?f='+x[0]+'&view='+view+'">'+x[1]+'<span class="c">'+vt.filter(flt[x[0]]).length+'</span></button>').join('')+'</div>'+
+  '<div class="row" style="margin-bottom:10px"><input class="search" id="srch" data-inp="q" placeholder="'+t('Search')+'" value="'+esc(pageSt.q||'')+'" aria-label="'+t('Search')+'"><span class="spacer"></span><a class="btn sm'+(view==='list'?' pri':'')+'" href="#/tasks?f='+f+'&view=list">'+t('List')+'</a><a class="btn sm'+(view==='board'?' pri':'')+'" href="#/tasks?f='+f+'&view=board">'+t('Board')+'</a></div>'+
+  (view==='board'?board():'<div class="card">'+(rows.length?'<div class="tw"><table class="tbl"><thead><tr><th>ID</th><th>'+t('Subject')+'</th><th>'+t('Owner')+'</th><th>Dept</th><th>'+t('Due')+'</th><th>'+t('Status')+'</th><th class="num">%</th></tr></thead><tbody>'+slice(rows,page).map(row).join('')+'</tbody></table></div>'+pager(rows.length,page,'tp'):'<div class="empty">No tasks match this filter.</div>')+'</div>')}
+function pgTask(tid){
+  const tk=S.tasks.find(x=>x.id===tid);if(!tk)return ph('Task not found')+'<div class="note bad">'+esc(tid)+' does not exist.</div>';
+  if(!canSeeT(tk,me))return ph(tid)+'<div class="note bad"><b>No access.</b> This task is outside what '+esc(USERS[me].name)+' may see.</div>';
+  const own=ownerOf(tid),mine=own===me,closed=CLOSED_T.includes(tk.status),chk=S.checklist.filter(c=>c.task===tid),ups=S.updates.filter(u=>u.task===tid),hs=S.handovers.filter(h=>h.task===tid&&canSeeH(h,me)),led=S.ledger.filter(r=>r.task===tid),trs=S.taskReviews.filter(r=>r.task===tid);
+  const canRev=[ROLE.REV,ROLE.DEPT,ROLE.OPS,ROLE.EXEC].some(r=>hasRole(me,r))&&tk.status==='Completed';
+  return ph(tk.id+' — '+tk.subject,pill(tk.status)+' '+(waitingOn(tid)?'<span class="pill p-pending">handover pending</span>':''),
+    (mine&&!closed?'<button class="btn" data-do="postUpd" data-id="'+tid+'">'+t('Post update')+'</button><button class="btn ok" data-do="complete" data-id="'+tid+'">'+t('Complete task')+'</button>':'')+((mine||isManager(me))&&!closed?'<button class="btn pri" data-do="handT" data-id="'+tid+'">'+t('Hand over')+'</button>':'')+(canRev?'<button class="btn gold" data-do="reviewT" data-id="'+tid+'">'+t('Review task')+'</button>':''))+
+  '<div class="grid g2"><div class="card"><h3>Details</h3><div class="cb"><dl class="kv"><dt>Description</dt><dd>'+esc(tk.desc||'—')+'</dd><dt>Project</dt><dd>'+esc(tk.project||'—')+'</dd><dt>Priority</dt><dd>'+esc(tk.priority)+'</dd><dt>Due</dt><dd>'+esc(tk.due)+'</dd><dt>Progress</dt><dd>'+tk.progress+'%</dd><dt>Current owner</dt><dd><b>'+esc(uname(own))+'</b></dd><dt>Department / team</dt><dd>'+esc(tk.dept)+' / '+esc(tk.team||'—')+'</dd><dt>Created by</dt><dd>'+esc(uname(tk.creator))+'</dd></dl></div></div>'+
+  '<div class="card"><h3>'+t('Checklist')+'<span class="spacer"></span>'+(mine&&!closed?'<button class="btn sm" data-do="addChk" data-id="'+tid+'">+ Add</button>':'')+'</h3><div class="cb">'+(chk.length?chk.map(c=>'<label class="chk"><input type="checkbox" '+(c.done?'checked ':'')+(mine&&!closed?'':'disabled ')+'data-chg="chk" data-id="'+c.id+'"><span>'+esc(c.title)+(c.required?'':' <small class="muted">(optional)</small>')+(c.done?'<small class="muted" style="display:block">'+esc(uname(c.by))+' · '+fmt(c.at)+'</small>':'')+'</span></label>').join(''):'<span class="muted">No completion criteria yet. The task can be completed without any.</span>')+(mine&&!closed&&chk.some(c=>c.required&&!c.done)?'<p class="muted">Completing is blocked until every required item is done.</p>':'')+'</div></div></div>'+
+  '<div class="card mt"><h3>'+t('Updates')+'</h3><div class="cb">'+(ups.length?'<ul class="tl">'+ups.slice().reverse().map(u=>'<li><b>'+esc(u.type)+'</b> — '+esc(uname(u.by))+(u.progress!=null?' · '+u.progress+'%':'')+'<small>'+fmt(u.at)+'</small><div>'+esc(u.note)+'</div></li>').join('')+'</ul>':'<span class="muted">No updates yet.</span>')+'</div></div>'+
+  '<div class="card mt"><h3>Handovers of this task</h3>'+(hs.length?'<div class="tw"><table class="tbl"><tbody>'+hs.map(h=>'<tr class="click" data-do="go" data-go="'+L(h.id)+'"><td><a href="'+L(h.id)+'">'+h.id+'</a></td><td>v'+h.version+'</td><td>'+esc(uname(h.sender))+' → '+esc(uname(h.receiver))+'</td><td>'+pill(h.status)+'</td></tr>').join('')+'</tbody></table></div>':'<div class="empty">No handover yet.</div>')+'</div>'+
+  '<div class="card mt"><h3>'+t('Responsibility history')+'</h3><div class="cb">Initial owner: <b>'+esc(uname(tk.assignee))+'</b>'+led.map(r=>'<div>#'+r.seq+' '+esc(uname(r.from))+' → <b>'+esc(uname(r.to))+'</b> · '+r.via+' · <a href="'+L(r.handover)+'">'+r.handover+'</a> · '+fmt(r.at)+'</div>').join('')+'</div></div>'+
+  (trs.length?'<div class="card mt"><h3>Quality reviews</h3><div class="cb">'+trs.map(r=>'<div><b>'+esc(r.verdict)+'</b>'+(r.score?' · '+r.score+'/5':'')+' by '+esc(uname(r.by))+' — '+esc(r.comments)+'</div>').join('')+'</div></div>':'')}
+function profile(u){const vt=S.tasks.filter(x=>ownerOf(x.id)===u),o=vt.filter(x=>!CLOSED_T.includes(x.status)),d=vt.filter(x=>x.status==='Completed'),hs=S.handovers.filter(h=>h.status!=='Draft');
+  return '<dl class="kv"><dt>Job</dt><dd>'+esc(USERS[u].job)+'</dd><dt>Department</dt><dd>'+esc(USERS[u].dept)+'</dd><dt>Team</dt><dd>'+esc(USERS[u].team||'—')+'</dd><dt>Roles</dt><dd>'+esc(USERS[u].roles.join(', '))+'</dd><dt>Open tasks</dt><dd>'+o.length+'</dd><dt>Completed</dt><dd>'+d.length+'</dd><dt>Handovers sent</dt><dd>'+hs.filter(h=>h.sender===u).length+'</dd><dt>Handovers received</dt><dd>'+hs.filter(h=>h.receiver===u).length+'</dd></dl><p class="muted">Counts here show the organisation-wide totals for this person; the real app limits them to your scope.</p>'}
+function pgOrg(){
+  return ph(t('Organization'),'Company → Department → Team → Employee')+DEPTS.map(d=>{const head=Object.keys(USERS).filter(u=>USERS[u].dept===d&&hasRole(u,ROLE.DEPT)),people=Object.keys(USERS).filter(u=>USERS[u].dept===d&&u!=='admin'),teams=TEAMS.filter(x=>x.dept===d);
+    const op=S.tasks.filter(x=>x.dept===d&&!CLOSED_T.includes(x.status)).length;
+    return '<div class="org"><b>'+esc(d)+'</b> <span class="muted">· '+people.length+' people · '+op+' open tasks'+(head.length?' · head: '+head.map(h=>esc(uname(h))).join(', '):'')+'</span>'+teams.map(tm=>{const m=people.filter(u=>USERS[u].team===tm.name);return '<div class="team"><b>'+esc(tm.name)+'</b> <span class="muted">lead: '+esc(uname(tm.lead))+' · '+S.tasks.filter(x=>x.team===tm.name&&!CLOSED_T.includes(x.status)).length+' open</span><div class="mem">'+m.map(u=>'<button class="btn sm" data-do="profile" data-id="'+u+'">'+esc(uname(u))+'</button>').join('')+'</div></div>'}).join('')+
+      (people.filter(u=>!USERS[u].team).length?'<div class="mem">'+people.filter(u=>!USERS[u].team).map(u=>'<button class="btn sm" data-do="profile" data-id="'+u+'">'+esc(uname(u))+'</button>').join('')+'</div>':'')+'</div>'}).join('')}
+/* ---------- reports ---------- */
+function pgReports(q){const slug=q.r||'register',rp=REPORTS.find(x=>x.slug===slug)||REPORTS[0],f={from:q.from||'',to:q.to||''},page=+q.p||1;const out=rp.build(me,f);
+  return ph(t('Reports'),'14 reports, built from the same data','<button class="btn" data-do="csv" data-r="'+rp.slug+'">'+t('Export CSV')+'</button><button class="btn" data-do="print">'+t('Print')+'</button>')+
+  '<div class="hv" style="grid-template-columns:230px minmax(0,1fr)"><div class="card"><div class="cb" style="padding:6px">'+REPORTS.map(x=>'<a style="display:block;padding:6px 9px;border-radius:6px;'+(x.slug===rp.slug?'background:var(--wash);font-weight:600':'')+'" href="#/reports?r='+x.slug+'&from='+f.from+'&to='+f.to+'">'+esc(x.name)+'</a>').join('')+'</div></div><div>'+
+  '<form class="row" data-do-form="rf" style="margin-bottom:10px"><label class="muted" for="rf-from">From</label><input id="rf-from" type="date" class="search" style="max-width:150px" value="'+f.from+'"><label class="muted" for="rf-to">To</label><input id="rf-to" type="date" class="search" style="max-width:150px" value="'+f.to+'"><button class="btn sm" data-do="rfilter" data-r="'+rp.slug+'" type="button">Apply</button></form>'+
+  '<div class="card"><h3>'+esc(rp.name)+'<span class="spacer"></span><span class="muted">'+out.rows.length+' rows</span></h3>'+(out.rows.length?'<div class="tw"><table class="tbl"><thead><tr>'+out.cols.map(c=>'<th class="'+(c.t==='n'?'num':'')+'">'+esc(c.l)+'</th>').join('')+'</tr></thead><tbody>'+slice(out.rows,page).map(r=>'<tr>'+out.cols.map(c=>'<td class="'+(c.t==='n'?'num':'')+'">'+(c.t==='st'?pill(r[c.k]):(r[c.k]==null||r[c.k]===''?'<span class="muted">—</span>':esc(r[c.k])))+'</td>').join('')+'</tr>').join('')+'</tbody></table></div>'+pager(out.rows.length,page,'rpg'):'<div class="empty">No rows for this report, scope and period.</div>')+'</div>'+
+  '<div class="note mt"><b>'+t('Method')+'.</b> '+esc(out.method)+'</div></div></div>'}
+/* ---------- ledger, delegations, notifications ---------- */
+function pgLedger(q){const ids=new Set(visT(me).map(x=>x.id)),rows=S.ledger.filter(r=>ids.has(r.task)),page=+q.p||1;
+  return ph(t('Ownership ledger'),'Append-only: rows are never edited or deleted')+'<div class="card">'+(rows.length?'<div class="tw"><table class="tbl"><thead><tr><th>Task</th><th>#</th><th>From</th><th>To</th><th>Departments</th><th>Via</th><th>Handover</th><th>When</th></tr></thead><tbody>'+slice(rows.slice().reverse(),page).map(r=>'<tr><td><a href="'+LT(r.task)+'">'+r.task+'</a></td><td class="num">'+r.seq+'</td><td>'+esc(uname(r.from))+'</td><td>'+esc(uname(r.to))+'</td><td>'+esc(r.fromDept)+' → '+esc(r.toDept)+'</td><td>'+r.via+'</td><td><a href="'+L(r.handover)+'">'+r.handover+'</a></td><td>'+fmt(r.at)+'</td></tr>').join('')+'</tbody></table></div>'+pager(rows.length,page,'lp'):'<div class="empty">No ownership has moved yet. A row appears when a receiver accepts.</div>')+'</div>'}
+function pgDelegations(){const mineD=S.delegations.filter(d=>d.delegator===me||d.delegate===me||hasRole(me,ROLE.SYS)||isFull(me));const tdy=dateOf(now());
+  return ph(t('Delegations'),'Someone can accept for you only with an explicit, dated delegation','<button class="btn pri" data-do="newDel">+ Delegate my approvals</button>')+'<div class="card">'+(mineD.length?'<div class="tw"><table class="tbl"><thead><tr><th>Delegator</th><th>Delegate</th><th>Period</th><th>Reason</th><th>State</th><th></th></tr></thead><tbody>'+mineD.map(d=>'<tr><td>'+esc(uname(d.delegator))+'</td><td>'+esc(uname(d.delegate))+'</td><td>'+d.from+' → '+d.to+'</td><td>'+esc(d.reason)+'</td><td>'+(d.revoked?pill('Withdrawn').replace('Withdrawn','Revoked'):activeDelegation(d.delegate,d.delegator)?'<span class="pill p-accepted">Active</span>':'<span class="pill p-draft">Not active</span>')+'</td><td>'+(d.delegator===me&&!d.revoked?'<button class="btn sm" data-do="revokeDel" data-id="'+d.id+'">Revoke</button>':'')+'</td></tr>').join('')+'</tbody></table></div>':'<div class="empty">No delegations. Without one, only the named receiver can decide a handover.</div>')+'</div>'}
+function pgNotifs(){const ns=S.notifications.filter(n=>n.user===me).slice().reverse(),p=S.prefs[me]||{reminders:true,progress:true};
+  return ph(t('Notifications'),'','<button class="btn" data-do="readall">'+t('Mark all read')+'</button>')+'<div class="grid g2"><div class="card"><div class="cb">'+(ns.length?ns.map(n=>'<div style="padding:8px 0;border-bottom:1px solid var(--line)"><a href="'+L(n.ref)+'" data-do="readone" data-id="'+n.id+'" style="'+(n.read?'':'font-weight:700')+'">'+esc(n.subject)+'</a><br><small class="muted">'+fmt(n.at)+' · '+esc(n.prio)+' · '+esc(n.cat)+(n.read?'':' · unread')+'</small></div>').join(''):'<div class="empty">You have no notifications. They appear here when a handover needs you.</div>')+'</div></div>'+
+  '<div class="card"><h3>My notification settings</h3><div class="cb"><label class="chk"><input type="checkbox" checked disabled><span>Handover requests, decisions, clarifications and overdue alerts<small class="muted" style="display:block">Required: cannot be switched off.</small></span></label><label class="chk"><input type="checkbox" data-chg="pref" data-k="reminders" '+(p.reminders!==false?'checked':'')+'><span>Deadline reminders</span></label><label class="chk"><input type="checkbox" data-chg="pref" data-k="progress" '+(p.progress!==false?'checked':'')+'><span>Progress notices (for example “review started”)</span></label></div></div></div>'}
+/* ---------- records ---------- */
+function pgRecords(q){const tab=q.tab||'updates',ids=new Set(visT(me).map(x=>x.id));
+  const tabs=[['updates','Task updates'],['checks',t('Checklist')],['reviews','Task reviews'],['kpi','KPI snapshots']];let body='';
+  if(tab==='updates'){const r=S.updates.filter(x=>ids.has(x.task));body=r.length?'<table class="tbl"><thead><tr><th>Task</th><th>Type</th><th>By</th><th>%</th><th>Note</th><th>When</th></tr></thead><tbody>'+r.slice().reverse().map(x=>'<tr><td><a href="'+LT(x.task)+'">'+x.task+'</a></td><td>'+esc(x.type)+'</td><td>'+esc(uname(x.by))+'</td><td class="num">'+(x.progress==null?'':x.progress)+'</td><td>'+esc(x.note)+'</td><td>'+fmt(x.at)+'</td></tr>').join('')+'</tbody></table>':'<div class="empty">No updates posted.</div>'}
+  if(tab==='checks'){const r=S.checklist.filter(x=>ids.has(x.task));body=r.length?'<table class="tbl"><thead><tr><th>Task</th><th>Criterion</th><th>Required</th><th>Done</th></tr></thead><tbody>'+r.map(x=>'<tr><td><a href="'+LT(x.task)+'">'+x.task+'</a></td><td>'+esc(x.title)+'</td><td>'+(x.required?'Yes':'No')+'</td><td>'+(x.done?'<span class="pill p-accepted">Done</span>':'<span class="pill p-open">Open</span>')+'</td></tr>').join('')+'</tbody></table>':'<div class="empty">No checklist items.</div>'}
+  if(tab==='reviews'){const r=S.taskReviews.filter(x=>ids.has(x.task));body=r.length?'<table class="tbl"><thead><tr><th>Task</th><th>Verdict</th><th>Score</th><th>Reviewer</th><th>Owner reviewed</th><th>Comments</th></tr></thead><tbody>'+r.map(x=>'<tr><td><a href="'+LT(x.task)+'">'+x.task+'</a></td><td>'+esc(x.verdict)+'</td><td class="num">'+(x.score||'')+'</td><td>'+esc(uname(x.by))+'</td><td>'+esc(uname(x.owner))+'</td><td>'+esc(x.comments)+'</td></tr>').join('')+'</tbody></table>':'<div class="empty">No task has been reviewed yet.</div>'}
+  if(tab==='kpi'){const per=dateOf(now()).slice(0,7),rows=perGroup(me,DEF,'dept');body='<div class="cb">Month <b>'+per+'</b>. A snapshot freezes the numbers so later changes cannot rewrite history. '+(isManager(me)?'<button class="btn sm" data-do="freeze">Freeze this month</button>':'<span class="muted">Managers can freeze it.</span>')+'</div>'+
+    '<table class="tbl"><thead><tr><th>Department</th><th>Open</th><th>Completed</th><th>On-time %</th><th>First-pass %</th><th>Frozen</th></tr></thead><tbody>'+rows.map(r=>{const s=S.kpi.find(k=>k.period===per&&k.dept===r.name);return '<tr><td>'+esc(r.name)+'</td><td class="num">'+r.open+'</td><td class="num">'+r.completed+'</td><td class="num">'+(r.onTime==null?'—':r.onTime)+'</td><td class="num">'+(r.firstPass==null?'—':r.firstPass)+'</td><td>'+(s?'<span class="pill p-accepted">Frozen</span> '+fmt(s.at):'<span class="muted">live</span>')+'</td></tr>'}).join('')+'</tbody></table>'}
+  return ph(t('Records'))+'<div class="tabs">'+tabs.map(x=>'<button class="'+(tab===x[0]?'on':'')+'" data-do="go" data-go="#/records?tab='+x[0]+'">'+x[1]+'</button>').join('')+'</div><div class="card"><div class="tw">'+body+'</div></div>'}
+function pgSettings(){const s=S.settings,can=isManager(me)||hasRole(me,ROLE.SYS);
+  return ph(t('Settings'),'Handover policy and the simulated clock')+'<div class="grid g2"><div class="card"><h3>Handover policy</h3><div class="cb"><form id="setf" data-do-form="set">'+fld('responseHours','Hours a receiver has to respond',s.responseHours,'number')+fld('leadHours','Send a reminder this many hours before the deadline',s.leadHours,'number')+fld('escalateHours','Escalate to managers this many hours after the deadline',s.escalateHours,'number')+'<button class="btn pri" type="button" data-do="saveSet"'+(can?'':' disabled')+'>'+t('Save')+'</button>'+(can?'':' <span class="muted">Managers only.</span>')+'</form></div></div>'+
+  '<div class="card"><h3>Simulated clock</h3><div class="cb"><p style="margin-top:0">Now: <b>'+fmt(now())+'</b>. Move time forward, then run the hourly job to see reminders, overdue alerts and escalation.</p><div class="row"><button class="btn" data-do="adv" data-h="1">+1 hour</button><button class="btn" data-do="adv" data-h="24">+1 day</button><button class="btn" data-do="adv" data-h="72">+3 days</button><button class="btn pri" data-do="runRem">Run reminder job</button></div></div></div></div>'}
+function pgScenarios(){const R=pageSt.scn||[],ok=R.filter(r=>r&&r.pass).length;
+  return ph(t('Scenarios'),R.length?ok+' of '+SCENARIOS.length+' pass':'The ten mandatory scenarios, run on a throw-away copy of the demo','<button class="btn pri" data-do="runAll">'+t('Run all scenarios')+'</button>')+'<div class="card">'+SCENARIOS.map((s,i)=>{const r=R[i];return '<div class="scn"><span class="no">'+(i+1)+'</span><div><b>'+esc(s.t)+'</b>'+(r?'<ul>'+r.checks.map(c=>'<li class="'+(c.ok?'p':'f')+'">'+(c.ok?'✓ ':'✗ ')+esc(c.l)+'</li>').join('')+'</ul>':'')+'</div><span>'+(r?(r.pass?'<span class="pill p-accepted">PASS</span>':'<span class="pill p-rejected">FAIL</span>'):'<button class="btn sm" data-do="runOne" data-i="'+i+'">Run</button>')+'</span></div>'}).join('')+'</div>'}
+function ROUTES(path,q){
+  if(path==='/')return pgOverview();if(path==='/handovers')return pgHandovers(q);if(path.startsWith('/h/'))return pgHandover(path.slice(3));
+  if(path==='/tasks')return pgTasks(q);if(path.startsWith('/t/'))return pgTask(path.slice(3));if(path==='/org')return pgOrg();if(path==='/reports')return pgReports(q);
+  if(path==='/ledger')return pgLedger(q);if(path==='/delegations')return pgDelegations();if(path==='/notifications')return pgNotifs();if(path==='/records')return pgRecords(q);
+  if(path==='/settings')return pgSettings();if(path==='/scenarios')return pgScenarios();return ph('Not found')+'<div class="note bad">There is no page at '+esc(path)+'.</div>'}
+
+/* ===== UI: actions and start ===== */
+const rq=i=>reqIds[i]=reqIds[i]||('rq-'+Math.random().toString(36).slice(2,9));
+const collect=()=>{const p={};document.querySelectorAll('[data-fld]').forEach(e=>p[e.dataset.fld]=e.value);return p};
+const people=ex=>Object.keys(USERS).filter(u=>u!=='admin'&&!hasRole(u,ROLE.AUD)&&u!==ex).map(u=>[u,USERS[u].name+' — '+USERS[u].dept]);
+const myTasks=()=>visT(me).filter(x=>!CLOSED_T.includes(x.status)&&(ownerOf(x.id)===me||isManager(me))&&!S.handovers.some(h=>h.task===x.id&&(OPEN_H.includes(h.status)||h.status==='Draft')));
+const chkbox=(n,l)=>'<label class="chk"><input type="checkbox" name="'+n+'"><span>'+l+'</span></label>';
+function curQ(){return parse()}
+const DO={
+ go:el=>go(el.dataset.go),
+ reset:()=>{seed();me='sara';reqIds={};pageSt={};bellOpen=false;save();toast('Demo data restored.');if(location.hash&&location.hash!=='#/'){go('#/')}else render()},
+ menu:()=>{sideOpen=!sideOpen;render()},lang:()=>{lang=lang==='ar'?'en':'ar';save();render()},theme:()=>{theme=theme==='dark'?'light':'dark';save();render()},bell:()=>{bellOpen=!bellOpen;render()},
+ readall:()=>{S.notifications.filter(n=>n.user===me).forEach(n=>n.read=true);save();render()},
+ readone:el=>{const n=S.notifications.find(x=>x.id===+el.dataset.id);if(n)n.read=true;bellOpen=false;save()},
+ pg:el=>{const {path,q}=curQ();q.p=el.dataset.v;go('#'+path+'?'+Object.keys(q).map(k=>k+'='+encodeURIComponent(q[k])).join('&'))},
+ newH:()=>{const ts=myTasks();if(!ts.length)return toast('You own no open task without a handover. Create or pick one on the Tasks page.',true);
+   modal({title:t('New handover'),ok:'Create draft',body:fld('task','Task',ts[0].id,'sel',ts.map(x=>[x.id,x.id+' — '+x.subject]))+fld('rcv','Receiver',people(me)[0][0],'sel',people(me)),run:v=>createHandover(me,v.task,v.rcv),after:h=>go(L(h.id))})},
+ handT:el=>modal({title:t('Hand over')+' '+el.dataset.id,ok:'Create draft',body:fld('rcv','Receiver',people(ownerOf(el.dataset.id))[0][0],'sel',people(ownerOf(el.dataset.id))),run:v=>createHandover(me,el.dataset.id,v.rcv),after:h=>go(L(h.id))}),
+ newTask:()=>modal({title:'New task',ok:'Create task',body:fld('subject','Subject','')+fld('project','Project','')+fld('priority','Priority','Medium','sel',['Low','Medium','High','Urgent'].map(x=>[x,x]))+fld('due','Due date',dateOf(now()+7*D),'date')+(isManager(me)?fld('who','Owner',me,'sel',people()):''),
+   run:v=>{if(!v.subject.trim())fail('Give the task a subject.');if(!v.due)fail('Choose a due date.');return mkTask({subject:v.subject.trim(),project:v.project,priority:v.priority,due:v.due,assignee:isManager(me)?v.who:me,creator:me})},after:x=>go(LT(x.id)),msg:'Task created'}),
+ saveDraft:el=>act(()=>updateDraft(me,el.dataset.id,collect()),'Draft saved'),
+ ready:el=>act(()=>{updateDraft(me,el.dataset.id,collect());markReady(me,el.dataset.id)},'Marked ready: required data is complete'),
+ submit:el=>act(()=>{updateDraft(me,el.dataset.id,collect());markReady(me,el.dataset.id);return submit(me,el.dataset.id,rq(el.dataset.id))},'Submitted. The snapshot is frozen and hashed.'),
+ submit2:el=>{const i=el.dataset.id;const r=act(()=>{updateDraft(me,i,collect());markReady(me,i);const a=submit(me,i,rq(i)),b=submit(me,i,rq(i));return a===b});if(r)toast('The retry returned the same handover. Nothing was duplicated.')},
+ review:el=>act(()=>startReview(me,el.dataset.id),'Review started'),
+ accept:el=>{const i=el.dataset.id,rv=+el.dataset.rv;modal({title:'Accept handover '+i,ok:'Accept and take ownership',cls:'ok',body:'<div class="note">Ownership moves to you only when you confirm.</div>'+chkbox('c1','I read the task details, diagnosis, solution and results.')+chkbox('c2','I received and opened the files, images and links.')+chkbox('c3','I understand and accept the responsibility.')+fld('notes','Receiver notes','','ta')+fld('next','Next step','')+fld('dummy','','','hidden'),
+   run:v=>accept(me,i,{details:v.c1,attachments:v.c2,responsibilities:v.c3,notes:v.notes,nextStep:v.next},rv),msg:'Accepted. Responsibility moved.'})},
+ reject:el=>{const i=el.dataset.id;modal({title:'Reject handover '+i,ok:'Reject handover',cls:'bad',body:'<div class="note bad">Ownership stays with the sender.</div>'+fld('reason','Reason (required)','','sel',[['','Choose a reason…'],...REASONS.map(r=>[r,r])])+fld('details','Details (required)','','ta'),run:v=>reject(me,i,v.reason,v.details),msg:'Rejected. The sender still owns the task.'})},
+ clarify:el=>{const i=el.dataset.id;modal({title:'Request clarification on '+i,ok:'Send request',cls:'warn',body:'<div class="note">This is neither acceptance nor rejection. The sender still owns the task.</div>'+fld('text','What do you need?','','ta'),run:v=>clarify(me,i,v.text),msg:'Clarification requested'})},
+ withdraw:el=>{const i=el.dataset.id;modal({title:'Withdraw '+i,ok:'Withdraw',body:fld('reason','Reason','','ta'),run:v=>withdraw(me,i,v.reason),msg:'Withdrawn'})},
+ revise:el=>{const n=act(()=>revise(me,el.dataset.id),'New version created. Complete it and submit.');if(n)go(L(n.id))},
+ tryAccept:el=>act(()=>accept(me,el.dataset.id,CONF)),
+ verify:el=>{const h=getH(el.dataset.id);toast(verify(h)?'Integrity verified: the stored snapshot matches its hash.':'Integrity check FAILED: the record was changed after submission.',!verify(h))},
+ tamper:el=>{const h=getH(el.dataset.id);h.snapshot+=' ';log(h,'Tamper test',me,'Snapshot altered in the simulation to show detection','bad');save();toast('Snapshot altered. Press “Verify integrity”.');render()},
+ addAtt:el=>modal({title:'Add attachment',ok:'Add',body:fld('kind','Type','file','sel',[['file','File'],['image','Image or screenshot'],['link','Link']])+fld('name','File name or URL',''),run:v=>{const h=getH(el.dataset.id);if(h.status!=='Draft'||h.sender!==me)fail('Only the sender can attach to a draft.','perm');if(!v.name.trim())fail('Enter a name or URL.');if(v.kind==='link'&&!/^https?:\/\//.test(v.name.trim()))fail('A link must start with http:// or https://.');updateDraft(me,h.id,collect());h.attachments.push({id:id('ATT'),name:v.name.trim(),kind:v.kind});h.ready=false;h.rv++}}),
+ rmAtt:el=>act(()=>{const h=getH(el.dataset.id);if(h.status!=='Draft'||h.sender!==me)fail('Only the sender can change a draft.','perm');updateDraft(me,h.id,collect());h.attachments.splice(+el.dataset.i,1);h.ready=false}),
+ postUpd:el=>modal({title:'Post update',ok:'Post update',body:fld('type','Type','Progress','sel',['Progress','Note','Blocker','Help request'].map(x=>[x,x]))+fld('note','Note','','ta')+fld('pct','Progress % (for Progress)','','number')+fld('link','Link (optional)',''),run:v=>postUpdate(me,el.dataset.id,v.type,v.note,v.pct,v.link),msg:'Update posted'}),
+ addChk:el=>modal({title:'Add completion criterion',ok:'Add',body:fld('title','Criterion','')+'<label class="chk"><input type="checkbox" name="req" checked><span>Required before the task can be completed</span></label>',run:v=>addCheck(me,el.dataset.id,v.title,v.req)}),
+ chk:el=>act(()=>toggleCheck(me,el.dataset.id)),
+ complete:el=>act(()=>completeTask(me,el.dataset.id),'Task completed'),
+ reviewT:el=>modal({title:'Review '+el.dataset.id,ok:'Save review',body:fld('verdict','Verdict','Approved','sel',[['Approved','Approved'],['Changes requested','Changes requested']])+fld('score','Quality score (1-5, required to approve)','4','number')+fld('comments','Comments','','ta'),run:v=>reviewTask(me,el.dataset.id,v.verdict,+v.score,v.comments),msg:'Review saved'}),
+ profile:el=>modal({title:uname(el.dataset.id),ok:'Close',body:profile(el.dataset.id),run:()=>0}),
+ csv:el=>{const {q}=curQ(),rp=REPORTS.find(x=>x.slug===el.dataset.r),out=rp.build(me,{from:q.from||'',to:q.to||''});const cell=v=>'"'+String(v==null?'':v).replace(/"/g,'""')+'"';
+   const txt='﻿'+[out.cols.map(c=>cell(c.l)).join(',')].concat(out.rows.map(r=>out.cols.map(c=>cell(r[c.k])).join(','))).join('\r\n');
+   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([txt],{type:'text/csv;charset=utf-8'}));a.download='nds-'+rp.slug+'.csv';document.body.appendChild(a);a.click();a.remove();toast('CSV exported: '+out.rows.length+' rows')},
+ print:()=>window.print(),
+ rfilter:el=>go('#/reports?r='+el.dataset.r+'&from='+$('#rf-from').value+'&to='+$('#rf-to').value),
+ newDel:()=>modal({title:'Delegate my approvals',ok:'Create delegation',body:fld('to','Delegate',people(me)[0][0],'sel',people(me))+fld('from','From',dateOf(now()),'date')+fld('until','Until',dateOf(now()+3*D),'date')+fld('reason','Reason','','ta'),run:v=>delegate(me,v.to,v.from,v.until,v.reason),msg:'Delegation created'}),
+ revokeDel:el=>act(()=>revokeDelegation(me,el.dataset.id),'Delegation revoked'),
+ saveSet:()=>act(()=>{const g=n=>+document.getElementById('f-'+n).value;const a=g('responseHours'),b=g('leadHours'),c=g('escalateHours');if(!(a>0&&b>=0&&c>=0))fail('Enter positive hours.');if(!(isManager(me)||hasRole(me,ROLE.SYS)))fail('Only managers can change the policy.','perm');Object.assign(S.settings,{responseHours:a,leadHours:b,escalateHours:c})},'Policy saved. It applies to handovers submitted from now on.'),
+ adv:el=>{advance(+el.dataset.h*H);save();toast('Clock moved forward '+el.dataset.h+' h');render()},
+ runRem:()=>{const n=runReminders();save();toast(n?'Reminder job created '+n+' notice(s).':'Reminder job ran. Nothing was due.');render()},
+ freeze:()=>act(()=>{const per=dateOf(now()).slice(0,7);let n=0;perGroup(me,DEF,'dept').forEach(r=>{if(!S.kpi.some(k=>k.period===per&&k.dept===r.name)){S.kpi.push(Object.freeze(Object.assign({period:per,dept:r.name,at:now()},r)));n++}});if(!n)fail('This month is already frozen. A snapshot is never rewritten.','conflict');return n},'Monthly KPI snapshot frozen'),
+ runOne:el=>{pageSt.scn=pageSt.scn||[];pageSt.scn[+el.dataset.i]=runScenario(+el.dataset.i);render()},
+ runAll:()=>{pageSt.scn=SCENARIOS.map((s,i)=>runScenario(i));const ok=pageSt.scn.filter(r=>r.pass).length;toast(ok+' of '+SCENARIOS.length+' scenarios pass',ok!==SCENARIOS.length);render()}
+};
+let inpTimer;
+function bind(root){
+  root.onclick=e=>{const el=e.target.closest('[data-do]');if(!el||el.tagName==='SELECT'||el.tagName==='INPUT')return;if(el.tagName==='A'&&el.dataset.do==='go')return;const f=DO[el.dataset.do];if(f){if(el.tagName==='BUTTON'||el.tagName==='TR')e.preventDefault();f(el,e)}};
+  root.onchange=e=>{const el=e.target;if(el.id==='who'){me=el.value;bellOpen=false;save();render();return}
+    if(el.dataset.chg==='chk')return DO.chk(el);
+    if(el.dataset.chg==='pref'){const p=S.prefs[me]=S.prefs[me]||{reminders:true,progress:true};p[el.dataset.k]=el.checked;save();toast('Notification setting saved')}};
+  root.oninput=e=>{const el=e.target;if(el.dataset.inp!=='q')return;clearTimeout(inpTimer);inpTimer=setTimeout(()=>{pageSt.q=el.value;pageSt.focus=el.id;const {path,q}=curQ();if(q.p){delete q.p;go('#'+path+'?'+Object.keys(q).map(k=>k+'='+q[k]).join('&'))}else render()},250)}}
+const _render=render;render=function(){_render();if(pageSt.focus){const el=document.getElementById(pageSt.focus);if(el){el.focus();try{el.setSelectionRange(el.value.length,el.value.length)}catch(e){}}pageSt.focus=null}};
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();if(bellOpen){bellOpen=false;render()}}});
+(function init(){if(!load()){seed();save()}render()})();
+
+
+</script></body></html>
