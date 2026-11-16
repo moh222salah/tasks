@@ -125,7 +125,7 @@ Delegated acceptance and "approved exceptional self-acceptance" are **NOT IMPLEM
 | Operations Overview dashboard (permission-scoped handover KPIs, status distribution, receiving-department breakdown, recent activity) | PASS (5 tests; task KPIs; cards click through to filtered lists; browser-verified desktop + mobile; reviewed and corrected after a first draft whose API failed on Frappe v16) |
 | Gantt and Calendar views | PASS (native ERPNext Task views, opened in a browser; no code of ours) |
 | Kanban board of Tasks by status | PASS (seeded board, 1 test, browser check with real tasks) |
-| RTL / mobile layout | CSS uses logical properties; not yet verified in a browser |
+| RTL / mobile layout | PASS for layout: 17 pages (14 reports, profile, org chart, dashboard) at desktop and 390 px with the document forced to RTL show no horizontal scroll. This forces direction only; it is not an Arabic-language run. The handover form was also checked in a real Arabic session (screenshot in docs). Report screens in a real Arabic session: not verified |
 
 ## 8. Risk assessment
 
@@ -151,9 +151,9 @@ Delegated acceptance and "approved exceptional self-acceptance" are **NOT IMPLEM
 | Reports: Task Handover Register, Acceptance (first-pass, hours), Rejection (reasons chart), Aging (buckets, receiver-only overdue) | PASS (5 tests; open in a browser; row-scoped; Excel/CSV/PDF via the standard report export) |
 | Reports: Tasks Master, Overdue Tasks (visible reason only), Employee Workload | PASS (4 tests; open in a browser as Administrator; owner = ledger, else open ToDo, else creator) |
 | KPI reports: Employee Productivity, Department Performance, Team Performance, Task Cycle Time, Rework and Revision (formulas printed on each; cancelled excluded; waiting-on-receiver delays excused; owner from ledger) | PASS (6 tests; 5 open in a browser, data-less ones show empty states) |
-| Remaining reports: Project Delivery, Management Executive | NOT IMPLEMENTED |
-| Task Update / Checklist / Review, Department KPI, Team Assignment | NOT IMPLEMENTED |
-| Arabic translations (`translations/ar.csv`), local fonts | NOT IMPLEMENTED |
+| Remaining reports: Project Delivery, Management Executive | PASS (14 reports in total, each open in a browser) |
+| Task Update, Task Checklist, Task Review, Department KPI snapshots | PASS (tests; Team Assignment is covered by Team Membership and is not a separate DocType) |
+| Arabic translations (`locale/ar.po`, about 400 strings) | PASS for the handover form; other screens partly translated |
 | Production audit and deployment | BLOCKED (needs explicit approval) |
 
 
