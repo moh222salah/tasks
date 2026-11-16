@@ -118,7 +118,9 @@ data volumes and the Saudi server's hardware.
 | Item | Status | Evidence |
 | --- | --- | --- |
 | The app's own suite | PASS | 95 tests, OK |
-| Standard ERPNext and Frappe test suites with the app installed | NOT RUN | would show impact on other modules; needs time on the sandbox |
+| The app's suite on a freshly created site (new site, ERPNext, then this app, no data) | PASS | 95 tests OK; this found two tests that depended on data of the first sandbox, now fixed |
+| ERPNext Task tests (35) and Project tests (36) with the app installed | PASS | run on the fresh site; Project needed the `freezegun` package, installed in the sandbox only |
+| Frappe Kanban Board and ToDo tests, wider ERPNext suites (accounts, stock, HR) | NOT RUN | the Frappe test bootstrap needs the `payments` app on that site; the wider suites were not attempted |
 | Task form with the app's JS and the completion guard | PASS | `test_task_checklist.py`; tasks without a checklist are unaffected |
 | Other modules and customisations on the real Saudi site | BLOCKED | needs the audit in section 1 |
 
@@ -138,5 +140,5 @@ an explicit approval after the audit, a fresh backup and a review of this report
 Met with evidence: independent workspace, organization and teams, projects and tasks, real send and receive, accept,
 reject and clarify, ownership moves only on acceptance, responsibility history, attachments, technical records,
 notifications, backend permissions, dashboard on real data, 14 exportable reports, Arabic and English with an RTL layout,
-no core edits, rollback document. Not met or not shown: production audit and deployment (BLOCKED), standard ERPNext
-regression suite (NOT RUN), dark-mode and drag-and-drop checks (NOT VERIFIED), Arabic on every screen (partial).
+no core edits, rollback document. Not met or not shown: production audit and deployment (BLOCKED), the wider ERPNext
+regression suites beyond Task and Project (NOT RUN), dark-mode and drag-and-drop checks (NOT VERIFIED), Arabic on every screen (partial).

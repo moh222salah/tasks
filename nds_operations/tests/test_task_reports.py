@@ -11,7 +11,7 @@ from nds_operations.nds_enterprise_operations.report.tasks_master_report import 
 	tasks_master_report as master,
 )
 from nds_operations.services import handover as engine
-from nds_operations.tests.utils import NDSTestCase, act_as
+from nds_operations.tests.utils import NDSTestCase, act_as, get_company
 
 
 class TestTaskReports(NDSTestCase):
@@ -98,7 +98,9 @@ class TestExecutiveReports(NDSTestCase):
 		)
 
 		act_as("Administrator")
-		project = frappe.get_doc({"doctype": "Project", "project_name": "NDS Delivery Test"}).insert()
+		project = frappe.get_doc(
+			{"doctype": "Project", "project_name": "NDS Delivery Test", "company": get_company()}
+		).insert()
 		late = self.new_task()
 		done = self.new_task()
 		frappe.db.set_value("Task", late.name, {"project": project.name, "exp_end_date": add_days(nowdate(), -3)})
