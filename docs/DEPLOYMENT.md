@@ -36,7 +36,7 @@ echo "--- tools:"; ./env/bin/python -V; node -v; yarn -v
 echo "--- apps on site:"; bench --site "$SITE" list-apps
 echo "--- app repos:"; for a in apps/*/; do echo "$a $(git -C $a rev-parse --short HEAD 2>/dev/null) dirty=$(git -C $a status --porcelain 2>/dev/null | wc -l)"; done
 echo "--- nds_operations on disk:"; ls -d apps/nds_operations 2>&1
-echo "--- remote HEAD (expect 7b8e31b874c8...):"; GIT_TERMINAL_PROMPT=0 git ls-remote https://github.com/moh222salah/tasks refs/heads/main 2>&1 | head -1
+echo "--- remote HEAD (docs-only commits after 7b8e31b874c8 are fine; stage 2B checks the code):"; GIT_TERMINAL_PROMPT=0 git ls-remote https://github.com/moh222salah/tasks refs/heads/main 2>&1 | head -1
 echo "--- disk:"; df -h "$B" | tail -1
 echo "--- processes:"; ps -eo args | grep -E "gunicorn|supervisord|bench (serve|schedule|worker)" | grep -v grep | cut -c1-150 | head -6
 bench --site "$SITE" console <<'PY'
@@ -59,7 +59,7 @@ fi )
 ```
 
 Stop and review if: another real site shares the bench besides the test copy and the Saudi site; Python is below 3.14;
-Frappe/ERPNext are not v16; `apps/nds_operations` exists with other contents; the remote HEAD is not the pinned commit;
+Frappe/ERPNext are not v16; `apps/nds_operations` exists with other contents; the remote HEAD is older than the pinned commit;
 any of the Client Script, Workflow, Custom Field, NDS doctype or NDS role lists is non-empty; or `doc_events` /
 `doctype_js` for Task already come from another app (check it does not clash).
 
@@ -98,7 +98,8 @@ cd "$B"
 PIN=7b8e31b874c8c34397c1057b13476ea3402d3bef
 if [ -d apps/nds_operations ]; then echo "apps/nds_operations already on disk"; else GIT_TERMINAL_PROMPT=0 bench get-app https://github.com/moh222salah/tasks --branch main --skip-assets; fi
 H=$(git -C apps/nds_operations rev-parse HEAD); echo "HEAD=$H"
-[ "$H" = "$PIN" ] || { echo "STOP: HEAD is not the verified commit"; false; }
+git -C apps/nds_operations cat-file -e "$PIN^{commit}" || { echo "STOP: verified commit not in this clone"; false; }
+git -C apps/nds_operations diff --quiet "$PIN" HEAD -- nds_operations pyproject.toml || { echo "STOP: app code differs from the verified commit"; false; }
 echo "dirty files: $(git -C apps/nds_operations status --porcelain | wc -l)"
 bench build --app nds_operations
 echo "2B OK" )
