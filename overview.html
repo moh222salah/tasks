@@ -1,691 +1,617 @@
 <!doctype html>
-<html lang="en" data-theme="auto">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>NDS Enterprise Operations — Task Handover &amp; Acceptance for ERPNext</title>
-<meta name="description" content="A Frappe / ERPNext v16 app where a task changes owner only when the receiver accepts a frozen, documented handover. Teams, departments, reports and an append-only ownership ledger.">
+<title>NDS Operations Overview</title>
+<meta name="description" content="Overview dashboard for NDS Enterprise Teams and Operations Management, a Frappe v16 app where task ownership moves only when the receiver accepts.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@500;600&display=swap" rel="stylesheet">
 <style>
-:root {
-	--navy: #0a2342;
-	--royal: #164e8f;
-	--gold: #d4af37;
-	--gold-ink: #7a5f0a;
-	--bg: #f5f7fa;
-	--surface: #ffffff;
-	--ink: #0a2342;
-	--muted: #4b5d73;
-	--line: #d9e0ea;
-	--ok: #1d7a4b;
-	--warn: #a15c00;
-	--bad: #b3261e;
-	--wash: #e8eef7;
-	--sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-	--mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+:root{
+	--navy:#0A2342;--royal:#164E8F;--gold:#D4AF37;--gold-d:#9a7b12;
+	--bg:#F5F7FA;--surface:#fff;--ink:#0d1b2e;--mute:#5a6b82;--line:#dde4ee;
+	--ok:#1f7a4d;--okbg:#e3f4ea;--bad:#b4322b;--badbg:#fbe6e4;--warn:#9a6a00;--warnbg:#fdf1d6;--info:#164E8F;--infobg:#e3edf9;
+	--rail:#0A2342;--rail-ink:#c9d6ea;
+	--shadow:0 1px 2px rgba(10,35,66,.06),0 8px 24px -12px rgba(10,35,66,.18);
+	--r:14px;
 }
-:root[data-theme="dark"] {
-	--bg: #07162b;
-	--surface: #0d2a4d;
-	--ink: #eaf0f8;
-	--muted: #a8b7cb;
-	--line: #1f3d66;
-	--gold-ink: #e6c867;
-	--ok: #5fcf95;
-	--warn: #f0b45a;
-	--bad: #ff8a80;
-	--wash: #11335c;
+:root[data-theme="dark"]{
+	--bg:#07142a;--surface:#0e2142;--ink:#e8eef9;--mute:#98a9c4;--line:#1f3560;
+	--ok:#4cc38a;--okbg:#0f3a2a;--bad:#ff8a80;--badbg:#42191a;--warn:#f2c14e;--warnbg:#3b2f0c;--info:#8bb8f2;--infobg:#12315c;
+	--rail:#050e1d;--rail-ink:#9fb2d2;--gold-d:#D4AF37;
+	--shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.6);
 }
-@media (prefers-color-scheme: dark) {
-	:root:not([data-theme="light"]) {
-		--bg: #07162b;
-		--surface: #0d2a4d;
-		--ink: #eaf0f8;
-		--muted: #a8b7cb;
-		--line: #1f3d66;
-		--gold-ink: #e6c867;
-		--ok: #5fcf95;
-		--warn: #f0b45a;
-		--bad: #ff8a80;
-		--wash: #11335c;
+@media (prefers-color-scheme:dark){
+	:root:not([data-theme="light"]){
+		--bg:#07142a;--surface:#0e2142;--ink:#e8eef9;--mute:#98a9c4;--line:#1f3560;
+		--ok:#4cc38a;--okbg:#0f3a2a;--bad:#ff8a80;--badbg:#42191a;--warn:#f2c14e;--warnbg:#3b2f0c;--info:#8bb8f2;--infobg:#12315c;
+		--rail:#050e1d;--rail-ink:#9fb2d2;--gold-d:#D4AF37;
+		--shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.6);
 	}
 }
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body {
-	margin: 0;
-	background: var(--bg);
-	color: var(--ink);
-	font: 400 17px/1.6 var(--sans);
-	-webkit-font-smoothing: antialiased;
-}
-a { color: var(--royal); text-underline-offset: 3px; }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) a { color: #8db8f0; } }
-:root[data-theme="dark"] a { color: #8db8f0; }
-:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; border-radius: 4px; }
-.wrap { width: min(1120px, 100% - 32px); margin-inline: auto; }
-h1, h2, h3 { line-height: 1.12; margin: 0; letter-spacing: -0.015em; }
-h1 { font-size: clamp(2.2rem, 5vw, 3.7rem); font-weight: 700; text-wrap: balance; }
-h2, h3 { text-wrap: balance; }
-h2 { font-size: clamp(1.7rem, 3.2vw, 2.4rem); font-weight: 650; }
-h3 { font-size: 1.15rem; font-weight: 600; letter-spacing: -0.005em; }
-p { margin: 0; max-width: 68ch; }
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 15px/1.6 "IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--royal)}
+:root[data-theme="dark"] a{color:var(--info)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:6px}
+button{font:inherit;color:inherit;cursor:pointer}
+h1,h2,h3{margin:0;line-height:1.2;letter-spacing:-.01em}
+h2{font-size:24px;font-weight:600}
+h3{font-size:16px;font-weight:600}
+p{margin:0}
 
-/* top bar */
-.top { position: sticky; top: 0; z-index: 20; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
-.top .wrap { display: flex; align-items: center; gap: 20px; height: 56px; }
-.brand { font-weight: 700; color: var(--ink); text-decoration: none; display: flex; align-items: center; gap: 10px; white-space: nowrap; }
-.mark { width: 26px; height: 26px; border-radius: 6px; background: var(--navy); display: grid; place-items: center; }
-.mark svg { width: 16px; height: 16px; }
-nav { display: flex; gap: 18px; margin-inline-start: auto; font-size: 15px; overflow-x: auto; scrollbar-width: none; }
-nav a { color: var(--muted); text-decoration: none; white-space: nowrap; padding: 6px 0; }
-nav a:hover { color: var(--ink); }
-.iconbtn { border: 1px solid var(--line); background: var(--surface); color: var(--ink); width: 36px; height: 36px; border-radius: 8px; cursor: pointer; font: inherit; flex: none; }
+/* shell */
+.shell{display:grid;grid-template-columns:232px minmax(0,1fr);min-height:100vh}
+.rail{background:var(--rail);color:var(--rail-ink);position:sticky;top:0;height:100vh;display:flex;flex-direction:column;padding:20px 14px;gap:18px}
+.brand{display:flex;gap:10px;align-items:center;color:#fff;font-weight:600;line-height:1.2;padding:2px 6px}
+.brand svg{flex:none}
+.brand small{display:block;font-weight:400;color:var(--rail-ink);font-size:12px}
+.rail nav{display:flex;flex-direction:column;gap:2px;overflow:auto}
+.rail nav a{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:9px;color:var(--rail-ink);text-decoration:none;font-size:14px;transition:background .15s,color .15s}
+.rail nav a svg{width:17px;height:17px;flex:none;opacity:.85}
+.rail nav a:hover{background:rgba(255,255,255,.07);color:#fff}
+.rail nav a.on{background:rgba(212,175,55,.16);color:#fff;box-shadow:inset 3px 0 0 var(--gold)}
+.rail .foot{margin-top:auto;font-size:12px;color:var(--rail-ink);padding:0 6px}
+.rail .foot b{color:#fff;font-weight:500}
+.main{min-width:0}
+.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;padding:12px 32px}
+.top .ttl{font-weight:600;flex:1;min-width:0;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top .ttl span{color:var(--mute);font-weight:400}
+.btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--surface);padding:8px 14px;border-radius:10px;font-weight:500;font-size:14px;text-decoration:none;color:var(--ink);transition:transform .12s,border-color .15s,background .15s}
+.btn:hover{border-color:var(--royal)}
+.btn:active{transform:scale(.97)}
+.btn.gold{background:var(--gold);border-color:var(--gold);color:#241a00}
+.btn.gold:hover{filter:brightness(1.06)}
+.btn svg{width:16px;height:16px}
+.wrap{padding:28px 32px 64px;max-width:1240px}
+section{margin-top:44px}
+section:first-child{margin-top:0}
+.sh{display:flex;flex-direction:column;gap:4px;margin-bottom:16px}
+.sh p{color:var(--mute);max-width:64ch}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
 
 /* hero */
-.hero { padding: 56px 0 72px; background: linear-gradient(180deg, var(--navy), #0d2f5a 100%); color: #eaf0f8; }
-.hero .grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 520px); gap: 48px; align-items: start; }
-.hero h1 { color: #fff; max-width: 15ch; }
-.hero p.lead { margin-top: 22px; font-size: 1.15rem; color: #c9d6e8; max-width: 46ch; }
-.hero .chain { margin-top: 26px; font-size: 15px; color: #a9bad1; display: flex; flex-wrap: wrap; gap: 6px 8px; align-items: center; }
-.hero .chain b { font-weight: 500; color: #fff; padding: 2px 9px; border: 1px solid #2c4d7a; border-radius: 999px; }
-.cta { margin-top: 30px; display: flex; flex-wrap: wrap; gap: 12px; }
-.btn { display: inline-flex; align-items: center; gap: 8px; padding: 11px 18px; border-radius: 8px; font: 600 15px var(--sans); text-decoration: none; border: 1px solid transparent; cursor: pointer; }
-.btn.gold { background: var(--gold); color: var(--navy); }
-.btn.gold:hover { background: #e2bf4d; }
-.btn.ghost { color: #fff; border-color: #3a5c8c; background: transparent; }
-.btn.ghost:hover { background: #12345f; }
+.hero{background:linear-gradient(135deg,#0A2342 0%,#123a6d 100%);color:#fff;border-radius:20px;padding:34px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:
+	radial-gradient(500px 220px at 85% 0%,rgba(212,175,55,.18),transparent 70%),
+	repeating-linear-gradient(90deg,rgba(255,255,255,.035) 0 1px,transparent 1px 64px);pointer-events:none}
+.hero>*{position:relative}
+.hero h1{font-size:clamp(26px,3.4vw,40px);font-weight:700;max-width:20ch}
+.hero .lede{color:#c9d6ea;max-width:58ch;margin-top:12px}
+.baton{margin-top:26px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:22px}
+.lane{position:relative;height:120px}
+.person{position:absolute;top:0;width:150px;text-align:center;transition:transform .3s}
+.person.s{left:0}.person.r{right:0}
+.av{width:56px;height:56px;border-radius:50%;margin:0 auto 6px;display:grid;place-items:center;font-weight:700;font-size:18px;background:#1d4f8d;border:2px solid rgba(255,255,255,.35);transition:box-shadow .4s,border-color .4s}
+.person.has .av{border-color:var(--gold);box-shadow:0 0 0 6px rgba(212,175,55,.22)}
+.person b{display:block;font-weight:600;font-size:14px}
+.person small{color:#a9bbd8;font-size:12px}
+.wire{position:absolute;left:100px;right:100px;top:27px;height:2px;background:repeating-linear-gradient(90deg,rgba(255,255,255,.3) 0 8px,transparent 8px 16px)}
+.token{position:absolute;top:10px;left:calc(75px - 17px);width:34px;height:34px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#f6dd85,var(--gold) 60%,#a98512);box-shadow:0 0 0 0 rgba(212,175,55,.6);display:grid;place-items:center;color:#3a2c00;font-size:11px;font-weight:700;transition:left .9s cubic-bezier(.65,0,.25,1),opacity .3s;z-index:2}
+.token.pend{animation:pulse 1.8s ease-out infinite}
+.token.at-r{left:calc(100% - 75px - 17px)}
+.token.shake{animation:shake .4s}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(212,175,55,.55)}100%{box-shadow:0 0 0 18px rgba(212,175,55,0)}}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.env{position:absolute;top:14px;left:calc(75px - 12px);width:24px;height:18px;border-radius:3px;background:#fff;opacity:0;transition:left .8s cubic-bezier(.4,0,.2,1),opacity .2s;z-index:1}
+.env::after{content:"";position:absolute;inset:0;background:linear-gradient(135deg,transparent 48%,#b9c6dc 49% 52%,transparent 53%),linear-gradient(45deg,transparent 48%,#b9c6dc 49% 52%,transparent 53%)}
+.env.go{opacity:1;left:calc(100% - 75px - 12px)}
+.stages{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:999px;font-size:12.5px;font-weight:500;background:rgba(255,255,255,.1);color:#dbe5f5;border:1px solid transparent}
+.chip.cur{background:var(--gold);color:#241a00}
+.chip.done{border-color:rgba(255,255,255,.25)}
+.status{margin-top:14px;min-height:46px;color:#e6eefb;display:flex;gap:10px;align-items:flex-start}
+.status i{flex:none;width:8px;height:8px;border-radius:50%;background:var(--gold);margin-top:8px}
+.acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.acts .btn{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.2);color:#fff}
+.acts .btn:hover:not(:disabled){background:rgba(255,255,255,.16)}
+.acts .btn.gold{background:var(--gold);color:#241a00;border-color:var(--gold)}
+.acts .btn.danger{border-color:#ff8a80;color:#ffb4ad}
+.acts .btn:disabled{opacity:.35;cursor:not-allowed}
+.ledger{margin-top:16px;border-top:1px solid rgba(255,255,255,.14);padding-top:12px;font-size:13px;color:#c9d6ea}
+.ledger ol{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:4px}
+.ledger li{display:grid;grid-template-columns:70px 1fr auto;gap:10px;align-items:baseline}
+.ledger li time{color:#8fa4c7;font-variant-numeric:tabular-nums}
+.ledger code{font:12px ui-monospace,SFMono-Regular,Menlo,monospace;color:#f3dd8d}
+.ledger .none{color:#8fa4c7}
+.demo-note{font-size:12px;color:#9fb2d2;margin-top:10px}
 
-/* interactive ledger */
-.demo { background: var(--surface); color: var(--ink); border-radius: 12px; border: 1px solid var(--line); box-shadow: 0 18px 50px rgba(0, 0, 0, .35); overflow: hidden; }
-.demo header { padding: 14px 18px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; gap: 12px; align-items: baseline; flex-wrap: wrap; }
-.demo header b { font-weight: 600; }
-.demo header span { color: var(--muted); font-size: 14px; }
-.owner { padding: 18px; display: flex; align-items: center; justify-content: space-between; gap: 16px; background: var(--wash); }
-.owner small { display: block; color: var(--muted); font-size: 13px; }
-.owner strong { font-size: 1.5rem; font-weight: 650; display: block; }
-.owner.moved strong { animation: handoff 1.1s ease-out; }
-@keyframes handoff { 0% { color: var(--gold-ink); transform: translateX(10px); opacity: .2; } 100% { transform: none; opacity: 1; } }
-.state { font-size: 14px; font-weight: 600; padding: 5px 12px; border-radius: 999px; border: 1px solid currentColor; white-space: nowrap; }
-.state.s-draft { color: var(--muted); }
-.state.s-pending, .state.s-review, .state.s-clar { color: var(--warn); }
-.state.s-accepted { color: var(--ok); }
-.state.s-rejected { color: var(--bad); }
-.actions { padding: 14px 18px 4px; display: flex; flex-wrap: wrap; gap: 8px; }
-.actions button { font: 600 14px var(--sans); padding: 8px 13px; border-radius: 7px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; }
-.actions button:hover:not(:disabled) { border-color: var(--royal); }
-.actions button:disabled { opacity: .38; cursor: not-allowed; }
-.actions button.accept { background: var(--ok); border-color: var(--ok); color: #fff; }
-.actions button.reject { color: var(--bad); }
-.confirm { padding: 4px 18px 0; font-size: 14px; color: var(--muted); display: none; }
-.confirm.on { display: block; }
-.confirm label { display: block; padding: 2px 0; cursor: pointer; }
-.say { padding: 10px 18px 14px; min-height: 3.6em; font-size: 15px; color: var(--muted); }
-.say b { color: var(--ink); font-weight: 600; }
-.ledger { width: 100%; border-collapse: collapse; font-size: 14px; }
-.ledger caption { text-align: start; padding: 10px 18px 6px; font-weight: 600; font-size: 14px; border-top: 1px solid var(--line); }
-.ledger th, .ledger td { text-align: start; padding: 7px 18px; border-top: 1px solid var(--line); }
-.ledger th { font-weight: 500; color: var(--muted); }
-.ledger td.m { font-family: var(--mono); font-size: 13px; }
-.ledger tr.new td { background: color-mix(in srgb, var(--gold) 22%, transparent); }
-.hash { padding: 8px 18px 14px; font-size: 13px; color: var(--muted); border-top: 1px solid var(--line); }
-.hash code { font-family: var(--mono); color: var(--ink); }
-
-/* sections */
-section { padding: 84px 0; }
-section.alt { background: var(--surface); border-block: 1px solid var(--line); }
-.head { display: grid; gap: 14px; margin-bottom: 40px; }
-.head p { color: var(--muted); font-size: 1.08rem; }
+/* kpi */
+.kpis{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}
+.kpi{padding:16px;position:relative;overflow:hidden}
+.kpi b{display:block;font-size:30px;font-weight:700;line-height:1.1;font-variant-numeric:tabular-nums;color:var(--navy)}
+:root[data-theme="dark"] .kpi b{color:#fff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .kpi b{color:#fff}}
+.kpi span{color:var(--mute);font-size:13px}
+.kpi svg{position:absolute;right:10px;top:10px;width:22px;height:22px;color:var(--gold-d);opacity:.8}
 
 /* lifecycle */
-.flow { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; counter-reset: s; margin: 0; padding: 0; list-style: none; }
-.flow li { position: relative; padding: 18px 14px 0 0; border-top: 3px solid var(--line); }
-.flow li::before { counter-increment: s; content: counter(s); position: absolute; top: -15px; inset-inline-start: 0; width: 27px; height: 27px; border-radius: 50%; background: var(--royal); color: #fff; font: 600 13px/27px var(--sans); text-align: center; }
-.flow li.done { border-top-color: var(--gold); }
-.flow li h3 { margin-top: 8px; }
-.flow li p { color: var(--muted); font-size: 15px; margin-top: 6px; }
-.returns { margin-top: 34px; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px 36px; }
-.returns div { border-inline-start: 3px solid var(--line); padding-inline-start: 16px; }
-.returns div.r { border-color: var(--bad); }
-.returns div.c { border-color: var(--warn); }
-.returns div.o { border-color: var(--gold); }
-.returns p { color: var(--muted); font-size: 15px; margin-top: 4px; }
+.life{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:16px}
+.steps{display:grid;gap:6px;padding:12px;grid-template-columns:1fr 1fr}
+.step{text-align:left;border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:10px 12px;display:flex;gap:10px;align-items:center;transition:border-color .15s,background .15s,transform .12s}
+.step:hover{border-color:var(--royal)}
+.step[aria-selected="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+.step .n{flex:none;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:600;background:var(--line);color:var(--ink)}
+.step[aria-selected="true"] .n{background:var(--gold);color:#241a00}
+.step .gate{margin-left:auto;font-size:11px;color:var(--gold-d)}
+.detail{padding:22px;display:flex;flex-direction:column;gap:10px}
+.detail h3{font-size:19px}
+.detail ul{margin:4px 0 0;padding-left:18px;color:var(--mute)}
+.detail .rule{margin-top:auto;padding:10px 12px;border-radius:10px;background:var(--warnbg);color:var(--warn);font-size:13.5px}
 
-.rules { margin-top: 56px; display: grid; gap: 0; }
-.rules div { display: grid; grid-template-columns: 210px 1fr; gap: 24px; padding: 18px 0; border-top: 1px solid var(--line); }
-.rules div:last-child { border-bottom: 1px solid var(--line); }
-.rules dt { font-weight: 600; }
-.rules dd { margin: 0; color: var(--muted); }
+/* chain */
+.chain{padding:22px;overflow-x:auto}
+.chain ol{list-style:none;margin:0;padding:0;display:flex;align-items:center;min-width:900px;position:relative}
+.chain li{flex:1;text-align:center;position:relative;font-size:13px;font-weight:500}
+.chain li::before{content:"";display:block;width:14px;height:14px;border-radius:50%;margin:0 auto 8px;background:var(--surface);border:3px solid var(--royal);position:relative;z-index:1;animation:node 9s infinite;animation-delay:calc(var(--i)*1s)}
+.chain li::after{content:"";position:absolute;top:6px;left:50%;width:100%;height:2px;background:var(--line)}
+.chain li:last-child::after{display:none}
+.chain li small{display:block;color:var(--mute);font-weight:400;font-size:12px}
+@keyframes node{0%,12%{border-color:var(--gold);background:var(--gold);transform:scale(1.35)}20%,100%{border-color:var(--royal);background:var(--surface);transform:scale(1)}}
 
-/* capabilities */
-.caps { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 44px 56px; }
-.caps h3 { margin-bottom: 8px; }
-.caps p { color: var(--muted); font-size: 16px; }
-.caps ul { margin: 10px 0 0; padding-inline-start: 18px; color: var(--muted); font-size: 15.5px; }
-.caps li { margin: 3px 0; }
+/* scenarios */
+.scn{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.sc{padding:12px 14px;display:flex;gap:12px;align-items:flex-start}
+.sc .n{flex:none;width:26px;height:26px;border-radius:8px;background:var(--infobg);color:var(--info);display:grid;place-items:center;font-weight:600;font-size:13px}
+.sc b{display:block;font-weight:600;font-size:14px}
+.sc span{color:var(--mute);font-size:13px}
+.sc .tag{margin-left:auto}
 
-/* screens */
-.shots { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; }
-.shots figure { margin: 0; }
-.shots img { width: 100%; height: auto; display: block; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
-.shots figcaption { margin-top: 10px; font-size: 15px; color: var(--muted); }
-.shots figcaption b { color: var(--ink); font-weight: 600; }
+/* tags */
+.tag{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap}
+.tag.pass{background:var(--okbg);color:var(--ok)}
+.tag.blk{background:var(--badbg);color:var(--bad)}
+.tag.no{background:var(--warnbg);color:var(--warn)}
+.tag.nr{background:var(--infobg);color:var(--info)}
 
-/* tables */
-.tbl { width: 100%; border-collapse: collapse; font-size: 15.5px; }
-.tbl th, .tbl td { text-align: start; padding: 11px 14px 11px 0; border-top: 1px solid var(--line); vertical-align: top; }
-.tbl th { font-weight: 600; white-space: nowrap; }
-.tbl td { color: var(--muted); }
-.tbl td:first-child { color: var(--ink); font-weight: 500; }
-.tbl code, code.i { font-family: var(--mono); font-size: 13.5px; background: var(--wash); padding: 1px 6px; border-radius: 4px; color: var(--ink); }
-.cols { columns: 2 340px; column-gap: 56px; }
-.cols .tbl { break-inside: auto; }
-.tag { font-weight: 600; font-size: 13.5px; padding: 2px 9px; border-radius: 999px; border: 1px solid currentColor; white-space: nowrap; display: inline-block; }
-.tag.pass { color: var(--ok); }
-.tag.no { color: var(--warn); }
-.tag.blk { color: var(--bad); }
+/* bars */
+.bars{padding:18px 20px;display:grid;gap:7px}
+.bar{display:grid;grid-template-columns:150px 1fr 28px;gap:10px;align-items:center;font-size:13px}
+.bar i{display:block;height:10px;border-radius:6px;background:var(--line);overflow:hidden}
+.bar i u{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--royal),var(--gold));border-radius:6px;transition:width 1s cubic-bezier(.2,.7,.2,1)}
+.bar em{font-style:normal;font-variant-numeric:tabular-nums;text-align:right;font-weight:600}
+.two{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:16px}
 
-.pills { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
-.pills li { padding: 6px 13px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); font-size: 15px; }
-section.alt .pills li { background: var(--bg); }
+/* status table */
+.tbl{width:100%;border-collapse:collapse;font-size:14px}
+.tbl td:first-child{min-width:150px}
+.tbl th,.tbl td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+.tbl th{font-size:12.5px;color:var(--mute);font-weight:600}
+.tbl tr:last-child td{border-bottom:0}
+.filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.filters button{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:4px 12px;font-size:13px}
+.filters button[aria-pressed="true"]{background:var(--navy);color:#fff;border-color:var(--navy)}
 
-.figures { display: flex; flex-wrap: wrap; gap: 14px 48px; margin: 0 0 40px; }
-.figures div { display: grid; }
-.figures b { font-size: 2.1rem; line-height: 1; font-weight: 700; }
-.figures span { color: var(--muted); font-size: 15px; margin-top: 4px; }
+/* roles + reports */
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.role{padding:12px 14px}
+.role b{display:block;font-weight:600;font-size:14px}
+.role span{font-size:13px;color:var(--mute)}
+.reports{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.rep{padding:0}
+.rep button{width:100%;text-align:left;background:none;border:0;padding:11px 14px;display:flex;justify-content:space-between;gap:10px;align-items:center;font-weight:500;font-size:14px}
+.rep p{display:none;padding:0 14px 12px;color:var(--mute);font-size:13px}
+.rep.open p{display:block}
+.rep button svg{width:14px;height:14px;transition:transform .2s;flex:none}
+.rep.open button svg{transform:rotate(90deg)}
 
-.honest { margin-top: 36px; padding: 18px 22px; border-inline-start: 4px solid var(--gold); background: var(--wash); border-radius: 0 8px 8px 0; max-width: 78ch; }
-.honest p { font-size: 16px; }
-.honest ul { margin: 8px 0 0; padding-inline-start: 20px; color: var(--muted); font-size: 15.5px; }
+/* fair */
+.fair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.fair .card{padding:14px 16px}
+.fair b{display:block;margin-bottom:2px}
+.fair span{color:var(--mute);font-size:13.5px}
 
-/* code */
-.code { position: relative; background: #061327; color: #dbe7f7; border-radius: 10px; padding: 18px 20px; overflow-x: auto; font: 400 14px/1.7 var(--mono); border: 1px solid #1c3a63; }
-.code pre { margin: 0; }
-.code .cm { color: #7e94b3; }
-.copy { position: absolute; top: 10px; inset-inline-end: 10px; font: 500 12.5px var(--sans); color: #dbe7f7; background: #14305a; border: 1px solid #2a4b7c; border-radius: 6px; padding: 4px 10px; cursor: pointer; }
+/* gallery */
+.gal{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.gal button{padding:0;border:1px solid var(--line);background:var(--surface);border-radius:12px;overflow:hidden;text-align:left;box-shadow:var(--shadow);transition:transform .2s}
+.gal button:hover{transform:translateY(-3px)}
+.gal img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top;background:var(--line)}
+.gal span{display:block;padding:8px 12px;font-size:13px;font-weight:500}
+dialog{border:0;border-radius:14px;padding:0;max-width:min(1100px,94vw);background:var(--surface);color:var(--ink)}
+dialog::backdrop{background:rgba(5,14,29,.7)}
+dialog img{display:block;max-width:100%;max-height:80vh;margin:auto}
+dialog form{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;gap:10px}
 
-.safety { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 22px 40px; margin: 0; padding: 0; list-style: none; }
-.safety li { padding-top: 12px; border-top: 3px solid var(--gold); color: var(--muted); font-size: 16px; }
-.safety b { color: var(--ink); display: block; font-weight: 600; margin-bottom: 2px; }
+.safe{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.safe .card{padding:14px 16px}
+.safe b{display:block}
+.safe span{color:var(--mute);font-size:13.5px}
+footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);color:var(--mute);font-size:13px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 
-footer { background: var(--navy); color: #c9d6e8; padding: 52px 0; }
-footer .wrap { display: flex; flex-wrap: wrap; gap: 24px 48px; justify-content: space-between; align-items: end; }
-footer strong { color: #fff; font-size: 1.25rem; display: block; max-width: 24ch; line-height: 1.3; }
-footer a { color: #e6c867; }
-footer small { display: block; margin-top: 8px; color: #9fb2cc; }
-
-@media (max-width: 920px) {
-	.hero .grid { grid-template-columns: 1fr; gap: 36px; }
-	.hero h1 { max-width: 20ch; }
-	.flow { grid-template-columns: 1fr; gap: 28px; }
-	.flow li { padding-bottom: 6px; }
-	.shots { grid-template-columns: 1fr; }
-	.rules div { grid-template-columns: 1fr; gap: 4px; }
-	section { padding: 60px 0; }
+@media (max-width:1100px){.kpis{grid-template-columns:repeat(3,minmax(0,1fr))}.life,.two{grid-template-columns:1fr}.grid3{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:860px){
+	.shell{grid-template-columns:1fr}
+	.rail{position:sticky;top:0;height:auto;flex-direction:row;align-items:center;padding:8px 10px;z-index:30;gap:8px;overflow:hidden}
+	.rail .brand small,.rail .foot,.rail nav a span{display:none}
+	.rail nav{flex-direction:row;overflow-x:auto;gap:2px}
+	.rail nav a{padding:8px 10px}
+	.top{top:52px;padding:10px 16px}
+	html{scroll-padding-top:120px}
+	.wrap{padding:20px 16px 48px}
+	.hero{padding:20px}
+	.gal,.scn,.reports,.fair,.safe{grid-template-columns:1fr}
+	.steps{grid-template-columns:1fr}
+	.bar{grid-template-columns:110px 1fr 24px}
+	.person{width:100px}
+	.wire{left:60px;right:60px}
+	.token{left:calc(50px - 17px)}.token.at-r{left:calc(100% - 50px - 17px)}
+	.env{left:calc(50px - 12px)}.env.go{left:calc(100% - 50px - 12px)}
+	.ledger li{grid-template-columns:56px 1fr}
+	.ledger li code{grid-column:2}
 }
-@media (max-width: 640px) {
-	nav { display: none; }
-	.iconbtn { margin-inline-start: auto; }
-	.tbl.stack thead { display: none; }
-	.tbl.stack tr, .tbl.stack td { display: block; }
-	.tbl.stack tr { padding: 12px 0; border-top: 1px solid var(--line); }
-	.tbl.stack td { border: 0; padding: 2px 0; }
-}
-@media (prefers-reduced-motion: reduce) {
-	html { scroll-behavior: auto; }
-	.owner.moved strong { animation: none; }
+@media (max-width:480px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.grid3{grid-template-columns:1fr}.top .btn span{display:none}}
+@media (prefers-reduced-motion:reduce){
+	*,*::before,*::after{animation:none!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
 }
 </style>
 </head>
 <body>
-
-<div class="top">
-	<div class="wrap">
-		<a class="brand" href="#top" aria-label="NDS Enterprise Operations">
-			<span class="mark" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none"><path d="M2 5h9m0 0L8.5 2.5M11 5 8.5 7.5M14 11H5m0 0 2.5-2.5M5 11l2.5 2.5" stroke="#d4af37" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-			NDS Enterprise Operations
-		</a>
-		<nav aria-label="Sections">
-			<a href="#handover">Handover</a>
-			<a href="#capabilities">Capabilities</a>
-			<a href="#screens">Screens</a>
-			<a href="#model">Data model</a>
-			<a href="#status">Status</a>
-			<a href="#run">Run it</a>
-		</nav>
-		<button class="iconbtn" id="theme" type="button" aria-label="Switch colour theme" title="Switch colour theme"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><circle cx="9" cy="9" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M9 2.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg></button>
+<div class="shell">
+<aside class="rail">
+	<div class="brand">
+		<svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><rect width="30" height="30" rx="8" fill="#164E8F"/><circle cx="10" cy="15" r="3.2" fill="#fff"/><circle cx="21" cy="15" r="3.2" fill="#D4AF37"/><path d="M13.5 15h4" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg>
+		<div>NDS Operations<small>Teams and handover</small></div>
 	</div>
-</div>
+	<nav aria-label="Sections">
+		<a href="#handover" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12h12M12 6l6 6-6 6"/></svg><span>Live handover</span></a>
+		<a href="#numbers"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></svg><span>Verified numbers</span></a>
+		<a href="#lifecycle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="12" r="2"/><circle cx="18" cy="12" r="2"/><path d="M8 12h8"/></svg><span>Lifecycle</span></a>
+		<a href="#model"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><path d="M10 6.5h4v11"/></svg><span>Data model</span></a>
+		<a href="#scenarios"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4 10-10"/></svg><span>Scenarios</span></a>
+		<a href="#tests"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3"/></svg><span>Tests and status</span></a>
+		<a href="#roles"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3.5"/><path d="M2 20c0-4 3-6 7-6s7 2 7 6M17 5a3 3 0 0 1 0 6M22 20c0-3-2-5-4-5.5"/></svg><span>Roles and reports</span></a>
+		<a href="#fair"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18M5 7h14M5 7l-3 8a4 4 0 0 0 6 0zM19 7l-3 8a4 4 0 0 0 6 0z"/></svg><span>Fair KPIs</span></a>
+		<a href="#screens"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8"/></svg><span>Screens</span></a>
+		<a href="#safety"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg><span>Safety</span></a>
+	</nav>
+	<div class="foot"><b>Frappe 16 · ERPNext 16</b><br>Nothing installed on a production site.</div>
+</aside>
 
-<main id="top">
+<div class="main">
+<header class="top">
+	<div class="ttl">Overview <span>/ NDS Enterprise Teams and Operations Management</span></div>
+	<button class="btn" id="theme" type="button" aria-label="Toggle dark mode"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 14A8 8 0 1 1 10 4a6.5 6.5 0 0 0 10 10z"/></svg><span>Theme</span></button>
+	<a class="btn gold" href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 3l14 9-14 9z"/></svg><span>Open live simulation</span></a>
+</header>
 
-<!-- HERO -->
-<div class="hero">
-	<div class="wrap grid">
-		<div>
-			<h1>A task changes owner only when someone accepts it.</h1>
-			<p class="lead">NDS Enterprise Operations adds teams, departments and a formal handover process to ERPNext. The sender submits a frozen record of the work. The receiver reviews it and decides. Responsibility moves in one step, written to a ledger nobody can edit.</p>
-			<div class="chain" aria-label="Data chain">
-				<b>Company</b>›<b>Department</b>›<b>Team</b>›<b>Employee</b>›<b>Project</b>›<b>Task</b>›<b>Handover</b>›<b>Acceptance</b>›<b>Results</b>
-			</div>
-			<div class="cta">
-				<a class="btn gold" href="#run">Run it on a test bench</a>
-				<a class="btn ghost" href="https://github.com/moh222salah/tasks">View the repository</a>
-			</div>
-		</div>
+<div class="wrap">
 
-		<!-- the one interactive moment: a handover you can try -->
-		<div class="demo" id="demo" aria-labelledby="demo-title">
-			<header>
-				<b id="demo-title">Fix invoice print format</b>
-				<span>Try the rules: Sara hands this task to Omar</span>
-			</header>
-			<div class="owner" id="ownerBox">
-				<div><small>Current owner</small><strong id="owner">Sara Ahmed</strong></div>
-				<span class="state s-draft" id="state">Draft</span>
-			</div>
-			<div class="actions" id="actions">
-				<button type="button" data-do="submit">Submit handover</button>
-				<button type="button" data-do="review">Start review</button>
-				<button type="button" data-do="clarify">Ask for clarification</button>
-				<button type="button" data-do="accept" class="accept">Accept</button>
-				<button type="button" data-do="reject" class="reject">Reject</button>
-				<button type="button" data-do="revise">Revise as v2</button>
-				<button type="button" data-do="reset">Reset</button>
-			</div>
-			<div class="confirm" id="confirm">
-				<label><input type="checkbox"> I read the task details</label>
-				<label><input type="checkbox"> I received the attachments</label>
-				<label><input type="checkbox"> I understand the responsibilities</label>
-			</div>
-			<p class="say" id="say" role="status" aria-live="polite"></p>
-			<table class="ledger">
-				<caption>Ownership ledger</caption>
-				<thead><tr><th scope="col">#</th><th scope="col">Owner</th><th scope="col">Since</th><th scope="col">Handover</th></tr></thead>
-				<tbody id="rows"></tbody>
-			</table>
-			<div class="hash" id="hash">Snapshot is created when the handover is submitted.</div>
-		</div>
-	</div>
-</div>
-
-<!-- HANDOVER -->
 <section id="handover">
-	<div class="wrap">
-		<div class="head">
-			<h2>Handing over is a transaction, not a name change</h2>
-			<p>Most tools swap the assignee and call it done. Here the sender proves what is being passed on, the receiver confirms what they got, and the system records the exact moment responsibility moved.</p>
-		</div>
-
-		<ol class="flow">
-			<li><h3>Draft</h3><p>The sender writes the diagnosis, the solution, the results and attaches evidence.</p></li>
-			<li><h3>Ready</h3><p>Required fields are checked on the server before the handover can be submitted.</p></li>
-			<li class="done"><h3>Pending acceptance</h3><p>Submitting freezes a snapshot and hashes it. A retry with the same request id never creates a second handover.</p></li>
-			<li><h3>Under review</h3><p>Only the named receiver, or someone they explicitly delegated to, can open the decision.</p></li>
-			<li class="done"><h3>Accepted</h3><p>Owner, assignment and department change in one transaction, and a new ledger row is written.</p></li>
-		</ol>
-
-		<div class="returns">
-			<div class="r"><h3>Reject</h3><p>A reason and details are mandatory. Ownership does not move. The attempt stays in the history.</p></div>
-			<div class="c"><h3>Ask for clarification</h3><p>Questions go back to the sender. Nothing is decided and the owner stays the same.</p></div>
-			<div class="o"><h3>Revise or hand over again</h3><p>A new version is created and earlier snapshots are kept. A task can pass through many owners, in order.</p></div>
-		</div>
-
-		<dl class="rules">
-			<div><dt>Frozen snapshot</dt><dd>What the receiver approved is stored with a SHA-256 hash. Editing the task later cannot change that record, and a database edit of an approved handover is detected when it is read.</dd></div>
-			<div><dt>One owner at a time</dt><dd>The handover row is locked first, then the task row. A unique key on task and sequence makes a double transfer impossible, even when two people accept at once.</dd></div>
-			<div><dt>No self-approval</dt><dd>The sender can never accept their own handover, and nobody can forge the sender identity. Acceptance on someone’s behalf needs an explicit, dated, revocable delegation.</dd></div>
-			<div><dt>Append-only history</dt><dd>Submitted handovers, reviews, history entries and the ownership ledger cannot be edited or deleted. The Administrator account is bound by the same rules in the controller.</dd></div>
-			<div><dt>Knowledge stays</dt><dd>If a person leaves or changes department, the next owner reads the diagnosis, the decisions and the evidence instead of asking the previous owner.</dd></div>
-		</dl>
-	</div>
-</section>
-
-<!-- CAPABILITIES -->
-<section class="alt" id="capabilities">
-	<div class="wrap">
-		<div class="head">
-			<h2>What the app covers</h2>
-			<p>Employee, Department, Company, Project, Task and File stay the ERPNext originals. The app adds what is missing around them and does not edit Frappe or ERPNext core.</p>
-		</div>
-		<div class="caps">
-			<div>
-				<h3>Organization</h3>
-				<p>Departments, teams and memberships are data you manage in ERPNext, not structure fixed in code.</p>
-				<ul>
-					<li>Teams with a lead and members; one primary team per person, no overlapping memberships</li>
-					<li>Department profiles with a manager and a deputy</li>
-					<li>Organization chart: departments, teams and members</li>
-				</ul>
+	<div class="hero">
+		<h1>Ownership moves when the receiver accepts, not when the sender clicks send.</h1>
+		<p class="lede">Try it. Send the handover, then press accept as the sender and watch the system refuse. The gold token is the responsibility for the task.</p>
+		<div class="baton" id="baton">
+			<div class="lane">
+				<div class="wire"></div>
+				<div class="person s has" id="ps"><div class="av">S</div><b>Sara</b><small>Marketing · sender</small></div>
+				<div class="person r" id="pr"><div class="av">O</div><b>Omar</b><small>Technology · receiver</small></div>
+				<div class="env" id="env"></div>
+				<div class="token" id="tok" title="Responsibility">own</div>
 			</div>
-			<div>
-				<h3>Tasks after handover</h3>
-				<p>Work continues on the normal ERPNext Task, with a few additions on top.</p>
-				<ul>
-					<li>Task updates: append-only notes from the current owner</li>
-					<li>Checklist: a task cannot be completed while a required item is open</li>
-					<li>Quality review by someone who never owned the task</li>
-				</ul>
-			</div>
-			<div>
-				<h3>Permissions</h3>
-				<p>Rules are enforced on the server, not by hiding buttons.</p>
-				<ul>
-					<li>Twelve roles, from Employee to Read Only Auditor</li>
-					<li>Team leaders see their teams, department managers their departments, receivers what is addressed to them</li>
-					<li>Row scoping through permission query conditions and has_permission</li>
-				</ul>
-			</div>
-			<div>
-				<h3>Notifications</h3>
-				<p>Notices that carry responsibility always arrive. Everything else can be muted per user.</p>
-				<ul>
-					<li>Hourly reminders: due soon, overdue, escalation to managers; each sent once</li>
-					<li>Daily reminders for tasks due tomorrow or overdue</li>
-					<li>Preferences for reminders and progress updates</li>
-				</ul>
-			</div>
-			<div>
-				<h3>Reports and KPIs</h3>
-				<p>Every report is built from live ERPNext data and prints how its numbers are calculated.</p>
-				<ul>
-					<li>14 script reports with filters, export and print</li>
-					<li>Fair rules: cancelled tasks excluded, delays caused by a waiting receiver excused</li>
-					<li>Monthly department snapshots that are frozen once created</li>
-				</ul>
-			</div>
-			<div>
-				<h3>Interface</h3>
-				<p>Navy, royal blue and gold, with light and dark modes.</p>
-				<ul>
-					<li>Handover Center: inbox, sent, needs my action, drafts</li>
-					<li>Stage bar, vertical timeline and responsibility history on every handover</li>
-					<li>Arabic translation and right-to-left layout</li>
-				</ul>
-			</div>
+			<div class="stages" id="stages" aria-label="Handover stage"></div>
+			<div class="status" role="status" aria-live="polite"><i></i><p id="msg"></p></div>
+			<div class="acts" id="acts"></div>
+			<div class="ledger"><strong>Ownership ledger</strong> <span class="none" id="lnone">(append-only, nothing recorded yet)</span><ol id="led"></ol></div>
+			<p class="demo-note">Names and times in this panel are demo labels. The same rules run for real in the Frappe app and in the full simulation. The fingerprint here is computed in your browser; the app stores a SHA-256 of the submitted snapshot.</p>
 		</div>
 	</div>
 </section>
 
-<!-- SCREENS -->
-<section id="screens">
-	<div class="wrap">
-		<div class="head">
-			<h2>Screens</h2>
-			<p>Captured from the isolated development bench with sandbox data.</p>
-		</div>
-		<div class="shots">
-			<figure><img src="docs/screenshots/operations-overview.png" alt="Operations Overview with scoped KPIs, status distribution and department activity" loading="lazy"><figcaption><b>Operations Overview.</b> Scoped KPIs; every card opens the matching filtered list.</figcaption></figure>
-			<figure><img src="docs/screenshots/handover-center.png" alt="Handover Center with inbox, sent, needs my action and drafts" loading="lazy"><figcaption><b>Handover Center.</b> What I must receive, review or finish.</figcaption></figure>
-			<figure><img src="docs/screenshots/handover-form.png" alt="Handover workspace with stage bar, timeline and actions" loading="lazy"><figcaption><b>Handover workspace.</b> Stage bar, timeline, responsibility history and actions.</figcaption></figure>
-			<figure><img src="docs/screenshots/handover-form-rtl.png" alt="The handover workspace in Arabic, laid out right to left" loading="lazy"><figcaption><b>Right-to-left.</b> The same workspace in Arabic.</figcaption></figure>
-			<figure><img src="docs/screenshots/report-workload.png" alt="Employee Workload report" loading="lazy"><figcaption><b>Employee Workload.</b> Open, overdue and awaiting-decision load per owner.</figcaption></figure>
-			<figure><img src="docs/screenshots/operations-overview-ar-rtl.png" alt="Operations Overview in Arabic, right to left" loading="lazy"><figcaption><b>Operations Overview in Arabic.</b> Checked on desktop and mobile with no horizontal scroll.</figcaption></figure>
-		</div>
+<section id="numbers">
+	<div class="sh"><h2>Verified numbers</h2><p>Counted from the repository and the test runs on an isolated bench. Nothing here is sample business data.</p></div>
+	<div class="kpis">
+		<div class="card kpi"><b data-n="95">0</b><span>passing tests, fresh site</span></div>
+		<div class="card kpi"><b data-n="10" data-of="10">0</b><span>scenarios passing in the simulation</span></div>
+		<div class="card kpi"><b data-n="16">0</b><span>DocTypes</span></div>
+		<div class="card kpi"><b data-n="14">0</b><span>reports</span></div>
+		<div class="card kpi"><b data-n="10">0</b><span>custom roles</span></div>
+		<div class="card kpi"><b data-n="0">0</b><span>core files edited</span></div>
 	</div>
 </section>
 
-<!-- MODEL -->
-<section class="alt" id="model">
-	<div class="wrap">
-		<div class="head">
-			<h2>Data model</h2>
-			<p>Sixteen DocTypes and three pages, all linked to the ERPNext originals. The full reuse matrix, state diagrams and permission matrix are in <a href="https://github.com/moh222salah/tasks/blob/main/docs/ARCHITECTURE.md">the architecture document</a>.</p>
-		</div>
-		<div class="cols">
-			<table class="tbl">
-				<tbody>
-					<tr><td>NDS Task Handover</td><td>The submittable handover with its frozen snapshot and hash.</td></tr>
-					<tr><td>NDS Handover Attachment</td><td>Evidence and files, kept with the handover version.</td></tr>
-					<tr><td>NDS Handover Review</td><td>Each decision: accept, reject or clarify, with who acted for whom.</td></tr>
-					<tr><td>NDS Handover History</td><td>Append-only timeline, including reminders and escalations.</td></tr>
-					<tr><td>NDS Ownership History</td><td>The ledger. One row per owner, unique per task and sequence.</td></tr>
-					<tr><td>NDS Delegation</td><td>Explicit, dated, revocable permission to decide for someone else.</td></tr>
-					<tr><td>NDS Rejection Reason</td><td>Rejection categories, managed as data.</td></tr>
-					<tr><td>NDS Operations Settings</td><td>Response windows, reminder lead time, escalation delay.</td></tr>
-				</tbody>
-			</table>
-			<table class="tbl">
-				<tbody>
-					<tr><td>NDS Team</td><td>A team with a department, a lead and specialties.</td></tr>
-					<tr><td>NDS Team Membership</td><td>Dated membership; one primary team per employee.</td></tr>
-					<tr><td>NDS Department Profile</td><td>Manager, deputy and mission for an ERPNext Department.</td></tr>
-					<tr><td>NDS Task Update</td><td>Progress, issue, help request or evidence from the current owner.</td></tr>
-					<tr><td>NDS Task Checklist</td><td>Completion criteria; required items block completion.</td></tr>
-					<tr><td>NDS Task Review</td><td>Quality verdict and 1–5 score, never by a past owner.</td></tr>
-					<tr><td>NDS Department KPI</td><td>Frozen monthly KPI snapshot per department.</td></tr>
-					<tr><td>NDS Notification Preference</td><td>What each user wants muted; required notices cannot be.</td></tr>
-				</tbody>
-			</table>
-		</div>
-		<p style="margin-top:26px;color:var(--muted)">Pages: Operations Overview, Handover Center and Organization Chart.</p>
+<section id="lifecycle">
+	<div class="sh"><h2>Eight stages, three decisions</h2><p>Select a stage to see what the system checks there. Execution status and handover status are separate fields on purpose.</p></div>
+	<div class="life">
+		<div class="card steps" role="tablist" aria-label="Lifecycle stages" id="steps"></div>
+		<div class="card detail" id="detail" role="tabpanel" aria-live="polite"></div>
 	</div>
 </section>
 
-<!-- ROLES + REPORTS -->
+<section id="model">
+	<div class="sh"><h2>One chain from company to result</h2><p>Existing Employee, Department, Company, Project and Task records are reused. Nothing is duplicated.</p></div>
+	<div class="card chain"><ol>
+		<li style="--i:0">Company<small>ERPNext</small></li>
+		<li style="--i:1">Department<small>ERPNext</small></li>
+		<li style="--i:2">Team<small>NDS Team</small></li>
+		<li style="--i:3">Employee<small>ERPNext</small></li>
+		<li style="--i:4">Project<small>ERPNext</small></li>
+		<li style="--i:5">Task<small>ERPNext</small></li>
+		<li style="--i:6">Handover<small>NDS Task Handover</small></li>
+		<li style="--i:7">Acceptance<small>Review + ledger</small></li>
+		<li style="--i:8">Results<small>Reports, KPIs</small></li>
+	</ol></div>
+</section>
+
+<section id="scenarios">
+	<div class="sh"><h2>The ten required scenarios</h2><p>All ten run and pass in the browser simulation. The Frappe app's tests cover the same rules on the backend (see the next section).</p></div>
+	<div class="scn" id="scn"></div>
+</section>
+
+<section id="tests">
+	<div class="sh"><h2>Tests and status</h2><p>The app suite passes on two sites, including a fresh install of ERPNext plus this app.</p></div>
+	<div class="two">
+		<div class="card bars" id="bars" aria-label="Tests by area"></div>
+		<div class="card" style="padding:18px 20px">
+			<h3>Reading the evidence</h3>
+			<p style="color:var(--mute);margin-top:8px">Concurrency tests use separate database connections: double accept, accept against withdraw, and two submits. Permission tests run against the backend, so hiding a button never counts as protection.</p>
+			<p style="color:var(--mute);margin-top:8px">With 305 handovers the query count stayed flat and each screen answered in under 0.02 s. That is a local database and one user, not production hardware.</p>
+		</div>
+	</div>
+	<div style="margin-top:16px;overflow-x:auto" class="card">
+		<div style="padding:14px 14px 0" class="filters" id="filters" role="group" aria-label="Filter by status">
+			<button type="button" aria-pressed="true" data-f="all">All</button>
+			<button type="button" aria-pressed="false" data-f="pass">Pass</button>
+			<button type="button" aria-pressed="false" data-f="nr">Not run</button>
+			<button type="button" aria-pressed="false" data-f="no">Not implemented</button>
+			<button type="button" aria-pressed="false" data-f="blk">Blocked</button>
+		</div>
+		<table class="tbl"><thead><tr><th scope="col">Area</th><th scope="col">Status</th><th scope="col">Evidence and limits</th></tr></thead><tbody id="st"></tbody></table>
+	</div>
+</section>
+
 <section id="roles">
-	<div class="wrap">
-		<div class="head">
-			<h2>Twelve roles, fourteen reports</h2>
-		</div>
-		<h3 style="margin-bottom:14px">Roles</h3>
-		<ul class="pills">
-			<li>System Administrator</li><li>Executive Management</li><li>Operations Manager</li><li>Department Manager</li><li>Team Leader</li><li>Project Manager</li><li>Task Sender</li><li>Task Executor</li><li>Task Receiver</li><li>Task Reviewer</li><li>Employee</li><li>Read Only Auditor</li>
-		</ul>
-		<h3 style="margin:36px 0 14px">Reports</h3>
-		<ul class="pills">
-			<li>Task Handover Register</li><li>Handover Acceptance</li><li>Handover Rejection</li><li>Handover Aging</li><li>Tasks Master</li><li>Overdue Tasks</li><li>Employee Workload</li><li>Employee Productivity</li><li>Department Performance</li><li>Team Performance</li><li>Task Cycle Time</li><li>Rework and Revision</li><li>Project Delivery</li><li>Management Executive</li>
-		</ul>
+	<div class="sh"><h2>Roles and reports</h2><p>Ten roles ship with the app. System Administrator and Employee come from Frappe and are reused.</p></div>
+	<div class="grid3" id="roleg"></div>
+	<h3 style="margin:26px 0 10px">Fourteen reports</h3>
+	<div class="reports" id="repg"></div>
+</section>
+
+<section id="fair">
+	<div class="sh"><h2>Fair KPI rules</h2><p>Performance is not a task count. These rules are covered by tests.</p></div>
+	<div class="fair">
+		<div class="card"><b>Waiting is not lateness</b><span>A task is not counted overdue while its handover waits on the receiver.</span></div>
+		<div class="card"><b>Cancelled work is excluded</b><span>Cancelled tasks leave the measures they would distort.</span></div>
+		<div class="card"><b>Reassigning cannot launder a number</b><span>Metrics follow the append-only ledger, not the current owner field.</span></div>
+		<div class="card"><b>Every formula is shown</b><span>Each indicator says how it is calculated, so a score can be challenged.</span></div>
+		<div class="card"><b>Overload needs context</b><span>A heavy load flag needs at least 3 open tasks and more than 1.5 times the team average.</span></div>
+		<div class="card"><b>First-pass acceptance</b><span>Counts handovers accepted without a rejection or clarification round.</span></div>
 	</div>
 </section>
 
-<!-- STATUS -->
-<section class="alt" id="status">
-	<div class="wrap">
-		<div class="head">
-			<h2>What has been verified, and what has not</h2>
-			<p>Everything below was exercised on an isolated Frappe 16 bench. Nothing has been installed on a production site.</p>
-		</div>
-		<div class="figures">
-			<div><b>95</b><span>passing tests</span></div>
-			<div><b>3</b><span>real concurrency races</span></div>
-			<div><b>14</b><span>reports</span></div>
-			<div><b>0</b><span>core files edited</span></div>
-		</div>
-		<table class="tbl stack">
-			<thead><tr><th scope="col">Area</th><th scope="col">Status</th><th scope="col">Evidence and limits</th></tr></thead>
-			<tbody>
-				<tr><td>Handover engine, snapshot, ledger, idempotency</td><td><span class="tag pass">Pass</span></td><td>Integration tests on the isolated bench.</td></tr>
-				<tr><td>Concurrency</td><td><span class="tag pass">Pass</span></td><td>Double accept, accept against withdraw and two submits, with separate database connections.</td></tr>
-				<tr><td>Permissions and immutability</td><td><span class="tag pass">Pass</span></td><td>Security tests, enforced on the backend and in controllers, including for Administrator.</td></tr>
-				<tr><td>Team and department scope</td><td><span class="tag pass">Pass</span></td><td>Organization scope tests.</td></tr>
-				<tr><td>Overview and 14 reports</td><td><span class="tag pass">Pass</span></td><td>Tests plus a browser check. Fairness rules are covered by tests.</td></tr>
-				<tr><td>Delegation of acceptance</td><td><span class="tag pass">Pass</span></td><td>Seven tests and the form exercised in a browser.</td></tr>
-				<tr><td>Reminders, escalation and preferences</td><td><span class="tag pass">Pass</span></td><td>Seven tests. The scheduler is registered, but a real scheduler tick has not been observed.</td></tr>
-				<tr><td>Task updates, checklist, review</td><td><span class="tag pass">Pass</span></td><td>Sixteen tests. The Post Update dialog was run in a browser; the checklist and review dialogs were not.</td></tr>
-				<tr><td>Department KPI snapshots</td><td><span class="tag pass">Pass</span></td><td>Three tests. The monthly job is registered, not yet observed.</td></tr>
-				<tr><td>Organization chart</td><td><span class="tag pass">Pass</span></td><td>Three tests and a browser run in Arabic. The sandbox had no teams to draw.</td></tr>
-				<tr><td>Arabic and right-to-left</td><td><span class="tag pass">Pass</span></td><td>Handover Center, overview, handover form and organization chart, on desktop and mobile. Report screens are not yet checked.</td></tr>
-				<tr><td>Performance</td><td><span class="tag pass">Pass</span></td><td>With 305 handovers the query count stays flat and each screen answers in under 0.02 s. This is a local database and one user. Production hardware, real volume and parallel users are not measured.</td></tr>
-				<tr><td>Kanban and Gantt views</td><td><span class="tag no">Not implemented</span></td><td>Tracked in the architecture document.</td></tr>
-				<tr><td>Employee and team profile screens</td><td><span class="tag no">Not implemented</span></td><td>The data exists; the dedicated profile pages do not.</td></tr>
-				<tr><td>Production installation</td><td><span class="tag blk">Blocked</span></td><td>Needs explicit approval, a backup and the rollback plan.</td></tr>
-			</tbody>
-		</table>
-		<div class="honest">
-			<p><b>Rough completion.</b> About 80% of the acceptance checklist in the specification is met. Including the production audit, regression testing against real data and deployment, about 70–75%. This is an estimate, not a measurement.</p>
-		</div>
-	</div>
+<section id="screens">
+	<div class="sh"><h2>Screens from the isolated bench</h2><p>Captured from the running Frappe app. Select one to enlarge.</p></div>
+	<div class="gal" id="gal"></div>
+	<dialog id="dlg"><img id="dimg" alt=""><form method="dialog"><span id="dcap"></span><button class="btn">Close</button></form></dialog>
 </section>
 
-<!-- RUN -->
-<section id="run">
-	<div class="wrap">
-		<div class="head">
-			<h2>Run it on a disposable bench</h2>
-			<p>Use a throwaway bench and site. Never try this against a production site first.</p>
-		</div>
-		<div class="code">
-			<button class="copy" type="button" data-copy="run">Copy</button>
-<pre id="run-code">bench init --frappe-branch version-16 frappe-bench &amp;&amp; cd frappe-bench
-bench get-app --branch version-16 erpnext
-bench get-app https://github.com/moh222salah/tasks
-bench new-site nds-dev.localhost --install-app erpnext
-bench --site nds-dev.localhost install-app nds_operations
-<span class="cm"># development sites only</span>
-bench --site nds-dev.localhost set-config allow_tests true
-bench --site nds-dev.localhost run-tests --app nds_operations</pre>
-		</div>
-		<p style="margin-top:22px;color:var(--muted)">Production steps — a safe checkpoint, the change, and an immediate rollback — are in <a href="https://github.com/moh222salah/tasks/blob/main/docs/DEPLOYMENT.md">the deployment guide</a>.</p>
+<section id="safety">
+	<div class="sh"><h2>Safety rules</h2></div>
+	<div class="safe">
+		<div class="card"><b>No core edits</b><span>Only hooks, DocTypes and standard APIs extend ERPNext and Frappe.</span></div>
+		<div class="card"><b>No secrets in the repository</b><span>No passwords, tokens or site data are stored here.</span></div>
+		<div class="card"><b>No unapproved change to a real site</b><span>Migration, restart, update or deploy needs approval, a backup and a rollback plan.</span></div>
+		<div class="card"><b>Other systems stay untouched</b><span>Existing customizations, employee data and transactions are never modified.</span></div>
 	</div>
 </section>
-
-<!-- SAFETY -->
-<section class="alt" id="safety">
-	<div class="wrap">
-		<div class="head"><h2>Safety rules</h2></div>
-		<ul class="safety">
-			<li><b>No core edits</b>The app extends ERPNext and Frappe only through hooks, DocTypes and standard APIs.</li>
-			<li><b>No secrets in the repository</b>No passwords, tokens or site data are stored here.</li>
-			<li><b>No unapproved changes to a real site</b>Migration, restart, update or deploy needs explicit approval, a backup and a rollback plan.</li>
-			<li><b>Other systems stay untouched</b>Existing customizations, employee data and transactions are never modified.</li>
-		</ul>
-	</div>
-</section>
-
-</main>
 
 <footer>
-	<div class="wrap">
-		<div>
-			<strong>One organization. Connected teams. Clear ownership. Measurable results.</strong>
-			<small>Frappe v16 and ERPNext v16, MIT licence.</small>
-		</div>
-		<div>
-			<a href="https://github.com/moh222salah/tasks">github.com/moh222salah/tasks</a>
-			<small><a href="https://github.com/moh222salah/tasks/blob/main/docs/ARCHITECTURE.md">Architecture</a> and <a href="https://github.com/moh222salah/tasks/blob/main/docs/DEPLOYMENT.md">deployment</a></small>
-		</div>
-	</div>
+	<span>One organization. Connected teams. Clear ownership. Measurable results.</span>
+	<span><a href="https://github.com/moh222salah/tasks">github.com/moh222salah/tasks</a> · <a href="docs/FINAL_REPORT.md">Final report</a> · <a href="docs/DEPLOYMENT.md">Deployment</a></span>
 </footer>
 
+</div>
+</div>
+</div>
+
 <script>
-(function () {
-	/* theme toggle, remembered when storage is available */
-	var root = document.documentElement;
-	try { var saved = localStorage.getItem("nds-theme"); if (saved) root.setAttribute("data-theme", saved); } catch (e) {}
-	document.getElementById("theme").addEventListener("click", function () {
-		var dark = root.getAttribute("data-theme") === "dark" ||
-			(root.getAttribute("data-theme") === "auto" && matchMedia("(prefers-color-scheme: dark)").matches);
-		var next = dark ? "light" : "dark";
-		root.setAttribute("data-theme", next);
-		try { localStorage.setItem("nds-theme", next); } catch (e) {}
-	});
+(function(){
+"use strict";
+var $=function(s,r){return (r||document).querySelector(s)};
+var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+var rm=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-	/* copy button */
-	document.querySelectorAll("[data-copy]").forEach(function (btn) {
-		btn.addEventListener("click", function () {
-			var text = document.getElementById(btn.dataset.copy + "-code").innerText;
-			var done = function () { btn.textContent = "Copied"; setTimeout(function () { btn.textContent = "Copy"; }, 1600); };
-			if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, done); else done();
-		});
-	});
+/* theme */
+var root=document.documentElement;
+try{var t=localStorage.getItem("nds-ov-theme");if(t)root.setAttribute("data-theme",t)}catch(e){}
+$("#theme").addEventListener("click",function(){
+	var cur=root.getAttribute("data-theme")||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");
+	var nx=cur==="dark"?"light":"dark";
+	root.setAttribute("data-theme",nx);
+	try{localStorage.setItem("nds-ov-theme",nx)}catch(e){}
+});
 
-	/* the handover demo: same rules as the app, simplified */
-	var SENDER = "Sara Ahmed", RECEIVER = "Omar Hassan";
-	var st, version, ledger, rejected, snapshot, newRow = false;
-	var $ = function (id) { return document.getElementById(id); };
-	var stateEl = $("state"), ownerEl = $("owner"), say = $("say"), rows = $("rows"), box = $("ownerBox"), hashEl = $("hash"), confirmEl = $("confirm");
-	var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-	var CLASS = { "Draft": "s-draft", "Pending acceptance": "s-pending", "Under review": "s-review", "Clarification requested": "s-clar", "Accepted": "s-accepted", "Rejected": "s-rejected" };
+/* ---------- handover demo ---------- */
+var STAGES=["Draft","Submitted","Pending acceptance","Accepted"];
+var S={st:"draft",ver:1,owner:"s",hist:[],clar:false,rej:false,tries:0,reqs:{}};
+var tok=$("#tok"),env=$("#env"),msg=$("#msg"),acts=$("#acts"),led=$("#led"),lnone=$("#lnone");
+var ps=$("#ps"),pr=$("#pr");
 
-	function stamp() { var d = new Date(); return d.toTimeString().slice(0, 5); }
-	function reset() {
-		st = "Draft"; version = 1; rejected = 0; snapshot = null; newRow = false;
-		ledger = [{ owner: SENDER, since: "created", ref: "none" }];
-		say.innerHTML = "Sara owns the task. Nothing has been handed over yet. Submit the handover to begin.";
-		render(false);
+function clock(){var d=new Date();return ("0"+d.getHours()).slice(-2)+":"+("0"+d.getMinutes()).slice(-2)+":"+("0"+d.getSeconds()).slice(-2)}
+function fp(str){
+	function fnv(s){var h=2166136261;for(var i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return ("00000000"+(h>>>0).toString(16)).slice(-8)}
+	if(window.crypto&&crypto.subtle&&window.TextEncoder){
+		return crypto.subtle.digest("SHA-256",new TextEncoder().encode(str)).then(function(b){
+			return Array.prototype.map.call(new Uint8Array(b),function(x){return ("0"+x.toString(16)).slice(-2)}).join("").slice(0,12);
+		}).catch(function(){return fnv(str)});
 	}
-	function owner() { return ledger[ledger.length - 1].owner; }
-	function hashOf(text) {
-		if (!(window.crypto && crypto.subtle && window.TextEncoder)) return Promise.resolve("unavailable");
-		return crypto.subtle.digest("SHA-256", new TextEncoder().encode(text)).then(function (buf) {
-			return Array.prototype.map.call(new Uint8Array(buf), function (b) { return ("0" + b.toString(16)).slice(-2); }).join("");
-		});
-	}
-	function render(moved) {
-		stateEl.textContent = st;
-		stateEl.className = "state " + CLASS[st];
-		ownerEl.textContent = owner();
-		box.classList.remove("moved");
-		if (moved && !reduce) { void box.offsetWidth; box.classList.add("moved"); }
-		rows.innerHTML = ledger.map(function (r, i) {
-			var last = i === ledger.length - 1 && newRow;
-			return "<tr" + (last ? ' class="new"' : "") + "><td>" + (i + 1) + "</td><td>" + r.owner + "</td><td class=\"m\">" + r.since + "</td><td class=\"m\">" + r.ref + "</td></tr>";
-		}).join("");
-		hashEl.innerHTML = snapshot
-			? "Snapshot v" + version + " frozen, SHA-256 <code>" + snapshot.slice(0, 16) + "…</code>"
-			: "Snapshot is created when the handover is submitted.";
-		var can = {
-			submit: st === "Draft",
-			review: st === "Pending acceptance",
-			clarify: st === "Under review",
-			accept: st === "Under review",
-			reject: st === "Under review",
-			revise: st === "Rejected" || st === "Clarification requested",
-			reset: true
-		};
-		document.querySelectorAll("#actions button").forEach(function (b) { b.disabled = !can[b.dataset.do]; });
-		confirmEl.classList.toggle("on", st === "Under review");
-	}
-	function allConfirmed() { return Array.prototype.every.call(confirmEl.querySelectorAll("input"), function (i) { return i.checked; }); }
-
-	var actions = {
-		submit: function () {
-			var text = JSON.stringify({ task: "Fix invoice print format", from: SENDER, to: RECEIVER, version: version, diagnosis: "Wrong Jinja block", result: "Prints correctly" });
-			return hashOf(text).then(function (h) {
-				snapshot = h; st = "Pending acceptance";
-				say.innerHTML = "<b>Submitted.</b> The snapshot is frozen and hashed. <b>" + SENDER + "</b> is still the owner: a handover is not a transfer.";
-				render(false);
-			});
-		},
-		review: function () {
-			st = "Under review";
-			say.innerHTML = "<b>" + RECEIVER + "</b> is reviewing. The decision is theirs alone, unless they delegated it. Sara cannot accept for him.";
-			render(false);
-		},
-		clarify: function () {
-			st = "Clarification requested";
-			say.innerHTML = "<b>Question sent back.</b> Nothing is decided and Sara still owns the task.";
-			render(false);
-		},
-		accept: function () {
-			if (!allConfirmed()) { say.innerHTML = "<b>Not yet.</b> Confirm the three statements first: details read, attachments received, responsibilities understood."; return; }
-			st = "Accepted"; newRow = true;
-			ledger.push({ owner: RECEIVER, since: stamp(), ref: "v" + version });
-			say.innerHTML = "<b>Accepted.</b> Ownership, assignment and department moved together, and a ledger row was added. Earlier rows can never change.";
-			render(true);
-		},
-		reject: function () {
-			st = "Rejected"; rejected++;
-			say.innerHTML = "<b>Rejected</b> with a mandatory reason. <b>" + SENDER + "</b> still owns the task, and the attempt stays in the history (" + rejected + ").";
-			render(false);
-		},
-		revise: function () {
-			version++; snapshot = null; st = "Draft";
-			say.innerHTML = "<b>Version " + version + " started.</b> Version " + (version - 1) + " and its snapshot are kept. Complete it and submit again.";
-			render(false);
-		},
-		reset: reset
+	return Promise.resolve(fnv(str));
+}
+function log(text,hash){
+	S.hist.push({t:clock(),text:text,hash:hash||""});
+	render();
+}
+function stageIdx(){
+	if(S.st==="draft")return 0;
+	if(S.st==="pending")return 2;
+	if(S.st==="accepted")return 3;
+	return 1;
+}
+function render(){
+	var i=stageIdx();
+	$("#stages").innerHTML=STAGES.map(function(n,k){return '<span class="chip'+(k===i?' cur':(k<i?' done':''))+'">'+n+'</span>'}).join("");
+	var atR=S.owner==="r";
+	tok.classList.toggle("at-r",atR);
+	tok.classList.toggle("pend",S.st==="pending");
+	ps.classList.toggle("has",!atR);pr.classList.toggle("has",atR);
+	var m={
+		draft:S.rej?"Rejected. Responsibility stayed with Sara. Revise the handover and submit again as version "+S.ver+".":(S.clar?"Omar asked for clarification. Responsibility is still Sara's. Answer and resubmit.":"Sara prepares the handover. The token, which is responsibility, is hers."),
+		pending:"Version "+S.ver+" was submitted as a frozen snapshot. Omar must review it. Responsibility is still Sara's.",
+		accepted:"Omar accepted. Only now does responsibility pass to him, recorded in the ledger with the snapshot fingerprint."
 	};
-	document.getElementById("actions").addEventListener("click", function (e) {
-		var b = e.target.closest("button"); if (!b || b.disabled) return;
-		var f = actions[b.dataset.do]; if (f) f();
-		if (b.dataset.do !== "accept") newRow = false;
-	});
-	confirmEl.addEventListener("change", function () { });
-	reset();
+	msg.textContent=m[S.st];
+	function b(label,fn,cls,dis){var e=document.createElement("button");e.type="button";e.className="btn "+(cls||"");e.textContent=label;e.disabled=!!dis;e.addEventListener("click",fn);return e}
+	acts.innerHTML="";
+	if(S.st==="draft"){acts.appendChild(b(S.rej||S.clar?"Resubmit as version "+S.ver:"Submit handover",submit,"gold"))}
+	if(S.st==="pending"){
+		acts.appendChild(b("Accept as Omar",accept,"gold"));
+		acts.appendChild(b("Request clarification",clarify));
+		acts.appendChild(b("Reject",reject,"danger"));
+		acts.appendChild(b("Try accepting as Sara",selfAccept));
+		acts.appendChild(b("Retry submit (same request)",retry));
+	}
+	if(S.st==="accepted"){acts.appendChild(b("Start over",reset))}
+	lnone.style.display=S.hist.length?"none":"";
+	led.innerHTML=S.hist.map(function(h){return '<li><time>'+h.t+'</time><span>'+h.text+'</span>'+(h.hash?'<code>'+h.hash+'</code>':'')+'</li>'}).join("");
+}
+function submit(){
+	var key="v"+S.ver;
+	if(S.reqs[key])return;
+	S.reqs[key]=1;
+	var snap=JSON.stringify({task:"TASK-0042",ver:S.ver,diagnosis:"timeout in webhook",solution:"retry with backoff",result:"verified"});
+	S.st="pending";S.clar=false;S.rej=false;
+	env.classList.add("go");setTimeout(function(){env.classList.remove("go")},1100);
+	fp(snap).then(function(h){log("Submitted version "+S.ver+" to Omar",h)});
+	render();
+}
+function retry(){
+	log("Same request id again: ignored, no second handover created");
+}
+function selfAccept(){
+	tok.classList.remove("shake");void tok.offsetWidth;tok.classList.add("shake");
+	log("Blocked: a sender cannot accept their own handover");
+}
+function accept(){
+	S.st="accepted";S.owner="r";
+	log("Accepted by Omar. Owner Sara → Omar");
+}
+function reject(){
+	S.st="draft";S.rej=true;S.ver++;
+	log("Rejected by Omar: reason required (missing attachments). Owner stays Sara");
+}
+function clarify(){
+	S.st="draft";S.clar=true;S.ver++;
+	log("Omar requested clarification. Owner stays Sara");
+}
+function reset(){S={st:"draft",ver:1,owner:"s",hist:[],clar:false,rej:false,tries:0,reqs:{}};render()}
+render();
+
+/* ---------- count up ---------- */
+function countUp(el){
+	var n=+el.getAttribute("data-n"),of=el.getAttribute("data-of");
+	function fin(){el.textContent=of?n+"/"+of:n}
+	if(rm||n===0){fin();return}
+	var t0=null;
+	function f(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/1100,1),e=1-Math.pow(1-p,3);el.textContent=Math.round(n*e)+(of&&p<1?"":"");if(p<1)requestAnimationFrame(f);else fin()}
+	requestAnimationFrame(f);
+}
+/* ---------- bars ---------- */
+var AREAS=[["Handover flow",12],["Handover security",9],["Profiles and Kanban",9],["Delegation",7],["Reminders",7],["KPIs",6],["Task reports",6],["Task updates",6],["Dashboard",5],["Reports",5],["Task checklist",5],["Task review",5],["Concurrency",3],["KPI snapshots",3],["Org chart",3],["Org scope",3],["Performance",1]];
+$("#bars").innerHTML='<h3>Tests by area</h3>'+AREAS.map(function(a){return '<div class="bar"><span>'+a[0]+'</span><i><u data-w="'+(a[1]/12*100)+'"></u></i><em>'+a[1]+'</em></div>'}).join("");
+
+/* observe reveal for counts and bars */
+var seen=new WeakSet();
+var io="IntersectionObserver" in window?new IntersectionObserver(function(es){es.forEach(function(e){
+	if(!e.isIntersecting||seen.has(e.target))return;seen.add(e.target);
+	$$("[data-n]",e.target).forEach(countUp);
+	$$("u[data-w]",e.target).forEach(function(u){u.style.width=u.getAttribute("data-w")+"%"});
+})},{threshold:.25}):null;
+["#numbers","#bars"].forEach(function(s){var el=$(s);if(io)io.observe(el);else{$$("[data-n]",el).forEach(countUp);$$("u[data-w]",el).forEach(function(u){u.style.width=u.getAttribute("data-w")+"%"})}});
+
+/* ---------- lifecycle ---------- */
+var LIFE=[
+	["Draft","The sender prepares diagnosis, solution, results and attachments.",["Autosaved safely","Sender identity comes from the logged-in user"],"Nothing changes owner while a handover is a draft."],
+	["Ready","Required fields and evidence are checked before sending.",["Diagnosis and result present","Attachments readable by the receiver"],"Incomplete handovers cannot move on."],
+	["Submitted","The sender sends it formally. A frozen snapshot is stored with its SHA-256.",["Snapshot never edited afterwards","Request id makes retries safe"],"Editing the task later does not change what the receiver approved.","gate"],
+	["Pending acceptance","It appears in the receiver's inbox with a notification.",["Reminders and escalation","Delegation only with explicit dates"],"The current owner is unchanged."],
+	["Review","The receiver reads everything and chooses one of three decisions.",["Accept","Reject, with a mandatory reason","Request clarification"],"Only the receiver, or a dated delegate, may decide."],
+	["Accepted","Ownership transfers in one atomic step, guarded by a version counter.",["Ledger row appended, unique per task and sequence","Previous owner kept"],"Two simultaneous accepts: one wins, the other is refused.","gate"],
+	["Execution","The new owner works, posts updates, ticks the checklist and can hand over again.",["Each re-handover is a new record","History is never deleted"],"Execution status is separate from handover status."],
+	["Closure","Results, evidence and a review are required before the task closes.",["Approval by an authorised reviewer","No closing by changing a status by hand"],"Past dates alone never close a task."]
+];
+$("#steps").innerHTML=LIFE.map(function(s,i){return '<button class="step" role="tab" aria-selected="'+(i===2?"true":"false")+'" data-i="'+i+'"><span class="n">'+(i+1)+'</span>'+s[0]+(s[4]?'<span class="gate">gate</span>':'')+'</button>'}).join("");
+function showStep(i){
+	$$(".step").forEach(function(b){b.setAttribute("aria-selected",+b.getAttribute("data-i")===i?"true":"false")});
+	var s=LIFE[i];
+	$("#detail").innerHTML='<h3>'+s[0]+'</h3><p style="color:var(--mute)">'+s[1]+'</p><ul>'+s[2].map(function(x){return '<li>'+x+'</li>'}).join("")+'</ul><div class="rule">'+s[3]+'</div>';
+}
+$("#steps").addEventListener("click",function(e){var b=e.target.closest(".step");if(b)showStep(+b.getAttribute("data-i"))});
+showStep(2);
+
+/* ---------- scenarios ---------- */
+var SC=[
+	["Completed task handed over","Receiver reviews, accepts, ownership moves."],
+	["Rejected handover","Reason required. Owner stays with the sender."],
+	["Clarification requested","Sender answers and resubmits as a new version."],
+	["Marketing to Technology","Context, attachments and history travel with it."],
+	["Re-handover","Every transfer stays in the ledger."],
+	["Technical attachments","Files and links, with access checked."],
+	["Conflicting actions","Double accept: only one succeeds."],
+	["Permissions","An unauthorised accept is refused by the backend."],
+	["Overdue tasks","Shown with the current owner and the wait reason."],
+	["Connection lost","A retry never creates a second handover."]
+];
+$("#scn").innerHTML=SC.map(function(s,i){return '<div class="card sc"><div class="n">'+(i+1)+'</div><div><b>'+s[0]+'</b><span>'+s[1]+'</span></div><span class="tag pass">Pass</span></div>'}).join("");
+
+/* ---------- status table ---------- */
+var ST=[
+	["Handover engine, snapshot, ledger, idempotency","pass","Integration tests on the isolated bench."],
+	["Concurrency","pass","Three real races with separate database connections."],
+	["Permissions and immutability","pass","Backend and controller checks, including for Administrator."],
+	["Team and department scope","pass","Organization scope tests."],
+	["Overview and 14 reports","pass","Tests plus a browser check."],
+	["Delegation of acceptance","pass","Seven tests and the form run in a browser."],
+	["Reminders, escalation, preferences","pass","Seven tests. The scheduler is registered; a real tick has not been observed."],
+	["Task updates, checklist, review","pass","Sixteen tests. Checklist and review dialogs not yet run in a browser."],
+	["Employee and team profiles","pass","Nine tests. The sandbox had few teams to display."],
+	["Kanban, Gantt and Calendar for Task","pass","Native views; the Kanban board is seeded and never overwritten."],
+	["App suite on a fresh site","pass","95 tests on a clean ERPNext plus this app."],
+	["ERPNext Task and Project suites","pass","35 and 36 tests."],
+	["ERPNext Kanban, ToDo and wider suites","nr","Not run."],
+	["Dark mode, Kanban drag, Arabic report screens","nr","Not verified in a browser."],
+	["Self-acceptance exception","no","Not implemented."],
+	["Automatic ledger row on manual reassignment","no","Not implemented."],
+	["Custom e-mail templates","no","Not implemented."],
+	["Separate Team Assignment DocType","no","Not implemented; membership covers it."],
+	["Production audit and installation","blk","Needs explicit approval, a backup and the rollback plan."]
+];
+var LBL={pass:"Pass",nr:"Not run",no:"Not implemented",blk:"Blocked"};
+function drawSt(f){
+	$("#st").innerHTML=ST.filter(function(r){return f==="all"||r[1]===f}).map(function(r){return '<tr><td>'+r[0]+'</td><td><span class="tag '+r[1]+'">'+LBL[r[1]]+'</span></td><td>'+r[2]+'</td></tr>'}).join("")||'<tr><td colspan="3">No items with this status.</td></tr>';
+}
+drawSt("all");
+$("#filters").addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;$$("#filters button").forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false")});drawSt(b.getAttribute("data-f"))});
+
+/* ---------- roles ---------- */
+var ROLES=[["Executive Management","Company-wide reports"],["Operations Manager","Operations scope"],["Department Manager","Own department"],["Team Leader","Own team"],["Project Manager","Project delivery"],["Task Sender","Creates handovers"],["Task Executor","Works the task"],["Task Receiver","Accepts or rejects"],["Task Reviewer","Final review"],["Read Only Auditor","Reads, never edits"]];
+$("#roleg").innerHTML=ROLES.map(function(r){return '<div class="card role"><b>'+r[0]+'</b><span>'+r[1]+'</span></div>'}).join("");
+var REP=[["Task Handover Register","Every handover with status, sender, receiver and version."],["Handover Acceptance","Accepted handovers and the time to accept."],["Handover Rejection","Rejections by reason category."],["Handover Aging","Open handovers by how long they have waited."],["Tasks Master","All tasks with owner, status and dates."],["Overdue Tasks","Overdue work, current owner, and whether it is waiting on someone."],["Employee Workload","Open tasks and hours per person."],["Employee Productivity","On-time rate, cycle time and first-pass acceptance."],["Department Performance","Delivery and handover quality per department."],["Team Performance","Delivery, SLA and workload balance per team."],["Task Cycle Time","Time from start to completion."],["Rework and Revision","Handovers that came back for changes."],["Project Delivery","Task completion against project plans."],["Management Executive","One page summary for senior management."]];
+$("#repg").innerHTML=REP.map(function(r,i){return '<div class="card rep"><button type="button" aria-expanded="false" data-i="'+i+'">'+r[0]+'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 6l6 6-6 6"/></svg></button><p>'+r[1]+'</p></div>'}).join("");
+$("#repg").addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;var c=b.parentNode;var o=c.classList.toggle("open");b.setAttribute("aria-expanded",o)});
+
+/* ---------- gallery ---------- */
+var G=[["handover-center.png","Handover Center"],["handover-form.png","Handover form"],["handover-form-rtl.png","Handover form, Arabic"],["operations-overview.png","Operations overview"],["operations-overview-ar-rtl.png","Operations overview, Arabic"],["report-workload.png","Workload report"]];
+$("#gal").innerHTML=G.map(function(g){return '<button type="button" data-s="docs/screenshots/'+g[0]+'" data-c="'+g[1]+'"><img loading="lazy" src="docs/screenshots/'+g[0]+'" alt="'+g[1]+'"><span>'+g[1]+'</span></button>'}).join("");
+$("#gal").addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;$("#dimg").src=b.getAttribute("data-s");$("#dimg").alt=b.getAttribute("data-c");$("#dcap").textContent=b.getAttribute("data-c");var d=$("#dlg");if(d.showModal)d.showModal()});
+
+/* ---------- rail active ---------- */
+var links=$$(".rail nav a");
+if("IntersectionObserver" in window){
+	var so=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.toggle("on",a.getAttribute("href")==="#"+e.target.id)})}})},{rootMargin:"-30% 0px -60% 0px"});
+	$$("section[id]").forEach(function(s){so.observe(s)});
+}
 })();
 </script>
 </body>
